@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { Button } from "./ui/button";
+import DesktopNavbar from "./DesktopNavbar";
+import MobileNavBar from "./MobileNavBar";
 
 const Header = () => {
   return (
@@ -13,48 +14,13 @@ const Header = () => {
       </div>
 
       {/* Links */}
-      <div className="flex items-center gap-x-5">
-        <Link to={"/"} className="cursor-pointer">
-          <Button
-            variant={"ghost"}
-            className="scroll-m-20 text-xl font-semibold tracking-tight"
-          >
-            Home
-          </Button>
-        </Link>
-        <Link to={"/about"} className="cursor-pointer">
-          <Button
-            variant={"ghost"}
-            className="scroll-m-20 text-xl font-semibold tracking-tight"
-          >
-            About
-          </Button>
-        </Link>
-        <Link to={"/services"} className="cursor-pointer">
-          <Button
-            variant={"ghost"}
-            className="scroll-m-20 text-xl font-semibold tracking-tight"
-          >
-            Services
-          </Button>
-        </Link>
-        <Link to={"/stores"} className="cursor-pointer">
-          <Button
-            variant={"ghost"}
-            className="scroll-m-20 text-xl font-semibold tracking-tight"
-          >
-            Medicle stores
-          </Button>
-        </Link>
+      <div className="hidden md:block">
+        <DesktopNavbar />
       </div>
-      <Link to={"/signin"} className="hidden md:block">
-        <Button
-          variant={"outline"}
-          className="text-[17px]  tracking-tight border border-[#9E3FFD]"
-        >
-          SignIn
-        </Button>
-      </Link>
+
+      <div className="flex md:hidden">
+        <MobileNavBar />
+      </div>
     </div>
   );
 };
