@@ -4,6 +4,9 @@ import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { app } from "@/firebase";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 type Props = {
   text: string;
 };
@@ -20,7 +23,7 @@ const OAuth = ({ text }: Props) => {
       const auth = getAuth(app);
       const resultFromGoogle = await signInWithPopup(auth, provider);
 
-      const res = await fetch("/api/auth/google", {
+      const res = await fetch(`${API_BASE_URL}/api/auth/google`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

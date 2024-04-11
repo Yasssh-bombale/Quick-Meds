@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
-// const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const useSignUp = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -14,7 +14,7 @@ export const useSignUp = () => {
 
   const signUpRequest = async (formData: UserFormData) => {
     setIsLoading(true);
-    const res = await fetch(`/api/auth/signup`, {
+    const res = await fetch(`${API_BASE_URL}/api/auth/signup`, {
       method: "POST",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(formData),
@@ -41,7 +41,7 @@ export const useSignIn = () => {
   const signInRequest = async (formData: SignInFormData) => {
     try {
       setIsLoading(true);
-      const res = await fetch(`/api/auth/signin`, {
+      const res = await fetch(`${API_BASE_URL}/api/auth/signin`, {
         method: "POST",
         headers: { "Content-type": "application/json" },
         body: JSON.stringify(formData),
