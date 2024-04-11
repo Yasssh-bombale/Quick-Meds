@@ -7,7 +7,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { FcGoogle } from "react-icons/fc";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -15,6 +14,7 @@ import { Link } from "react-router-dom";
 import { z } from "zod";
 import AuthSVG from "@/components/AuthSVG";
 import LoadingButton from "@/components/LoadingButton";
+import OAuth from "@/components/OAuth";
 
 const formSchema = z.object({
   username: z
@@ -137,14 +137,7 @@ const SignUpForm = ({ onSave, isLoading }: Props) => {
               </Button>
             )}
 
-            <Button
-              variant={"outline"}
-              type="button"
-              className="w-full bg-white text-black text-[16px] flex items-center gap-2"
-            >
-              <FcGoogle className="w-6 h-6" />
-              SignUp using Google
-            </Button>
+            <OAuth text="SignUp using Google" />
             <div className="flex items-center gap-5">
               Already have an account?
               <Link to={"/signin"} className="text-blue-600">
