@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://quick-meds.onrender.com",
+        target: "https://quick-meds.onrender.com/",
         secure: false,
       },
     },
