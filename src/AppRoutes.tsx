@@ -6,10 +6,12 @@ import SignInPage from "./pages/SignInPage";
 import MedicalStorePage from "./pages/MedicalStorePage";
 import ServicesPage from "./pages/ServicesPage";
 import AboutPage from "./pages/AboutPage";
-
+import { Toaster } from "sonner";
 const AppRoutes = () => {
   return (
     <Router>
+      <Toaster visibleToasts={1} position="top-right" richColors />
+      <Toaster />
       <Routes>
         <Route
           path="/"
