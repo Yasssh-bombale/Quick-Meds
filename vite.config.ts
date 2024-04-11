@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://quick-meds.vercel.app",
+        target: "https://quick-meds.onrender.com",
         secure: false,
       },
     },
