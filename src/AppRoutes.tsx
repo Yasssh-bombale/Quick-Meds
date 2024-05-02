@@ -10,8 +10,7 @@ import { Toaster } from "sonner";
 const AppRoutes = () => {
   return (
     <Router>
-      <Toaster visibleToasts={1} position="top-right" richColors />
-      <Toaster />
+      <Toaster visibleToasts={1} position="top-center" richColors />
       <Routes>
         <Route
           path="/"
