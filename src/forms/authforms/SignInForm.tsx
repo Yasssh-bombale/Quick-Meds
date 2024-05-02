@@ -35,6 +35,10 @@ type Props = {
 const SignInForm = ({ onSave, isLoading }: Props) => {
   const form = useForm<SignInFormData>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
   });
 
   const onSubmit = (values: SignInFormData) => {

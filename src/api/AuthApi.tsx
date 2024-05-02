@@ -2,9 +2,15 @@
 
 import { SignInFormData } from "@/forms/authforms/SignInForm";
 import { UserFormData } from "@/forms/authforms/SignUpForm";
+import { useAppDispatch } from "@/hooks";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import {
+  signInStart,
+  signInSuccess,
+  signInFailure,
+} from "../feature/slices/user.slice";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -37,10 +43,12 @@ export const useSignUp = () => {
 export const useSignIn = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const signInRequest = async (formData: SignInFormData) => {
     try {
       setIsLoading(true);
+      dispatch(signInStart());
       const res = await fetch(`${API_BASE_URL}/api/auth/signin`, {
         method: "POST",
         headers: { "Content-type": "application/json" },
@@ -51,14 +59,17 @@ export const useSignIn = () => {
 
       if (!res.ok) {
         setIsLoading(false);
+        dispatch(signInFailure());
         console.log(data?.message);
         return toast.error(data?.message || "Sign in failed please try again");
       }
       setIsLoading(false);
+      dispatch(signInSuccess(data?.user));
       navigate("/");
       toast.success(data?.message || "User signIn successfully");
     } catch (error) {
       console.log(`ERROR:While signInRequest ${error}`);
+      dispatch(signInFailure());
     }
   };
 
