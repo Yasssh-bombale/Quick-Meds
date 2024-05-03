@@ -7,6 +7,10 @@ import MedicalStorePage from "./pages/MedicalStorePage";
 import ServicesPage from "./pages/ServicesPage";
 import AboutPage from "./pages/AboutPage";
 import { Toaster } from "sonner";
+import ProtectedRoute from "./pages/ProtectedRoute";
+import CreateStorePage from "./pages/CreateStorePage";
+import FormPagesLayout from "./layout/FormPagesLayout";
+
 const AppRoutes = () => {
   return (
     <Router>
@@ -51,7 +55,17 @@ const AppRoutes = () => {
           }
         />
 
-        {/*  */}
+        {/* Protected Routes */}
+        <Route element={<ProtectedRoute />}>
+          <Route
+            path="/create-store"
+            element={
+              <FormPagesLayout heading="Create store">
+                <CreateStorePage />
+              </FormPagesLayout>
+            }
+          />
+        </Route>
       </Routes>
     </Router>
   );
