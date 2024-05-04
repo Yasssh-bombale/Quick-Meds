@@ -6,6 +6,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { z } from "zod";
 import { Input } from "@/components/ui/input";
@@ -34,9 +35,11 @@ const formSchema = z
     city: z.string({
       required_error: "City is required",
     }),
-    mobileNumber: z.string({
-      required_error: "mobile number is required",
-    }),
+    mobileNumber: z
+      .string({
+        required_error: "mobile number is required",
+      })
+      .max(10, { message: "Invalid mobile number" }),
     imageUrl: z.string().optional(),
     imageFile: z.instanceof(File, { message: "Image is required" }).optional(),
   })
@@ -47,7 +50,11 @@ const formSchema = z
 
 export type storeFormData = z.infer<typeof formSchema>;
 
-const CreateStoreForm = () => {
+type Props = {
+  onSave: (formData: storeFormData) => void;
+};
+
+const CreateStoreForm = ({ onSave }: Props) => {
   const form = useForm<storeFormData>({
     resolver: zodResolver(formSchema),
   });
@@ -116,6 +123,7 @@ const CreateStoreForm = () => {
                     {...field}
                   />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -132,6 +140,7 @@ const CreateStoreForm = () => {
                     {...field}
                   />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -150,6 +159,7 @@ const CreateStoreForm = () => {
                     {...field}
                   />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -166,6 +176,7 @@ const CreateStoreForm = () => {
                     {...field}
                   />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -188,6 +199,7 @@ const CreateStoreForm = () => {
                     }
                   />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -201,11 +213,13 @@ const CreateStoreForm = () => {
                 </FormLabel>
                 <FormControl>
                   <Input
+                    type="number"
                     className="outline-none focus-visible:ring-1 focus-visible:ring-[#9E3FFD]"
                     placeholder="+91 4242424242"
                     {...field}
                   />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
