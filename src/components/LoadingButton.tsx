@@ -7,7 +7,10 @@ type Props = {
 
 const LoadingButton = ({ widthFull = false }: Props) => {
   return (
-    <Button className={`${widthFull && "w-full"}`}>
+    <Button
+      type="button"
+      className={`${widthFull && "w-full cursor-not-allowed"}`}
+    >
       <Loader2 className={`mr-2 h-4 w-4 animate-spin`} />
       Loading...
     </Button>

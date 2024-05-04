@@ -18,8 +18,8 @@ import {
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
-import { ChangeEvent, useState } from "react";
 import { app } from "@/firebase";
+import LoadingButton from "@/components/LoadingButton";
 
 const formSchema = z
   .object({
@@ -39,6 +39,7 @@ const formSchema = z
       .string({
         required_error: "mobile number is required",
       })
+      .min(10, { message: "Inavlid mobile number" })
       .max(10, { message: "Invalid mobile number" }),
     imageUrl: z.string().optional(),
     imageFile: z.instanceof(File, { message: "Image is required" }).optional(),
@@ -52,25 +53,18 @@ export type storeFormData = z.infer<typeof formSchema>;
 
 type Props = {
   onSave: (formData: storeFormData) => void;
+  loading: boolean;
 };
 
-const CreateStoreForm = ({ onSave }: Props) => {
+const CreateStoreForm = ({ onSave, loading }: Props) => {
   const form = useForm<storeFormData>({
     resolver: zodResolver(formSchema),
   });
-  const [imageFile, setImageFile] = useState<File>();
-  const [downloadUrl, setDownloadUrl] = useState("");
-
-  console.log(`Global download url ${downloadUrl}`);
 
   const onSubmit = async (formDataJson: storeFormData) => {
     const formData = new FormData();
     // note: image url is not exist on the submited values called it formDataJson we need to append our key value pairs using formData() ;
 
-    // if (downloadUrl) {
-    //   console.log(downloadUrl);
-    //   formData.append("imageUrl", downloadUrl);
-    // }
     const storage = getStorage(app);
     const fileName = new Date().getTime() + formDataJson.imageFile?.name!;
     const storageRef = ref(storage, fileName);
@@ -79,7 +73,7 @@ const CreateStoreForm = ({ onSave }: Props) => {
       storageRef,
       formDataJson.imageFile!
     );
-
+    let imageUrl: string;
     uploadTask.on(
       "state_changed",
       (snapshot) => {
@@ -89,15 +83,19 @@ const CreateStoreForm = ({ onSave }: Props) => {
         console.log(`Error while uploading to the firebase, ${error}`);
       },
       () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
-          console.log(`firebase url = ${downloadUrl}`);
-          setDownloadUrl(downloadUrl);
-          formDataJson.imageUrl = downloadUrl;
-        });
+        getDownloadURL(uploadTask.snapshot.ref)
+          .then((downloadUrl) => {
+            imageUrl = downloadUrl;
+          })
+          .then(() => {
+            console.log(imageUrl);
+            formData.append("imageUrl", imageUrl);
+            formDataJson.imageUrl = imageUrl;
+            console.log(formDataJson);
+            onSave(formDataJson); //jay bajrangbali
+          });
       }
     );
-
-    console.log(formDataJson);
   };
 
   return (
@@ -225,7 +223,13 @@ const CreateStoreForm = ({ onSave }: Props) => {
           />
         </div>
         {/* submit button */}
-        <Button className="w-full">Submit</Button>
+        {loading ? (
+          <LoadingButton widthFull />
+        ) : (
+          <Button disabled={loading} type="submit" className="w-full">
+            Submit
+          </Button>
+        )}
       </form>
     </Form>
   );
