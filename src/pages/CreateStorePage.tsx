@@ -1,7 +1,7 @@
 import CreateStoreForm from "@/forms/store-forms/CreateStoreForm";
 
 import img1 from "../img/createStoreImage1.png";
-import { CreateStore } from "@/api/store-apis";
+import { useCreateStore, useGetMyStore } from "@/api/store-apis";
 import { useAppSelector } from "@/hooks";
 import { RootState } from "@/store/store";
 
@@ -10,17 +10,22 @@ const CreateStorePage = () => {
     (state: RootState) => state.userState.user
   );
 
-  const { createStoreRequest, loading } = CreateStore(userId);
+  const { createStoreRequest, loading: createLoading } = useCreateStore(userId);
+  const { store } = useGetMyStore(userId);
 
   return (
-    <div className="flex flex-row border-2  border-[#9E3FFD] rounded-md mt-10 p-2">
+    <div className="flex flex-row border-2 items-center border-[#9E3FFD] rounded-md mt-10 p-2">
       <img
         src={img1}
         alt="error"
         className="h-96 w-96 object-cover hidden md:block"
       />
       <div className="p-2  w-full ">
-        <CreateStoreForm onSave={createStoreRequest} loading={loading} />
+        <CreateStoreForm
+          onSave={createStoreRequest}
+          loading={createLoading}
+          store={store}
+        />
       </div>
     </div>
   );

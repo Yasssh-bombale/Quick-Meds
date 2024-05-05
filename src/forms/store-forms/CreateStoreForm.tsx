@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -20,6 +21,9 @@ import {
 } from "firebase/storage";
 import { app } from "@/firebase";
 import LoadingButton from "@/components/LoadingButton";
+import { Store } from "@/types";
+import { useEffect } from "react";
+import ImageField from "@/components/ImageField";
 
 const formSchema = z
   .object({
@@ -53,13 +57,22 @@ export type storeFormData = z.infer<typeof formSchema>;
 
 type Props = {
   onSave: (formData: storeFormData) => void;
+  store?: Store;
   loading: boolean;
 };
 
-const CreateStoreForm = ({ onSave, loading }: Props) => {
+const CreateStoreForm = ({ onSave, loading, store }: Props) => {
   const form = useForm<storeFormData>({
     resolver: zodResolver(formSchema),
   });
+
+  useEffect(() => {
+    if (!store) {
+      return;
+    }
+
+    form.reset(store);
+  }, [form, store]);
 
   const onSubmit = async (formDataJson: storeFormData) => {
     const formData = new FormData();
@@ -102,7 +115,7 @@ const CreateStoreForm = ({ onSave, loading }: Props) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-5 p-10 bg-gray-50 rounded-lg"
+        className="space-y-3 p-10 bg-gray-50 rounded-lg"
       >
         <BackButton backTo="/" />
         <div className="flex gap-x-4">
@@ -118,42 +131,6 @@ const CreateStoreForm = ({ onSave, loading }: Props) => {
                   <Input
                     placeholder="xyz medical"
                     className="outline-none focus-visible:ring-1 focus-visible:ring-[#9E3FFD]"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            name="address"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem className="flex-1">
-                <FormLabel className="text-sm font-medium">Address</FormLabel>
-                <FormControl>
-                  <Input
-                    className="outline-none focus-visible:ring-1 focus-visible:ring-[#9E3FFD]"
-                    placeholder="street address.."
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-        <div className="flex gap-x-4">
-          <FormField
-            name="state"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem className="flex-1">
-                <FormLabel className="text-sm font-medium">State</FormLabel>
-                <FormControl>
-                  <Input
-                    className="outline-none focus-visible:ring-1 focus-visible:ring-[#9E3FFD]"
-                    placeholder="Maharashtra"
                     {...field}
                   />
                 </FormControl>
@@ -180,21 +157,65 @@ const CreateStoreForm = ({ onSave, loading }: Props) => {
           />
         </div>
         <div className="flex gap-x-4">
+          {/* check */}
           <FormField
+            name="address"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem className="flex-1">
+                <FormLabel className="text-sm font-medium">Address</FormLabel>
+                <FormControl>
+                  <Input
+                    className="outline-none focus-visible:ring-1 focus-visible:ring-[#9E3FFD]"
+                    placeholder="street address.."
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className="flex gap-x-4 items-center">
+          {/* <FormField
             name="imageFile"
             control={form.control}
             render={({ field }) => (
               <FormItem className="flex-1">
                 <FormLabel className="text-sm font-medium">Image</FormLabel>
-                <FormControl className="cursor-pointer">
+                <FormDescription className="text-sm">
+                  Add an image that will displayed on your store listing
+                </FormDescription>
+
+                <div className="flex flex-col space-y-4 border-2">
+                  {store?.imageUrl && <ImageField imageUrl={store?.imageUrl} />}
+                  <FormControl className="cursor-pointer">
+                    <Input
+                      type="file"
+                      accept={".jpg, .jpeg, .png"}
+                      onChange={(event) =>
+                        field.onChange(
+                          event.target.files ? event.target.files[0] : null
+                        )
+                      }
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </div>
+              </FormItem>
+            )}
+          /> */}
+          <FormField
+            name="state"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem className="flex-1">
+                <FormLabel className="text-sm font-medium">State</FormLabel>
+                <FormControl>
                   <Input
-                    type="file"
-                    accept={".jpg, .jpeg, .png"}
-                    onChange={(event) =>
-                      field.onChange(
-                        event.target.files ? event.target.files[0] : null
-                      )
-                    }
+                    className="outline-none focus-visible:ring-1 focus-visible:ring-[#9E3FFD]"
+                    placeholder="Maharashtra"
+                    {...field}
                   />
                 </FormControl>
                 <FormMessage />
@@ -222,6 +243,35 @@ const CreateStoreForm = ({ onSave, loading }: Props) => {
             )}
           />
         </div>
+        <FormField
+          name="imageFile"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem className="flex-1">
+              <FormLabel className="text-sm font-medium">Image</FormLabel>
+              <FormDescription className="text-sm">
+                Add an image that will displayed on your store listing
+              </FormDescription>
+
+              <div className="flex flex-col space-y-4 border-2">
+                {store?.imageUrl && <ImageField imageUrl={store?.imageUrl} />}
+
+                <FormControl className="cursor-pointer">
+                  <Input
+                    type="file"
+                    accept={".jpg, .jpeg, .png"}
+                    onChange={(event) =>
+                      field.onChange(
+                        event.target.files ? event.target.files[0] : null
+                      )
+                    }
+                  />
+                </FormControl>
+                <FormMessage />
+              </div>
+            </FormItem>
+          )}
+        />
         {/* submit button */}
         {loading ? (
           <LoadingButton widthFull />

@@ -1,10 +1,12 @@
 import { storeFormData } from "@/forms/store-forms/CreateStoreForm";
+import { Store } from "@/types";
 import { useState } from "react";
+import { useQuery } from "react-query";
 import { toast } from "sonner";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-export const CreateStore = (userId: string) => {
+export const useCreateStore = (userId: string) => {
   const [loading, setLoading] = useState(false);
   const createStoreRequest = async (formData: storeFormData) => {
     try {
@@ -26,6 +28,7 @@ export const CreateStore = (userId: string) => {
         if (response.status === 401) {
           return toast.error(data?.message);
         }
+
         return;
       }
 
@@ -38,4 +41,25 @@ export const CreateStore = (userId: string) => {
   };
 
   return { createStoreRequest, loading };
+};
+
+export const useGetMyStore = (userId: string) => {
+  const getMyStoreRequest = async (): Promise<Store> => {
+    const response = await fetch(
+      `${API_BASE_URL}/api/store/my/getstore/${userId}`
+    );
+
+    if (!response.ok) {
+      throw new Error("Error while fetching store details");
+    }
+
+    return response.json();
+  };
+
+  const { data: store, isLoading } = useQuery(
+    "fetchMyStore",
+    getMyStoreRequest
+  );
+
+  return { store, isLoading };
 };
