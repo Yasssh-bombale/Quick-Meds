@@ -15,3 +15,12 @@ export type Store = {
   imageUrl: string;
   mobileNumber: string;
 };
+
+export type MedicalStores = {
+  data: Store[];
+  pagination: {
+    total: number;
+    page: number;
+    pages: number;
+  };
+};

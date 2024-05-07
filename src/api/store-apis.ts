@@ -1,5 +1,5 @@
 import { storeFormData } from "@/forms/store-forms/CreateStoreForm";
-import { Store } from "@/types";
+import { MedicalStores, Store } from "@/types";
 import { useState } from "react";
 import { useQuery } from "react-query";
 import { toast } from "sonner";
@@ -62,4 +62,22 @@ export const useGetMyStore = (userId: string) => {
   );
 
   return { store, isLoading };
+};
+
+// fetching all stores;
+export const useGetAllStores = () => {
+  const getStoresRequest = async (): Promise<MedicalStores> => {
+    const resposne = await fetch(`${API_BASE_URL}/api/store/all`);
+    if (!resposne.ok) {
+      throw new Error("ERROR:While fetching all stores");
+    }
+    return resposne.json();
+  };
+
+  const { data: allStores, isLoading } = useQuery(
+    "fetchAllStores",
+    getStoresRequest
+  );
+
+  return { allStores, isLoading };
 };
