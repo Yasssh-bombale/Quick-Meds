@@ -1,7 +1,7 @@
 import { Store } from "@/types";
 import { Card, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
-import { Activity, BriefcaseMedical, Phone } from "lucide-react";
+import { BriefcaseMedical, Phone } from "lucide-react";
 
 type Props = {
   stores: Store[];

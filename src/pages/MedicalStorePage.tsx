@@ -1,8 +1,12 @@
 import { useGetAllStores } from "@/api/store-apis";
+import PaginationSelector from "@/components/PaginationSelector";
 import Stores from "@/components/Stores";
+import { useState } from "react";
 
 const MedicalStorePage = () => {
-  const { allStores, isLoading } = useGetAllStores();
+  const [page, setPage] = useState<number>(1);
+
+  const { allStores, isLoading } = useGetAllStores(page);
 
   if (isLoading) {
     return <span>Loading...</span>;
@@ -22,6 +26,12 @@ const MedicalStorePage = () => {
 
       {/* card for stores */}
       <Stores stores={allStores?.data!} />
+      {/* pagination selector */}
+      <PaginationSelector
+        page={allStores?.pagination.page!}
+        pages={allStores?.pagination.pages!}
+        onPageChange={setPage}
+      />
     </div>
   );
 };

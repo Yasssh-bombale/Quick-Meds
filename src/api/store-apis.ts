@@ -65,9 +65,13 @@ export const useGetMyStore = (userId: string) => {
 };
 
 // fetching all stores;
-export const useGetAllStores = () => {
+export const useGetAllStores = (page: number) => {
+  const params = new URLSearchParams();
+  params.set("page", page.toString());
   const getStoresRequest = async (): Promise<MedicalStores> => {
-    const resposne = await fetch(`${API_BASE_URL}/api/store/all`);
+    const resposne = await fetch(
+      `${API_BASE_URL}/api/store/all?${params.toString()}`
+    );
     if (!resposne.ok) {
       throw new Error("ERROR:While fetching all stores");
     }
@@ -75,7 +79,7 @@ export const useGetAllStores = () => {
   };
 
   const { data: allStores, isLoading } = useQuery(
-    "fetchAllStores",
+    ["fetchAllStores", page],
     getStoresRequest
   );
 
