@@ -2,18 +2,29 @@ import { Store } from "@/types";
 import { Card, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { BriefcaseMedical, Phone } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   stores: Store[];
 };
 
 const Stores = ({ stores }: Props) => {
+  const navigate = useNavigate();
+  const cardClickHandler = (id: string) => {
+    navigate({
+      pathname: `/medicalstores/${id}`,
+    });
+  };
+
   return stores.map((store) => (
     <div
       key={store._id}
       className="border-2 border-green-500 p-2 max-w-[400px] md:max-w-6xl w-full overflow-hidden"
     >
-      <Card className="md:p-2 cursor-pointer flex items-center gap-x-2 md:gap-x-7 md:px-8 hover:shadow-lg">
+      <Card
+        onClick={() => cardClickHandler(store._id)}
+        className="md:p-2 cursor-pointer flex items-center gap-x-2 md:gap-x-7 md:px-8 hover:shadow-lg"
+      >
         <img
           src={store.imageUrl}
           alt="storePng"

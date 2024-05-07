@@ -10,6 +10,7 @@ import { Toaster } from "sonner";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import CreateStorePage from "./pages/CreateStorePage";
 import FormPagesLayout from "./layout/FormPagesLayout";
+import StoreDetailsPage from "./pages/StoreDetailsPage";
 
 const AppRoutes = () => {
   return (
@@ -28,6 +29,9 @@ const AppRoutes = () => {
         {/* AuthRoutes */}
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/signin" element={<SignInPage />} />
+
+        {/* Dynamic routes */}
+        <Route path="/medicalstores/:id" element={<StoreDetailsPage />} />
 
         {/* NavBar links page routes */}
         <Route
