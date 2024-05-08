@@ -17,7 +17,7 @@ const MedicalStorePage = () => {
   }
 
   return (
-    <div className="border flex flex-col items-center gap-y-4 overflow-hidden">
+    <div className="flex flex-col items-center gap-y-4 overflow-hidden">
       <div className="text-center p-2 w-fit border border-[#9E3FFD] rounded-lg ">
         <h1 className="text-xl md:text-4xl">
           Total Registered stores are : {allStores?.pagination.total}

@@ -19,7 +19,7 @@ const Stores = ({ stores }: Props) => {
   return stores.map((store) => (
     <div
       key={store._id}
-      className="border-2 border-green-500 p-2 max-w-[400px] md:max-w-6xl w-full overflow-hidden"
+      className="p-2 max-w-[400px] md:max-w-6xl w-full overflow-hidden"
     >
       <Card
         onClick={() => cardClickHandler(store._id)}
@@ -30,11 +30,11 @@ const Stores = ({ stores }: Props) => {
           alt="storePng"
           className="w-16 h-16 md:w-28 md:h-28 rounded-xl object-cover"
         />
-        <div className="border-2 p-2">
+        <div className="p-2">
           <div className="flex items-center gap-x-2">
             {/* <Activity size={25} className="text-red-400" /> */}
             <BriefcaseMedical size={26} className="text-green-500" />
-            <CardTitle className="text-[16px] md:text-2xl font-semibold uppercase border border-red-400 w-28 md:w-80  truncate">
+            <CardTitle className="text-[16px] md:text-2xl font-semibold uppercase  w-28 md:w-80  truncate">
               {/* <Activity size={20} className="mr-3" /> */}
               {store.storeName}fffffffffffffffffffffffff
             </CardTitle>
@@ -45,7 +45,7 @@ const Stores = ({ stores }: Props) => {
         </div>
 
         {/* ownerName  and city*/}
-        <div className="border border-orange-500 flex flex-col  w-[70px] md:w-[480px]">
+        <div className="flex flex-col w-[70px] md:w-[480px]">
           <div className="flex  md:gap-x-4 md:p-2 md:justify-between md:items-center">
             <div>
               <Badge
@@ -55,13 +55,13 @@ const Stores = ({ stores }: Props) => {
                 Owner : {store.ownerName}
               </Badge>
             </div>
-            <p className="text-sm  font-bold md:font-normal  md:text-lg   border-b-2 border-[#9E3FFD] h-fit truncate">
+            <p className="text-sm font-bold md:font-normal md:text-lg border-b-2 border-[#9E3FFD] h-fit truncate">
               {store.city}
             </p>
           </div>
           {/* address */}
           <div className="hidden md:block md:w-[450px]">
-            <p className="text-zinc-500 font-light   border  truncate p-1">
+            <p className="text-zinc-500 font-light truncate p-1">
               <span className="font-bold ">Address :</span>
               {store.address}
             </p>
