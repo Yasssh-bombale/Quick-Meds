@@ -23,7 +23,7 @@ const Stores = ({ stores }: Props) => {
     >
       <Card
         onClick={() => cardClickHandler(store._id)}
-        className="md:p-2 cursor-pointer flex items-center gap-x-2 md:gap-x-7 md:px-8 hover:shadow-lg"
+        className="md:p-2  cursor-pointer flex items-center gap-x-2 md:gap-x-7 md:px-8 hover:shadow-lg"
       >
         <img
           src={store.imageUrl}
@@ -45,8 +45,8 @@ const Stores = ({ stores }: Props) => {
         </div>
 
         {/* ownerName  and city*/}
-        <div className="border border-orange-500 flex flex-col md:p-2 w-[120px] md:w-[480px]">
-          <div className="flex  gap-x-4 md:p-2 md:justify-between items-center">
+        <div className="border border-orange-500 flex flex-col  w-[70px] md:w-[480px]">
+          <div className="flex  md:gap-x-4 md:p-2 md:justify-between md:items-center">
             <div>
               <Badge
                 className="w-fit md:p-1 text-nowrap hidden md:block"
@@ -55,7 +55,7 @@ const Stores = ({ stores }: Props) => {
                 Owner : {store.ownerName}
               </Badge>
             </div>
-            <p className="text-lg font-semibold md:font-normal  md:text-lg   border-b-2 border-[#9E3FFD] h-fit truncate">
+            <p className="text-sm  font-bold md:font-normal  md:text-lg   border-b-2 border-[#9E3FFD] h-fit truncate">
               {store.city}
             </p>
           </div>
