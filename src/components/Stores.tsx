@@ -36,7 +36,7 @@ const Stores = ({ stores }: Props) => {
             <BriefcaseMedical size={26} className="text-green-500" />
             <CardTitle className="text-[16px] md:text-2xl font-semibold uppercase  w-28 md:w-80  truncate">
               {/* <Activity size={20} className="mr-3" /> */}
-              {store.storeName}fffffffffffffffffffffffff
+              {store.storeName}
             </CardTitle>
           </div>
           <p className="text-zinc-500 flex items-center">
