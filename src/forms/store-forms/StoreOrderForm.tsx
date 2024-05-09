@@ -1,6 +1,6 @@
 import { useGetStoreDetails } from "@/api/store-apis";
 
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import StoreInfo from "./StoreInfo";
 import StoreInputPrescription from "@/components/StoreInputPrescription";
 import { useCreateOrder } from "@/api/order-apis";
