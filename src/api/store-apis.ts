@@ -85,3 +85,21 @@ export const useGetAllStores = (page: number) => {
 
   return { allStores, isLoading };
 };
+
+export const useGetStoreDetails = (id: string) => {
+  const getStoreDetailsRequest = async (): Promise<Store> => {
+    const resposne = await fetch(`${API_BASE_URL}/api/store/details/${id}`);
+
+    if (!resposne.ok) {
+      throw new Error("ERROR:while fetching store detials");
+    }
+    return resposne.json();
+  };
+
+  const { data: store, isLoading } = useQuery(
+    "getStoreDetials",
+    getStoreDetailsRequest
+  );
+
+  return { store, isLoading };
+};

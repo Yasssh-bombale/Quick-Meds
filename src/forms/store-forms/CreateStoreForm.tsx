@@ -105,7 +105,7 @@ const CreateStoreForm = ({ onSave, loading, store }: Props) => {
             formData.append("imageUrl", imageUrl);
             formDataJson.imageUrl = imageUrl;
             console.log(formDataJson);
-            onSave(formDataJson); //jay bajrangbali
+            onSave(formDataJson);
           });
       }
     );

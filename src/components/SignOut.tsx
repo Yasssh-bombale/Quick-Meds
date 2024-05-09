@@ -5,11 +5,12 @@ import { useAppDispatch } from "@/hooks";
 import { signOutStart } from "@/feature/slices/user.slice";
 import { toast } from "sonner";
 import LoadingButton from "./LoadingButton";
+import { useNavigate } from "react-router-dom";
 
 const SignOut = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
-
+  const navigate = useNavigate();
   const signOutHandler = async () => {
     try {
       setLoading(true);
@@ -21,6 +22,7 @@ const SignOut = () => {
         return toast.error("Something went wrong!");
       }
       dispatch(signOutStart());
+      navigate("/");
       toast.success("Signout successfully");
     } catch (error) {
       console.log("ERROR_IN_SIGNOUT_CLIENT", error);

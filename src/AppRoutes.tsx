@@ -31,7 +31,14 @@ const AppRoutes = () => {
         <Route path="/signin" element={<SignInPage />} />
 
         {/* Dynamic routes */}
-        <Route path="/medicalstores/:id" element={<StoreDetailsPage />} />
+        <Route
+          path="/medicalstores/:id"
+          element={
+            <Layout>
+              <StoreDetailsPage />
+            </Layout>
+          }
+        />
 
         {/* NavBar links page routes */}
         <Route
