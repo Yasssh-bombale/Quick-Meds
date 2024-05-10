@@ -4,6 +4,19 @@ export type User = {
   password: string;
 };
 
+export type UpdatedUser = {
+  _id: string;
+  username: string;
+  email: string;
+  password: string;
+  profilePicture: string;
+  isAdmin: boolean;
+  city: string;
+  state: string;
+  address: string;
+  mobileNumber: string;
+};
+
 export type Store = {
   _id: string;
   ownerId: string;

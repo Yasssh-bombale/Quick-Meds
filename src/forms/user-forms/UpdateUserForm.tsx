@@ -1,0 +1,165 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { z } from "zod";
+import { Input } from "@/components/ui/input";
+import BackButton from "@/components/BackButton";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { UpdatedUser } from "@/types";
+import { useEffect } from "react";
+
+const formSchema = z.object({
+  address: z.string({
+    required_error: "Address is required",
+  }),
+  state: z.string({
+    required_error: "State is required",
+  }),
+  city: z.string({
+    required_error: "City is required",
+  }),
+  mobileNumber: z
+    .string({
+      required_error: "mobile number is required",
+    })
+    .min(10, { message: "Inavlid mobile number" })
+    .max(10, { message: "Invalid mobile number" }),
+});
+
+export type updateUserFormData = z.infer<typeof formSchema>;
+
+type Props = {
+  onSave: (formData: updateUserFormData) => void;
+  updatedUser: UpdatedUser;
+};
+
+const UpdateUserForm = ({ onSave, updatedUser }: Props) => {
+  const form = useForm<updateUserFormData>({
+    resolver: zodResolver(formSchema),
+  });
+
+  useEffect(() => {
+    if (!updatedUser) {
+      return;
+    }
+
+    form.reset(updatedUser);
+  }, [form, updatedUser]);
+
+  // const onSubmit = async (formDataJson: updateUserFormData) => {};
+
+  return (
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSave)}
+        className="space-y-3 p-10 bg-gray-50 rounded-lg"
+      >
+        <BackButton backTo="/" />
+        <div className="flex flex-col  md:flex md:flex-row md:items-center  md:gap-x-4">
+          {/* city */}
+          <FormField
+            name="city"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem className="flex-1">
+                <FormLabel className="text-sm font-medium">City</FormLabel>
+                <FormControl>
+                  <Input
+                    className="outline-none focus-visible:ring-1 focus-visible:ring-[#9E3FFD]"
+                    placeholder="Chh.SambhajiNagar"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {/* state */}
+          <FormField
+            name="state"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem className="flex-1">
+                <FormLabel className="text-sm font-medium">State</FormLabel>
+                <FormControl>
+                  <Input
+                    className="outline-none focus-visible:ring-1 focus-visible:ring-[#9E3FFD]"
+                    placeholder="Maharashtra"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className="flex flex-col  md:flex md:flex-row md:items-center md:gap-x-4">
+          {/* check */}
+          <FormField
+            name="address"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem className="flex-1">
+                <FormLabel className="text-sm font-medium">Address</FormLabel>
+                <FormControl>
+                  {/* <Input
+                    className="outline-none focus-visible:ring-1 focus-visible:ring-[#9E3FFD]"
+                    placeholder="street address.."
+                    {...field}
+                  /> */}
+                  <Textarea
+                    className="outline-none focus-visible:ring-1 focus-visible:ring-[#9E3FFD]"
+                    placeholder="street address.."
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            name="mobileNumber"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem className="flex-1">
+                <FormLabel className="text-sm font-medium">
+                  Mobile number
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    className="outline-none focus-visible:ring-1 focus-visible:ring-[#9E3FFD]"
+                    placeholder="+91 4242424242"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        {/* submit button */}
+        {/* {loading ? (
+          <LoadingButton widthFull />
+        ) : (
+          <Button disabled={loading} type="submit" className="w-full">
+            Submit
+          </Button>
+        )} */}
+        <Button type="submit" className="w-full">
+          Submit
+        </Button>
+      </form>
+    </Form>
+  );
+};
+
+export default UpdateUserForm;

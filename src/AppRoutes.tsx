@@ -11,6 +11,7 @@ import ProtectedRoute from "./pages/ProtectedRoute";
 import CreateStorePage from "./pages/CreateStorePage";
 import FormPagesLayout from "./layout/FormPagesLayout";
 import StoreDetailsPage from "./pages/StoreDetailsPage";
+import UserProfilePage from "./pages/UserProfilePage";
 
 const AppRoutes = () => {
   return (
@@ -68,11 +69,24 @@ const AppRoutes = () => {
 
         {/* Protected Routes */}
         <Route element={<ProtectedRoute />}>
+          {/* create-store page */}
           <Route
             path="/create-store"
             element={
               <FormPagesLayout heading="Create store">
                 <CreateStorePage />
+              </FormPagesLayout>
+            }
+          />
+        </Route>
+
+        {/* userProfile page */}
+        <Route element={<ProtectedRoute />}>
+          <Route
+            path="/user-profile"
+            element={
+              <FormPagesLayout heading="Update user">
+                <UserProfilePage />
               </FormPagesLayout>
             }
           />

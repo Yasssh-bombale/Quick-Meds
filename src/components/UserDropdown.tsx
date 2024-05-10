@@ -34,7 +34,7 @@ const UserDropdown = ({ user }: Props) => {
 
         <DropdownMenuGroup>
           <DropdownMenuItem className="font-semibold tracking-tight text-sm cursor-pointer p-2">
-            <Link to={"/profile"}>Profile</Link>
+            <Link to={"/user-profile"}>Profile</Link>
           </DropdownMenuItem>
           <DropdownMenuItem className="font-semibold tracking-tight text-sm cursor-pointer p-2">
             <Link to={"/create-store"}>Create store</Link>
