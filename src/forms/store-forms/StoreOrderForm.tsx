@@ -22,7 +22,7 @@ const StoreOrderForm = () => {
   const { orders } = useGetMyOrdersForStore(userId, storeId);
 
   return (
-    <div className="border-2 border-[#9E3FFD] rounded-md md:p-3 overflow-hidden">
+    <div className="border-2 border-[#9E3FFD] rounded-md p-2  overflow-hidden">
       {/* upper part image,name, city,address */}
       <StoreInfo store={store!} orders={orders} />
 

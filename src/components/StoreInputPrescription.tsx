@@ -87,7 +87,7 @@ const StoreInputPrescription = ({ onSave }: Props) => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="flex p-2 items-center w-full gap-x-2"
+          className="flex p-2 items-center w-full gap-x-2 flex-wrap"
         >
           <div>
             <div
@@ -125,7 +125,7 @@ const StoreInputPrescription = ({ onSave }: Props) => {
             name="prescription"
             control={form.control}
             render={({ field }) => (
-              <FormItem className="flex-1">
+              <FormItem className="border flex-1">
                 <FormControl>
                   <Input
                     type="text"
@@ -139,7 +139,7 @@ const StoreInputPrescription = ({ onSave }: Props) => {
             )}
           />
 
-          <Button type="submit" className="px-4">
+          <Button type="submit" className="w-full px-4 mt-2">
             Send prescription
           </Button>
         </form>
