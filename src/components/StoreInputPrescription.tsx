@@ -45,15 +45,6 @@ const StoreInputPrescription = ({ onSave }: Props) => {
   // const [formData, setFormData] = useState<prescriptionData>();
   const filePickerRef = useRef<HTMLInputElement | null>(null);
 
-  // const imageHandler = (event: ChangeEvent<HTMLInputElement>) => {
-  //   if (filePickerRef.current) {
-  //     filePickerRef.current.click();
-  //   }
-
-  //   if (event.target.files) {
-  //   }
-  // };
-
   const onSubmit = async (formDataJson: prescriptionFormData) => {
     const formData = new FormData();
     // note: image url is not exist on the submited values called it formDataJson we need to append our key value pairs using formData() ;
@@ -90,7 +81,7 @@ const StoreInputPrescription = ({ onSave }: Props) => {
       }
     );
   };
-  // const handleSubmit = () => {};
+
   return (
     <div className="border rounded-lg p-2 flex items-center gap-x-2">
       <Form {...form}>
@@ -129,17 +120,7 @@ const StoreInputPrescription = ({ onSave }: Props) => {
               )}
             />
           </div>
-          {/* <Input
-          type={"file"}
-          accept={".jpg, .jpeg, .png"}
-          ref={filePickerRef as React.MutableRefObject<HTMLInputElement>}
-          onChange={(e) => {
-            if (e.target.files) {
-              return;
-            }
-          }}
-          className="hidden"
-        /> */}
+
           <FormField
             name="prescription"
             control={form.control}

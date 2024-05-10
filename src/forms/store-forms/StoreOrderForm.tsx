@@ -3,7 +3,7 @@ import { useGetStoreDetails } from "@/api/store-apis";
 import { useParams } from "react-router-dom";
 import StoreInfo from "./StoreInfo";
 import StoreInputPrescription from "@/components/StoreInputPrescription";
-import { useCreateOrder } from "@/api/order-apis";
+import { useCreateOrder, useGetMyOrdersForStore } from "@/api/order-apis";
 import { useAppSelector } from "@/hooks";
 import { RootState } from "@/store/store";
 
@@ -19,11 +19,12 @@ const StoreOrderForm = () => {
 
   const { store } = useGetStoreDetails(storeId);
   const { createOrder } = useCreateOrder(storeId, userId);
+  const { orders } = useGetMyOrdersForStore(userId, storeId);
 
   return (
     <div className="border-2 border-[#9E3FFD] rounded-md md:p-3 overflow-hidden">
       {/* upper part image,name, city,address */}
-      <StoreInfo store={store!} />
+      <StoreInfo store={store!} orders={orders} />
 
       <StoreInputPrescription onSave={createOrder} />
     </div>

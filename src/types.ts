@@ -37,3 +37,17 @@ export type MedicalStores = {
     pages: number;
   };
 };
+
+export type Order = {
+  _id: string;
+  storeId: string;
+  userId: string;
+  orderedBy: string; //userName
+  userProfile: string;
+  prescriptionImage: string;
+  prescription: string;
+  deliveryCity: string;
+  deliveryState: string;
+  deliveryAddress: string;
+  createdAt: Date;
+};

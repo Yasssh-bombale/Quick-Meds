@@ -10,7 +10,7 @@ const StoreDetailsPage = () => {
   }
 
   return (
-    <div className="border-2  flex justify-center">
+    <div className="border-2  flex justify-center mt-[-20px]">
       <StoreOrderForm />
     </div>
   );

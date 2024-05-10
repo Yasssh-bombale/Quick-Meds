@@ -1,5 +1,6 @@
 import { prescriptionFormData } from "@/components/StoreInputPrescription";
-import { useMutation } from "react-query";
+import { Order } from "@/types";
+import { useMutation, useQuery } from "react-query";
 import { toast } from "sonner";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -8,8 +9,6 @@ export const useCreateOrder = (storeId: string, userId: string) => {
   const params = new URLSearchParams();
   params.set("storeId", storeId);
   params.set("userId", userId);
-
-  console.log(params);
 
   const createOrderRequest = async (formData: prescriptionFormData) => {
     const response = await fetch(
@@ -47,4 +46,26 @@ export const useCreateOrder = (storeId: string, userId: string) => {
   }
 
   return { createOrder, isLoading };
+};
+
+export const useGetMyOrdersForStore = (userId: string, storeId: string) => {
+  const params = new URLSearchParams();
+  params.set("userId", userId);
+  params.set("storeId", storeId);
+
+  const getMyOrdersRequest = async (): Promise<Order[]> => {
+    const response = await fetch(
+      `${API_BASE_URL}/api/order/my/get/?${params.toString()}`
+    );
+    if (!response.ok) {
+      throw new Error("ERROR:fetching orders for current user");
+    }
+    return response.json();
+  };
+
+  const { data: orders, isLoading } = useQuery(
+    ["getMyOrdersForStore", storeId],
+    getMyOrdersRequest
+  );
+  return { orders, isLoading };
 };

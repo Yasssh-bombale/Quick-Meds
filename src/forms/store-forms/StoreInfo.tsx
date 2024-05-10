@@ -7,13 +7,17 @@ import {
 } from "@/components/ui/tooltip";
 import { Store } from "@/types";
 import { BriefcaseMedical } from "lucide-react";
+import { Order } from "@/types";
+import OrderPrescription from "@/components/OrderPrescription";
+
 type Props = {
   store: Store;
+  orders?: Order[];
 };
-const StoreInfo = ({ store }: Props) => {
+const StoreInfo = ({ store, orders }: Props) => {
   return (
     <>
-      <div className="flex items-center gap-x-4">
+      <div className="flex items-center gap-x-4 border-2 border-green-500">
         <img
           className="h-28 w-28 object-cover rounded-full"
           src={store?.imageUrl}
@@ -58,6 +62,8 @@ const StoreInfo = ({ store }: Props) => {
       </div>
 
       <Separator className="my-4" />
+
+      <OrderPrescription orders={orders} />
     </>
   );
 };
