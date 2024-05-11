@@ -44,10 +44,24 @@ export type Order = {
   userId: string;
   orderedBy: string; //userName
   userProfile: string;
+  customerMobileNumber: string;
   prescriptionImage: string;
   prescription: string;
   deliveryCity: string;
   deliveryState: string;
   deliveryAddress: string;
+  isOrderPlaced: boolean;
+  isOrderOutOffStock: boolean;
   createdAt: Date;
+};
+
+export type StoreDetails = {
+  storeName: string;
+  storeImage: string;
+};
+
+export type OrderOwners = {
+  totalOrders: number;
+  storeDetails: StoreDetails;
+  orders: Order[];
 };

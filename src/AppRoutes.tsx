@@ -12,6 +12,7 @@ import CreateStorePage from "./pages/CreateStorePage";
 import FormPagesLayout from "./layout/FormPagesLayout";
 import StoreDetailsPage from "./pages/StoreDetailsPage";
 import UserProfilePage from "./pages/UserProfilePage";
+import ManageStorePage from "./pages/ManageStorePage";
 
 const AppRoutes = () => {
   return (
@@ -68,6 +69,7 @@ const AppRoutes = () => {
         />
 
         {/* Protected Routes */}
+
         <Route element={<ProtectedRoute />}>
           {/* create-store page */}
           <Route
@@ -80,8 +82,13 @@ const AppRoutes = () => {
           />
         </Route>
 
-        {/* userProfile page */}
         <Route element={<ProtectedRoute />}>
+          {/* ManageStorePage */}
+          <Route path="/manage-store" element={<ManageStorePage />} />
+        </Route>
+
+        <Route element={<ProtectedRoute />}>
+          {/* userProfile page */}
           <Route
             path="/user-profile"
             element={

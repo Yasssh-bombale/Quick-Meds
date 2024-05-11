@@ -1,5 +1,5 @@
 import { prescriptionFormData } from "@/components/StoreInputPrescription";
-import { Order } from "@/types";
+import { Order, OrderOwners } from "@/types";
 import { useMutation, useQuery } from "react-query";
 import { toast } from "sonner";
 
@@ -68,4 +68,23 @@ export const useGetMyOrdersForStore = (userId: string, storeId: string) => {
     getMyOrdersRequest
   );
   return { orders, isLoading };
+};
+
+export const useGetOrdersForOwners = (userId: string) => {
+  const getOrdersRequest = async (): Promise<OrderOwners> => {
+    const response = await fetch(
+      `${API_BASE_URL}/api/order/store-owner/${userId}`
+    );
+    if (!response.ok) {
+      throw new Error("ERROR:Fetching orders for owners");
+    }
+    return response.json();
+  };
+
+  const { data, isLoading } = useQuery(
+    "fetchOrdersForOwners",
+    getOrdersRequest
+  );
+
+  return { data, isLoading };
 };
