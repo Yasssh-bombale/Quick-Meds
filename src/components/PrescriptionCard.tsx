@@ -13,10 +13,7 @@ const PrescriptionCard = ({ order }: Props) => {
       />
       <div className="max-w-96 w-full  flex justify-end">
         <h2 className="bg-zinc-500/10 p-2 w-fit  rounded-lg px-3">
-          {order.prescription} Lorem ipsum dolor sit amet consectetur
-          adipisicing elit. Error commodi earum, omnis velit, corrupti deleniti
-          facere ipsa ullam accusamus in assumenda fuga voluptate dicta, est
-          cupiditate ex voluptatibus asperiores amet.
+          {order.prescription}
         </h2>
       </div>
     </div>

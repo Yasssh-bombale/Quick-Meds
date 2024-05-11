@@ -125,7 +125,7 @@ const StoreInputPrescription = ({ onSave }: Props) => {
             name="prescription"
             control={form.control}
             render={({ field }) => (
-              <FormItem className="border flex-1">
+              <FormItem className="flex-1">
                 <FormControl>
                   <Input
                     type="text"
