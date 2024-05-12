@@ -22,15 +22,15 @@ const ManageStorePage = () => {
   // }
 
   return (
-    <div className="flex flex-col items-center gap-y-4 overflow-hidden  p-2 min-h-screen">
-      <div className="border-2 flex items-center gap-x-3">
-        <BackButton backTo="/" className="mt-[-100px]" />
+    <div className="flex flex-col items-center gap-y-2 md:gap-y-4 overflow-hidden  p-2 min-h-screen">
+      <div className="border-2 flex items-center gap-x-1 md:gap-x-3 overflow-hidden">
+        <BackButton backTo="/" className="md:mt-[-100px] " />
         <img
           src={data?.storeDetails.storeImage}
           alt="https://ideogram.ai/api/images/direct/0lLf097zQPWvmMa5YyHkSg.png"
-          className="w-36 h-36 border object-cover rounded-md"
+          className="w-20 h-20 md:w-36 md:h-36 border object-cover rounded-md"
         />
-        <h1 className="text-5xl font-semibold tracking-tight border w-[600px] truncate">
+        <h1 className="text-2xl md:text-5xl font-semibold tracking-tight border w-[200px] md:w-[600px] truncate">
           {data?.storeDetails.storeName} Lorem ipsum, dolor sit amet consectetur
           adipisicing elit. Rem, enim?
         </h1>

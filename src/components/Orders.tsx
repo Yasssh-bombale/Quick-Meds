@@ -16,18 +16,18 @@ const Orders = ({ order }: Props) => {
   // };
 
   return (
-    <div className="border border-green-500 w-[1000px]  flex p-1">
+    <div className="border border-green-500 w-[330px] md:w-[1200px]  flex p-2 overflow-auto scrollbar-thin  scrollbar-track-transparent scrollbar-thumb-purple-500 md:overflow-hidden">
       <Card className="p-2 flex gap-x-4 w-full justify-between">
         {/* prescription Image */}
         <img
           src={order.prescriptionImage}
           alt="storePng"
-          className="w-40  rounded-md object-cover cursor-pointer border"
+          className="w-40  md:w-40  rounded-md object-cover cursor-pointer border"
           onClick={() => window.open(order.prescriptionImage)}
         />
         {/* prescription */}
-        <div className="border rounded-md p-2">
-          <CardDescription className="">
+        <div className="border rounded-md p-2 border-blue-500">
+          <CardDescription className="border-2 border-yellow-500 w-[300px] md:w-fit">
             <span className="font-semibold">Prescription</span>:{" "}
             {order.prescription} Lorem ipsum dolor sit amet consectetur
             adipisicing elit. Illum ducimus quo eligendi libero, iste eius magni
@@ -37,16 +37,16 @@ const Orders = ({ order }: Props) => {
         </div>
 
         {/* orderDetails */}
-        <div className="flex flex-col gap-y-1 w-80">
+        <div className="flex flex-col gap-y-1 w-96 border border-red-500 p-1">
           {/* orderedBy */}
-          <div className="flex border items-center gap-x-2 text-sm">
-            Ordered by :{" "}
+          <div className="flex border items-center gap-x-1 text-sm overflow-hidden">
+            <span className="text-nowrap">Ordered by : </span>
             <img
               src={order.userProfile}
               alt="user"
-              className="w-8 h-8 border object-cover rounded-full"
+              className="w-5 h-5 border object-cover rounded-full"
             />
-            {order.orderedBy}
+            <span className="text-[14px]">{order.orderedBy}</span>
           </div>
 
           {/* mobileNumber */}
@@ -68,8 +68,8 @@ const Orders = ({ order }: Props) => {
         </div>
 
         {/* order place button and out-off-stock button */}
-        <div className="flex flex-col space-y-2 mt-4 border ">
-          <Button className="bg-green-600 text-[17px] hover:bg-green-600/85 px-12">
+        <div className="flex flex-col space-y-2 mt-4 border">
+          <Button className="bg-green-600 text-[17px] hover:bg-green-600/85 px-5 md:px-12">
             <Truck className="mr-2" /> Place Order
           </Button>
           <Button variant={"destructive"}>
