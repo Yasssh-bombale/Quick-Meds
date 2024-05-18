@@ -8,18 +8,20 @@ import { RootState } from "@/store/store";
 
 const ManageStorePage = () => {
   // const [page, setPage] = useState<number>(1);
-
-  // const { allStores, isLoading } = useGetAllStores(page);
+  // const dispatch = useAppDispatch();
+  // const { isOrderPlaced } = useAppSelector(
+  //   (state: RootState) => state.orderState
+  // );
 
   const { _id: userId } = useAppSelector(
     (state: RootState) => state.userState.user
   ); //getting current userId for getting his store details;
 
-  const { data } = useGetOrdersForOwners(userId);
+  const { data } = useGetOrdersForOwners(userId); //pass here isOrderPlaced boolean;
 
-  // if (!data?.orders) {
-  //   return <NoOrders />;
-  // }
+  // useEffect(() => {
+  //   dispatch(makePlaceOrder(false));
+  // }, [isOrderPlaced]);
 
   return (
     <div className="flex flex-col items-center gap-y-2 md:gap-y-4 overflow-hidden  p-2 min-h-screen">
@@ -41,9 +43,10 @@ const ManageStorePage = () => {
         <NoOrders />
       ) : (
         <>
-          {data?.orders.map((order) => (
-            <Orders key={order._id} order={order} />
-          ))}
+          {/* {data?.orders.map((order) => (
+            <Orders key={order._id} order={order} userId={userId} />
+          ))} */}
+          <Orders orders={data?.orders!} userId={userId} />
         </>
       )}
 

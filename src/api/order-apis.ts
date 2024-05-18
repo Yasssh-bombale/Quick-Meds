@@ -1,5 +1,6 @@
 import { prescriptionFormData } from "@/components/StoreInputPrescription";
 import { Order, OrderOwners } from "@/types";
+import { useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { toast } from "sonner";
 
@@ -82,9 +83,52 @@ export const useGetOrdersForOwners = (userId: string) => {
   };
 
   const { data, isLoading } = useQuery(
-    "fetchOrdersForOwners",
+    ["fetchOrdersForOwners"], //fetch new data of orders whenever orderIsPlaced is changed;
     getOrdersRequest
   );
 
   return { data, isLoading };
 };
+
+// //place order;
+// export const usePlaceOrder = (userId: string, orderId: string) => {
+//   const [isPlaced, setIsPlaced] = useState<boolean>(false);
+
+//   const params = new URLSearchParams();
+//   params.set("userId", userId);
+//   params.set("orderId", orderId);
+
+//   const placeOrderRequest = async () => {
+//     setIsPlaced(false);
+//     const response = await fetch(
+//       `${API_BASE_URL}/api/order/place?${params.toString()}`,
+//       {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//       }
+//     );
+
+//     if (!response.ok) {
+//       throw new Error("Unable to place order");
+//     }
+//     return response.json();
+//   };
+
+//   const {
+//     mutate: placeOrder,
+//     isLoading,
+//     isSuccess,
+//     error,
+//   } = useMutation(placeOrderRequest);
+
+//   if (error) {
+//     toast.error((error as string) || "Unable to place order");
+//     setIsPlaced(false);
+//   }
+//   if (isSuccess) {
+//     toast.success("Order placed!");
+//     setIsPlaced(true);
+//   }
+
+//   return { placeOrder, isLoading, isPlaced };
+// };

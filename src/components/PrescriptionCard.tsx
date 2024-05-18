@@ -7,6 +7,7 @@ const PrescriptionCard = ({ order }: Props) => {
   return (
     <div className="flex flex-col gap-y-2 items-end  rounded-md">
       <img
+        onClick={() => window.open(order.prescriptionImage)}
         src={order.prescriptionImage}
         alt="image"
         className="w-40 h-52 md:w-52 md:h-80 object-cover rounded-md cursor-pointer border"

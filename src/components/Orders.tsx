@@ -1,22 +1,91 @@
 import { Card, CardDescription } from "./ui/card";
 import { Button } from "./ui/button";
-import { Truck, X } from "lucide-react";
+import { PackageCheck, ShoppingCart, Truck, X } from "lucide-react";
 import { Order } from "@/types";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 type Props = {
-  order: Order;
+  orders: Order[];
+  userId: string;
 };
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-const Orders = ({ order }: Props) => {
-  // const navigate = useNavigate();
-  // const cardClickHandler = (id: string) => {
-  //   navigate({
-  //     pathname: `/medicalstores/${id}`,
-  //   });
-  // };
+const Orders = ({ orders: backendOrders, userId }: Props) => {
+  const [orders, setOrders] = useState<Order[]>();
 
-  return (
-    <div className="w-[330px] md:w-[1200px]  flex p-2 overflow-auto scrollbar-thin  scrollbar-track-transparent scrollbar-thumb-purple-500 md:overflow-hidden">
+  useEffect(() => {
+    if (backendOrders?.length !== 0) {
+      setOrders(backendOrders);
+    }
+  }, [backendOrders]);
+
+  const placeOrderHandler = async (orderId: string) => {
+    const params = new URLSearchParams();
+    params.set("userId", userId);
+    params.set("orderId", orderId);
+
+    try {
+      const resposne = await fetch(
+        `${API_BASE_URL}/api/order/place?${params.toString()}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!resposne.ok) {
+        toast.error("Unable place order");
+      }
+
+      toast.success("Order placed");
+      setOrders((prev) => {
+        return prev?.map((order) =>
+          order._id === orderId ? { ...order, isOrderPlaced: true } : order
+        );
+      });
+    } catch (error) {
+      console.log(`ERROR:IN PLACE-ORDER-HANDLER,${error}`);
+    }
+  };
+  const outofstockHandler = async (orderId: string) => {
+    const params = new URLSearchParams();
+    params.set("userId", userId);
+    params.set("orderId", orderId);
+
+    try {
+      const resposne = await fetch(
+        `${API_BASE_URL}/api/order/outofstock?${params.toString()}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!resposne.ok) {
+        toast.error("Unable to proceed with your request");
+      }
+
+      toast.success("maked order to be outofstock!");
+      setOrders((prev) => {
+        return prev?.map((order) =>
+          order._id === orderId ? { ...order, isOrderOutOffStock: true } : order
+        );
+      });
+    } catch (error) {
+      console.log(`ERROR:IN ORDER-OUT-STOCK-HANDLER,${error}`);
+    }
+  };
+
+  return orders?.map((order) => (
+    <div
+      key={order._id}
+      className="w-[330px] md:w-[1200px]  flex p-2 overflow-auto scrollbar-thin  scrollbar-track-transparent scrollbar-thumb-purple-500 md:overflow-hidden"
+    >
       <Card className="p-2 flex gap-x-4 w-fit justify-between">
         {/* prescription Image */}
         <img
@@ -69,17 +138,50 @@ const Orders = ({ order }: Props) => {
 
         {/* order place button and out-off-stock button */}
         <div className="flex flex-col space-y-2 mt-4 ">
-          <Button className="bg-green-600 text-[17px] hover:bg-green-600/85 px-5 md:px-12">
-            <Truck className="mr-2" /> Place Order
-          </Button>
-          <Button variant={"destructive"}>
-            <X className="mr-2" />
-            Out of stock
-          </Button>
+          {/* checkpoint */}
+
+          {order.isOrderPlaced ? (
+            <Button
+              className={`${
+                order.isOrderOutOffStock
+                  ? "hidden"
+                  : "flex text-[17px] px-5 md:px-12 bg-transparent hover:bg-transparent text-green-500 cursor-not-allowed"
+              }`}
+            >
+              <PackageCheck className="mr-2" /> Order placed
+            </Button>
+          ) : (
+            <>
+              <Button
+                onClick={() => placeOrderHandler(order._id)}
+                className={`${
+                  order.isOrderOutOffStock
+                    ? "hidden"
+                    : "flex bg-green-600 text-[17px] hover:bg-green-600/85 px-5 md:px-12"
+                }`}
+              >
+                <Truck className="mr-2" /> Place Order
+              </Button>
+
+              {order.isOrderOutOffStock ? (
+                <Button className="bg-transparent hover:bg-transparent cursor-not-allowed text-red-500 text-lg  px-5 md:px-12">
+                  <ShoppingCart className="mr-2" /> Order out stock
+                </Button>
+              ) : (
+                <Button
+                  onClick={() => outofstockHandler(order._id)}
+                  variant={"destructive"}
+                >
+                  <X className="mr-2" />
+                  Out of stock
+                </Button>
+              )}
+            </>
+          )}
         </div>
       </Card>
     </div>
-  );
+  ));
 };
 
 export default Orders;
