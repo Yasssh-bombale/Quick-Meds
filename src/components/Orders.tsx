@@ -4,7 +4,6 @@ import {
   CircleDashed,
   PackageCheck,
   ShoppingCart,
-  TrendingDown,
   Truck,
   X,
 } from "lucide-react";
