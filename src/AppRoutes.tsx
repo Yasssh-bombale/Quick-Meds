@@ -13,6 +13,7 @@ import FormPagesLayout from "./layout/FormPagesLayout";
 import StoreDetailsPage from "./pages/StoreDetailsPage";
 import UserProfilePage from "./pages/UserProfilePage";
 import ManageStorePage from "./pages/ManageStorePage";
+import OrdersPage from "./pages/OrdersPage";
 
 const AppRoutes = () => {
   return (
@@ -85,6 +86,17 @@ const AppRoutes = () => {
         <Route element={<ProtectedRoute />}>
           {/* ManageStorePage */}
           <Route path="/manage-store" element={<ManageStorePage />} />
+        </Route>
+        <Route element={<ProtectedRoute />}>
+          {/* orders page */}
+          <Route
+            path="/orders"
+            element={
+              <Layout>
+                <OrdersPage />
+              </Layout>
+            }
+          />
         </Route>
 
         <Route element={<ProtectedRoute />}>

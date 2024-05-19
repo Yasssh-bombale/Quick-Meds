@@ -42,6 +42,9 @@ const UserDropdown = ({ user }: Props) => {
           <DropdownMenuItem className="font-semibold tracking-tight text-sm cursor-pointer p-2">
             <Link to={"/manage-store"}>Manage store</Link>
           </DropdownMenuItem>
+          <DropdownMenuItem className="font-semibold tracking-tight text-sm cursor-pointer p-2">
+            <Link to={"/orders"}>Your orders</Link>
+          </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         {/* signOut button */}

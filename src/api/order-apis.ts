@@ -90,45 +90,19 @@ export const useGetOrdersForOwners = (userId: string) => {
   return { data, isLoading };
 };
 
-// //place order;
-// export const usePlaceOrder = (userId: string, orderId: string) => {
-//   const [isPlaced, setIsPlaced] = useState<boolean>(false);
+//getting orders for current user from all stores;
+export const useGetOrdersFromAllStores = (userId: string) => {
+  const getAllOrdersFromAllStores = async () => {
+    const response = await fetch(`${API_BASE_URL}/api/order/my/all/${userId}`);
+    if (!response.ok) {
+      throw new Error("Could not fetch orders");
+    }
+    return response.json();
+  };
 
-//   const params = new URLSearchParams();
-//   params.set("userId", userId);
-//   params.set("orderId", orderId);
-
-//   const placeOrderRequest = async () => {
-//     setIsPlaced(false);
-//     const response = await fetch(
-//       `${API_BASE_URL}/api/order/place?${params.toString()}`,
-//       {
-//         method: "POST",
-//         headers: { "Content-Type": "application/json" },
-//       }
-//     );
-
-//     if (!response.ok) {
-//       throw new Error("Unable to place order");
-//     }
-//     return response.json();
-//   };
-
-//   const {
-//     mutate: placeOrder,
-//     isLoading,
-//     isSuccess,
-//     error,
-//   } = useMutation(placeOrderRequest);
-
-//   if (error) {
-//     toast.error((error as string) || "Unable to place order");
-//     setIsPlaced(false);
-//   }
-//   if (isSuccess) {
-//     toast.success("Order placed!");
-//     setIsPlaced(true);
-//   }
-
-//   return { placeOrder, isLoading, isPlaced };
-// };
+  const { data, isLoading } = useQuery(
+    "fetchAllOrdersFromAllStores",
+    getAllOrdersFromAllStores
+  );
+  return { data, isLoading };
+};

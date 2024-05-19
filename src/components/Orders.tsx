@@ -1,6 +1,13 @@
 import { Card, CardDescription } from "./ui/card";
 import { Button } from "./ui/button";
-import { PackageCheck, ShoppingCart, Truck, X } from "lucide-react";
+import {
+  CircleDashed,
+  PackageCheck,
+  ShoppingCart,
+  TrendingDown,
+  Truck,
+  X,
+} from "lucide-react";
 import { Order } from "@/types";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -8,10 +15,15 @@ import { toast } from "sonner";
 type Props = {
   orders: Order[];
   userId: string;
+  storeOwner?: boolean;
 };
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-const Orders = ({ orders: backendOrders, userId }: Props) => {
+const Orders = ({
+  orders: backendOrders,
+  userId,
+  storeOwner = false,
+}: Props) => {
   const [orders, setOrders] = useState<Order[]>();
 
   useEffect(() => {
@@ -137,48 +149,70 @@ const Orders = ({ orders: backendOrders, userId }: Props) => {
         </div>
 
         {/* order place button and out-off-stock button */}
-        <div className="flex flex-col space-y-2 mt-4 ">
-          {/* checkpoint */}
-
-          {order.isOrderPlaced ? (
-            <Button
-              className={`${
-                order.isOrderOutOffStock
-                  ? "hidden"
-                  : "flex text-[17px] px-5 md:px-12 bg-transparent hover:bg-transparent text-green-500 cursor-not-allowed"
-              }`}
-            >
-              <PackageCheck className="mr-2" /> Order placed
-            </Button>
-          ) : (
-            <>
+        {storeOwner ? (
+          <div className="flex flex-col space-y-2 mt-4">
+            {order.isOrderPlaced ? (
               <Button
-                onClick={() => placeOrderHandler(order._id)}
                 className={`${
                   order.isOrderOutOffStock
                     ? "hidden"
-                    : "flex bg-green-600 text-[17px] hover:bg-green-600/85 px-5 md:px-12"
+                    : "flex text-[17px] px-5 md:px-12 bg-transparent hover:bg-transparent text-green-700 cursor-not-allowed"
                 }`}
               >
-                <Truck className="mr-2" /> Place Order
+                <PackageCheck className="mr-2" /> Order placed
               </Button>
-
-              {order.isOrderOutOffStock ? (
-                <Button className="bg-transparent hover:bg-transparent cursor-not-allowed text-red-500 text-lg  px-5 md:px-12">
-                  <ShoppingCart className="mr-2" /> Order out stock
-                </Button>
-              ) : (
+            ) : (
+              <>
                 <Button
-                  onClick={() => outofstockHandler(order._id)}
-                  variant={"destructive"}
+                  onClick={() => placeOrderHandler(order._id)}
+                  className={`${
+                    order.isOrderOutOffStock
+                      ? "hidden"
+                      : "flex bg-green-600 text-[17px] hover:bg-green-600/85 px-5 md:px-12"
+                  }`}
                 >
-                  <X className="mr-2" />
-                  Out of stock
+                  <Truck className="mr-2" /> Place Order
                 </Button>
-              )}
-            </>
-          )}
-        </div>
+
+                {order.isOrderOutOffStock ? (
+                  <Button className="bg-transparent hover:bg-transparent cursor-not-allowed text-red-500 text-lg  px-5 md:px-12">
+                    <ShoppingCart className="mr-2" /> Order out stock
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={() => outofstockHandler(order._id)}
+                    variant={"destructive"}
+                  >
+                    <X className="mr-2" />
+                    Out of stock
+                  </Button>
+                )}
+              </>
+            )}
+          </div>
+        ) : (
+          <div className="flex flex-col space-y-2  items-center">
+            <span className="font-semibold text-sm  mb-1 border-b-2 border-b-[#9E3FFD]">
+              Order status
+            </span>
+            {order.isOrderOutOffStock || order.isOrderPlaced ? (
+              <Button
+                className={`bg-transparent hover:bg-transparent cursor-text ${
+                  order.isOrderOutOffStock
+                    ? "text-red-500 text-wrap text-[15px]"
+                    : "text-green-700  text-[15px]"
+                }`}
+              >
+                {order.isOrderPlaced && <PackageCheck className="mr-1" />}
+                {order.isOrderOutOffStock ? "Not available" : "Order placed"}
+              </Button>
+            ) : (
+              <Button className="cursor-text bg-transparent hover:bg-transparent text-black text-sm md:text-[16px]">
+                <CircleDashed className="mr-1 animate-spin h-4 w-4" /> Pending
+              </Button>
+            )}
+          </div>
+        )}
       </Card>
     </div>
   ));

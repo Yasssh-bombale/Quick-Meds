@@ -46,7 +46,7 @@ const ManageStorePage = () => {
           {/* {data?.orders.map((order) => (
             <Orders key={order._id} order={order} userId={userId} />
           ))} */}
-          <Orders orders={data?.orders!} userId={userId} />
+          <Orders orders={data?.orders!} userId={userId} storeOwner />
         </>
       )}
 
