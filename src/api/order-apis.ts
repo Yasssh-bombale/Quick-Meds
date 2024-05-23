@@ -2,11 +2,13 @@ import { prescriptionFormData } from "@/components/StoreInputPrescription";
 import { Order, OrderOwners } from "@/types";
 import { useState } from "react";
 import { useMutation, useQuery } from "react-query";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const useCreateOrder = (storeId: string, userId: string) => {
+  const navigate = useNavigate();
   const params = new URLSearchParams();
   params.set("storeId", storeId);
   params.set("userId", userId);
@@ -40,7 +42,8 @@ export const useCreateOrder = (storeId: string, userId: string) => {
   } = useMutation("createOrder", createOrderRequest);
 
   if (error) {
-    toast.error((error as string) || "Unable to create order");
+    toast.error((error as string) || "Unable to create order try again latter");
+    navigate("/user-profile");
   }
   if (isSuccess) {
     toast.success("Order created");

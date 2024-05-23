@@ -42,6 +42,7 @@ export type Order = {
   _id: string;
   storeId: string;
   userId: string;
+  storeName: string;
   orderedBy: string; //userName
   userProfile: string;
   customerMobileNumber: string;

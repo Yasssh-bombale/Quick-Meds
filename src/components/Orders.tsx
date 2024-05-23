@@ -119,6 +119,11 @@ const Orders = ({
         {/* orderDetails */}
         <div className="flex flex-col gap-y-1 w-96 p-1">
           {/* orderedBy */}
+          {!storeOwner && (
+            <h1 className="w-52 md:w-60 border truncate">
+              storeName: {order?.storeName}
+            </h1>
+          )}
           <div className="flex items-center gap-x-1 text-sm overflow-hidden">
             <span className="text-nowrap">Ordered by : </span>
             <img
