@@ -1,10 +1,16 @@
 import { useGetOrdersForOwners } from "@/api/order-apis";
+import { useCheckUserHasStore } from "@/api/store-apis";
 import BackButton from "@/components/BackButton";
 import MySeperator from "@/components/MySeperator";
 import NoOrders from "@/components/NoOrders";
+import NotFound from "@/components/NotFound";
 import Orders from "@/components/Orders";
 import { useAppSelector } from "@/hooks";
 import { RootState } from "@/store/store";
+
+export type HasStoreType = {
+  userHasStore: boolean;
+};
 
 const ManageStorePage = () => {
   // const [page, setPage] = useState<number>(1);
@@ -16,6 +22,25 @@ const ManageStorePage = () => {
   const { _id: userId } = useAppSelector(
     (state: RootState) => state.userState.user
   ); //getting current userId for getting his store details;
+
+  const { check, isLoading: checkLoading } = useCheckUserHasStore(userId);
+
+  if (checkLoading) {
+    return (
+      <div className="text-center text-3xl text-purple-500 h-screen flex items-center justify-center">
+        Loading...! plz wait
+      </div>
+    );
+  }
+
+  if (!check?.userHasStore) {
+    return (
+      <NotFound
+        message="It looks like you have not created any store yet ! lets get started
+    with"
+      />
+    );
+  }
 
   const { data } = useGetOrdersForOwners(userId); //pass here isOrderPlaced boolean;
 

@@ -1,4 +1,5 @@
 import { storeFormData } from "@/forms/store-forms/CreateStoreForm";
+import { HasStoreType } from "@/pages/ManageStorePage";
 import { MedicalStores, Store } from "@/types";
 import { useState } from "react";
 import { useQuery } from "react-query";
@@ -102,4 +103,25 @@ export const useGetStoreDetails = (id: string) => {
   );
 
   return { store, isLoading };
+};
+
+//check hook for user has store or not;
+
+export const useCheckUserHasStore = (userId: string) => {
+  const storeCheckHandler = async (): Promise<HasStoreType> => {
+    const response = await fetch(
+      `${API_BASE_URL}/api/store/has-store/${userId}`
+    );
+
+    if (!response.ok) {
+      throw new Error("Could not check is user has store or not");
+    }
+    return response.json();
+  };
+
+  const { data: check, isLoading } = useQuery(
+    "checkUserHasStore",
+    storeCheckHandler
+  );
+  return { check, isLoading };
 };
