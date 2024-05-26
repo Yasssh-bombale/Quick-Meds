@@ -120,7 +120,7 @@ const Orders = ({
         <div className="flex flex-col gap-y-1 w-96 p-1">
           {/* orderedBy */}
           {!storeOwner && (
-            <h1 className="w-52 md:w-60 border truncate">
+            <h1 className="w-52 md:w-60  truncate">
               storeName: {order?.storeName}
             </h1>
           )}

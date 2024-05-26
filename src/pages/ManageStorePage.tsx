@@ -13,12 +13,6 @@ export type HasStoreType = {
 };
 
 const ManageStorePage = () => {
-  // const [page, setPage] = useState<number>(1);
-  // const dispatch = useAppDispatch();
-  // const { isOrderPlaced } = useAppSelector(
-  //   (state: RootState) => state.orderState
-  // );
-
   const { _id: userId } = useAppSelector(
     (state: RootState) => state.userState.user
   ); //getting current userId for getting his store details;
