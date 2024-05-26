@@ -5,7 +5,6 @@ import SignUpPage from "./pages/SignUpPage";
 import SignInPage from "./pages/SignInPage";
 import MedicalStorePage from "./pages/MedicalStorePage";
 import ServicesPage from "./pages/ServicesPage";
-import AboutPage from "./pages/AboutPage";
 import { Toaster } from "sonner";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import CreateStorePage from "./pages/CreateStorePage";
@@ -58,14 +57,6 @@ const AppRoutes = () => {
           element={
             <Layout>
               <ServicesPage />
-            </Layout>
-          }
-        />
-        <Route
-          path="/about"
-          element={
-            <Layout>
-              <AboutPage />
             </Layout>
           }
         />

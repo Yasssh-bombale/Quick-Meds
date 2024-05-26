@@ -33,14 +33,6 @@ const Navbar = () => {
           Order status
         </Button>
       </Link>
-      <Link to={"/about"} className="cursor-pointer">
-        <Button
-          variant={"ghost"}
-          className="scroll-m-20 text-lg md:text-xl font-semibold tracking-tight"
-        >
-          About
-        </Button>
-      </Link>
 
       {user ? (
         <UserDropdown user={user} />

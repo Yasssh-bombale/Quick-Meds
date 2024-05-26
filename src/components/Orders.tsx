@@ -107,12 +107,9 @@ const Orders = ({
         />
         {/* prescription */}
         <div className="rounded-md p-2">
-          <CardDescription className="w-[300px] md:w-fit">
+          <CardDescription className="w-[300px] md:w-[400px]">
             <span className="font-semibold">Prescription</span>:{" "}
-            {order.prescription} Lorem ipsum dolor sit amet consectetur
-            adipisicing elit. Illum ducimus quo eligendi libero, iste eius magni
-            delectus at neque, maiores, doloribus atque dolorem repudiandae
-            inventore? Adipisci iure voluptatem repudiandae nihil?
+            {order.prescription}
           </CardDescription>
         </div>
 
@@ -120,8 +117,8 @@ const Orders = ({
         <div className="flex flex-col gap-y-1 w-96 p-1">
           {/* orderedBy */}
           {!storeOwner && (
-            <h1 className="w-52 md:w-60  truncate">
-              storeName: {order?.storeName}
+            <h1 className="w-52 md:w-60  truncate font-semibold">
+              <span className="">storeName:</span> {order?.storeName}
             </h1>
           )}
           <div className="flex items-center gap-x-1 text-sm overflow-hidden">
@@ -145,10 +142,7 @@ const Orders = ({
           </div>
           {/* deliver to */}
           <div className="flex items-center gap-x-2 text-sm w-60">
-            Delivery address : {order.deliveryAddress} Lorem ipsum dolor sit
-            amet consectetur adipisicing elit. Nobis, delectus. Similique id ut
-            ipsa deserunt, eligendi ducimus, nostrum facere temporibus porro vel
-            molestiae eos aperiam expedita? Eum nesciunt aperiam porro.
+            Delivery address : {order.deliveryAddress}
           </div>
         </div>
 

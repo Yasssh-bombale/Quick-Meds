@@ -42,7 +42,7 @@ const ManageStorePage = () => {
 
   return (
     <div className="flex flex-col items-center gap-y-2 md:gap-y-4 overflow-hidden  p-2 min-h-screen">
-      <div className="flex items-center gap-x-1 md:gap-x-3 overflow-hidden">
+      <div className="flex items-center gap-x-1 md:gap-x-9 overflow-hidden">
         <BackButton backTo="/" className="md:mt-[-100px] " />
         <img
           src={data?.storeDetails.storeImage}
@@ -50,8 +50,7 @@ const ManageStorePage = () => {
           className="w-20 h-20 md:w-36 md:h-36 border object-cover rounded-md"
         />
         <h1 className="text-2xl md:text-5xl font-semibold tracking-tight  w-[200px] md:w-[600px] truncate">
-          {data?.storeDetails.storeName} Lorem ipsum, dolor sit amet consectetur
-          adipisicing elit. Rem, enim?
+          {data?.storeDetails.storeName}
         </h1>
       </div>
       <MySeperator />
