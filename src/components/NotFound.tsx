@@ -7,7 +7,7 @@ type Props = {
   message: string;
 };
 
-const NoStore = ({ message }: Props) => {
+const NotFound = ({ message }: Props) => {
   return (
     <div className="h-screen mt-80 md:mt-0">
       <div className="flex items-center gap-x-3 mt-20 justify-center">
@@ -29,4 +29,4 @@ const NoStore = ({ message }: Props) => {
   );
 };
 
-export default NoStore;
+export default NotFound;

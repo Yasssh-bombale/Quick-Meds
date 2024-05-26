@@ -14,6 +14,7 @@ import StoreDetailsPage from "./pages/StoreDetailsPage";
 import UserProfilePage from "./pages/UserProfilePage";
 import ManageStorePage from "./pages/ManageStorePage";
 import OrdersPage from "./pages/OrdersPage";
+import ManageStoreRoute from "./components/ManageStoreRoute";
 
 const AppRoutes = () => {
   return (
@@ -85,7 +86,13 @@ const AppRoutes = () => {
 
         <Route element={<ProtectedRoute />}>
           {/* ManageStorePage */}
-          <Route path="/manage-store" element={<ManageStorePage />} />
+          {/* <Route path="/manage-store" element={<ManageStorePage />} /> */}
+
+          {/* testing */}
+          <Route element={<ManageStoreRoute />}>
+            <Route path="/manage-store" element={<ManageStorePage />} />
+          </Route>
+          {/* testing^^ */}
         </Route>
         <Route element={<ProtectedRoute />}>
           {/* orders page */}
