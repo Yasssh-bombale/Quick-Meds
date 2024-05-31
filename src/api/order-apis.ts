@@ -94,7 +94,7 @@ export const useGetOrdersForOwners = (userId: string) => {
 
 //getting orders for current user from all stores;
 export const useGetOrdersFromAllStores = (userId: string) => {
-  const getAllOrdersFromAllStores = async () => {
+  const getAllOrdersFromAllStores = async (): Promise<Order[]> => {
     const response = await fetch(`${API_BASE_URL}/api/order/my/all/${userId}`);
     if (!response.ok) {
       throw new Error("Could not fetch orders");

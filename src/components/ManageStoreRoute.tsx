@@ -21,6 +21,8 @@ const ManageStoreRoute = () => {
   if (!check?.userHasStore) {
     return (
       <NotFound
+        buttonText="Create store"
+        linkTo="/create-store"
         message="It looks like you have not created any store yet ! lets get started
     with"
       />
