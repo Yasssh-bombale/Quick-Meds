@@ -12,7 +12,7 @@ const Navbar = () => {
       <Link to={"/"} className="cursor-pointer">
         <Button
           variant={"ghost"}
-          className="scroll-m-20 text-lg md:text-xl font-semibold tracking-tight"
+          className="scroll-m-20 text-lg md:text-lg font-semibold tracking-tight"
         >
           Home
         </Button>
@@ -20,7 +20,7 @@ const Navbar = () => {
       <Link to={"/medicalstores"} className="cursor-pointer">
         <Button
           variant={"ghost"}
-          className="scroll-m-20 text-lg md:text-xl font-semibold tracking-tight"
+          className="scroll-m-20 text-lg md:text-lg font-semibold tracking-tight"
         >
           Medical store
         </Button>
@@ -28,7 +28,7 @@ const Navbar = () => {
       <Link to={"/orders"} className="cursor-pointer">
         <Button
           variant={"ghost"}
-          className="scroll-m-20 text-lg md:text-xl font-semibold tracking-tight"
+          className="scroll-m-20 text-lg md:text-lg font-semibold tracking-tight"
         >
           Order status
         </Button>

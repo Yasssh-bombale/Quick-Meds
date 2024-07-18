@@ -20,7 +20,7 @@ const UserDropdown = ({ user }: Props) => {
     <DropdownMenu>
       <DropdownMenuTrigger className="hidden md:block" asChild>
         <img
-          className="h-12 w-12 rounded-full object-cover cursor-pointer border-2 p-1 border-purple-500"
+          className="h-12 w-12 rounded-full object-cover cursor-pointer p-2"
           alt="user"
           src={user.profilePicture}
         />

@@ -1,4 +1,6 @@
 import { prescriptionFormData } from "@/components/StoreInputPrescription";
+import { addOrder } from "@/feature/slices/order.slice";
+import { useAppDispatch } from "@/hooks";
 import { Order, OrderOwners } from "@/types";
 import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +10,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const useCreateOrder = (storeId: string, userId: string) => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const params = new URLSearchParams();
   params.set("storeId", storeId);
   params.set("userId", userId);
@@ -30,11 +33,13 @@ export const useCreateOrder = (storeId: string, userId: string) => {
       );
     }
 
-    return response.json();
+    const res = response.json();
+    return res;
   };
 
   const {
     mutate: createOrder,
+    data: order,
     isLoading,
     error,
     isSuccess,
@@ -46,16 +51,16 @@ export const useCreateOrder = (storeId: string, userId: string) => {
   }
   if (isSuccess) {
     toast.success("Order created");
+    dispatch(addOrder(order));
   }
 
-  return { createOrder, isLoading };
+  return { createOrder, isLoading, isSuccess };
 };
 
 export const useGetMyOrdersForStore = (userId: string, storeId: string) => {
   const params = new URLSearchParams();
   params.set("userId", userId);
   params.set("storeId", storeId);
-
   const getMyOrdersRequest = async (): Promise<Order[]> => {
     const response = await fetch(
       `${API_BASE_URL}/api/order/my/get/?${params.toString()}`

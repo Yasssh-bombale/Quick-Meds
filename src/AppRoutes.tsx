@@ -37,7 +37,7 @@ const AppRoutes = () => {
         <Route
           path="/medicalstores/:id"
           element={
-            <Layout noPading>
+            <Layout>
               <StoreDetailsPage />
             </Layout>
           }

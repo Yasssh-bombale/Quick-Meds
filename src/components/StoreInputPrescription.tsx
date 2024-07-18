@@ -13,10 +13,11 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "@/firebase";
+import LoadingButton from "./LoadingButton";
 
 const formSchema = z.object({
-  imageFile: z.instanceof(File, { message: "image is required" }),
-  imageUrl: z.string().optional(),
+  imageFile: z.instanceof(File).optional(),
+  prescriptionImage: z.string().optional(),
   prescription: z
     .string({
       required_error: "Prescription is required",
@@ -31,11 +32,18 @@ export type prescriptionFormData = z.infer<typeof formSchema>;
 //   prescription: string;
 // };
 
+// type MessageType = {
+//   prescription: string;
+//   prescriptionImage: string;
+// };
+
 type Props = {
   onSave: (formData: prescriptionFormData) => void;
+  isLoading?: boolean;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const StoreInputPrescription = ({ onSave }: Props) => {
+const StoreInputPrescription = ({ onSave, isLoading, setLoading }: Props) => {
   const form = useForm<prescriptionFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -44,11 +52,28 @@ const StoreInputPrescription = ({ onSave }: Props) => {
   });
   // const [formData, setFormData] = useState<prescriptionData>();
   const filePickerRef = useRef<HTMLInputElement | null>(null);
+  let imageUrl = "";
 
   const onSubmit = async (formDataJson: prescriptionFormData) => {
+    setLoading(true);
     const formData = new FormData();
     // note: image url is not exist on the submited values called it formDataJson we need to append our key value pairs using formData() ;
+    console.log("formDataJson in submit fun", formDataJson);
 
+    if (formDataJson.imageFile) {
+      uploadImage(formDataJson, formData);
+      form.reset(); //reseting input values to be "";
+    } else {
+      // TODO:
+      onSave(formDataJson);
+      form.reset(); //reseting input values to be "";
+    }
+  };
+
+  const uploadImage = async (
+    formDataJson: prescriptionFormData,
+    formData: FormData
+  ) => {
     const storage = getStorage(app);
     const fileName = new Date().getTime() + formDataJson.imageFile?.name!;
     const storageRef = ref(storage, fileName);
@@ -57,7 +82,6 @@ const StoreInputPrescription = ({ onSave }: Props) => {
       storageRef,
       formDataJson.imageFile!
     );
-    let imageUrl: string;
     uploadTask.on(
       "state_changed",
       (snapshot) => {
@@ -67,17 +91,13 @@ const StoreInputPrescription = ({ onSave }: Props) => {
         console.log(`Error while uploading to the firebase, ${error}`);
       },
       () => {
-        getDownloadURL(uploadTask.snapshot.ref)
-          .then((downloadUrl) => {
-            imageUrl = downloadUrl;
-          })
-          .then(() => {
-            console.log(imageUrl);
-            formData.append("imageUrl", imageUrl);
-            formDataJson.imageUrl = imageUrl;
-            console.log(formDataJson);
-            onSave(formDataJson);
-          });
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
+          // imageUrl = downloadUrl;
+          imageUrl = downloadUrl;
+          formData.append("prescriptionImage", imageUrl); //because formDataJson doest not contain prescriptionImage key value pair;
+          formDataJson.prescriptionImage = imageUrl;
+          onSave(formDataJson);
+        });
       }
     );
   };
@@ -90,6 +110,7 @@ const StoreInputPrescription = ({ onSave }: Props) => {
           className="flex p-2 items-center w-full gap-x-2 flex-wrap"
         >
           <div>
+            {/* filePickerRef.current?.click() */}
             <div
               onClick={() => filePickerRef.current?.click()}
               className="bg-[#9E3FFD] hover:bg-[#9E3FFD]/80 w-fit p-2 text-white rounded-full cursor-pointer"
@@ -139,9 +160,17 @@ const StoreInputPrescription = ({ onSave }: Props) => {
             )}
           />
 
-          <Button type="submit" className="w-full px-4 mt-2">
-            Send prescription
-          </Button>
+          {isLoading ? (
+            <LoadingButton widthFull />
+          ) : (
+            <Button
+              disabled={isLoading}
+              type="submit"
+              className={`w-full px-4 mt-2`}
+            >
+              Send prescription
+            </Button>
+          )}
         </form>
       </Form>
     </div>

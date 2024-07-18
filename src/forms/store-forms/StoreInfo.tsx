@@ -7,14 +7,13 @@ import {
 } from "@/components/ui/tooltip";
 import { Store } from "@/types";
 import { BriefcaseMedical } from "lucide-react";
-import { Order } from "@/types";
 import OrderPrescription from "@/components/OrderPrescription";
 
 type Props = {
   store: Store;
-  orders?: Order[];
+  // orders?: Order[];
 };
-const StoreInfo = ({ store, orders }: Props) => {
+const StoreInfo = ({ store }: Props) => {
   return (
     <>
       <div className="flex  items-center justify-between gap-x-2 md:gap-x-4">
@@ -57,7 +56,8 @@ const StoreInfo = ({ store, orders }: Props) => {
 
       <Separator className="my-4" />
 
-      <OrderPrescription orders={orders} />
+      {/* orders prescription of user */}
+      <OrderPrescription />
     </>
   );
 };

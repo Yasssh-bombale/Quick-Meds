@@ -1,11 +1,15 @@
-import { Order } from "@/types";
-
+import { Conversations } from "./OrderPrescription";
 type Props = {
-  order: Order;
+  conversation: Conversations;
+  storeOwner?: boolean;
 };
-const PrescriptionCard = ({ order }: Props) => {
+const PrescriptionCard = ({ conversation, storeOwner }: Props) => {
   return (
-    <div className="flex flex-col gap-y-2 items-end  rounded-md">
+    <div
+      className={`flex flex-col gap-y-2  ${
+        storeOwner ? "items-start" : "items-end"
+      }  rounded-md`}
+    >
       <img
         onClick={() => window.open(order.prescriptionImage)}
         src={order.prescriptionImage}
