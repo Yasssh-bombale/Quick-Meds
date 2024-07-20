@@ -3,9 +3,8 @@ import { Button } from "./ui/button";
 
 type Props = {
   conversation: Conversations;
-  storeOwner?: boolean;
 };
-const PrescriptionCard = ({ conversation, storeOwner }: Props) => {
+const PrescriptionCard = ({ conversation }: Props) => {
   return (
     <div
       className={`flex flex-col gap-y-2  ${
@@ -35,13 +34,13 @@ const PrescriptionCard = ({ conversation, storeOwner }: Props) => {
                 Pay ₹ {conversation.amount}
               </Button>
               <span>OR</span>
-              <Button className="flex-1 border border-zinc-900 bg-transparent text-black hover:bg-transparent hover:text-black">
+              <Button className="flex-1 border border-zinc-900 bg-transparent text-black hover:bg-transparent hover:text-black hover:bg-slate-100">
                 Cash on delivery
               </Button>
             </div>
-
+            {/* description text */}
             <p className="font-extralight text-center w-full border mt-1">
-              order will be deliver within 10 hours{" "}
+              order will be deliver within 24 hours{" "}
               <img
                 src="/truck.svg"
                 alt="truck"

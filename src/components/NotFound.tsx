@@ -5,13 +5,21 @@ import Logo from "./Logo";
 
 type Props = {
   message: string;
-  buttonText: string;
-  linkTo: string;
+  buttonText?: string;
+  linkTo?: string;
+  className?: string;
+  height?: string;
 };
 
-const NotFound = ({ message, buttonText, linkTo }: Props) => {
+const NotFound = ({
+  message,
+  buttonText,
+  linkTo,
+  className,
+  height = "h-screen",
+}: Props) => {
   return (
-    <div className="h-screen mt-80 md:mt-0">
+    <div className={`${height} mt-80 md:mt-0 ${className}`}>
       <div className="flex items-center gap-x-3 mt-20 justify-center">
         <img
           src={look}
@@ -22,9 +30,11 @@ const NotFound = ({ message, buttonText, linkTo }: Props) => {
           <h1 className="text-sm md:text-xl flex  flex-row items-center gap-x-3 ">
             {message} <Logo />
           </h1>
-          <Link to={linkTo}>
-            <Button>{buttonText}</Button>
-          </Link>
+          {linkTo && (
+            <Link to={linkTo}>
+              <Button>{buttonText}</Button>
+            </Link>
+          )}
         </div>
       </div>
     </div>

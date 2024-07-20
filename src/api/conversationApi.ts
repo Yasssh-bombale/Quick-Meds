@@ -3,30 +3,30 @@ import { useQuery } from "react-query";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-export const useFetchConversations = (
+export const useFetchStoreConversations = (
   userId: string,
-  storeId: string,
-  conversations: Conversations[]
+  clickedUserId?: string
 ) => {
-  const params = new URLSearchParams();
-  params.set("userId", userId);
-  params.set("storeId", storeId);
-
-  const fetchConversationRequest = async () => {
-    const response = await fetch(
-      `${API_BASE_URL}/api/conversation/get?${params.toString()}`
-    );
-
-    if (!response.ok) {
-      throw new Error("Could not fetch conversations");
+  const fetchStoreConversationsRequest = async (): Promise<Conversations[]> => {
+    const params = new URLSearchParams();
+    params.set("userId", userId);
+    console.log(clickedUserId);
+    if (clickedUserId) {
+      params.set("clickedUserId", clickedUserId);
     }
-    return response.json();
+    const res = await fetch(
+      `${API_BASE_URL}/api/conversation/store/get?${params.toString()}`
+    );
+    if (!res.ok) {
+      throw new Error("Could not fetch store conversations");
+    }
+    return res.json();
   };
 
-  const { data, isLoading } = useQuery(
-    ["fetchConversation", conversations],
-    fetchConversationRequest
+  const { data: conversations, isLoading } = useQuery(
+    ["fetchStoreConversationsRequest", clickedUserId],
+    fetchStoreConversationsRequest
   );
 
-  return { data, isLoading };
+  return { conversations, isLoading };
 };

@@ -1,8 +1,6 @@
 // import StoreOrderForm from "@/forms/store-forms/StoreOrderForm";
-import { useFetchConversations } from "@/api/conversationApi";
 import { useGetStoreDetails } from "@/api/store-apis";
 import Conversation from "@/components/Conversation";
-import OrderPrescription from "@/components/Conversation";
 import StoreInputPrescription, {
   prescriptionFormData,
 } from "@/components/StoreInputPrescription";
@@ -17,6 +15,8 @@ export type Conversations = {
   _id: string;
   storeId: string;
   userId: string;
+  senderName: string;
+  senderProfile: string;
   type?: "message" | "order";
   role: "user" | "owner";
   message: string;
@@ -95,9 +95,9 @@ const StoreDetailsPage = () => {
 
       <div className="max-w-96 w-full h-fit flex  flex-col border border-zinc-300 p-2 rounded-md">
         <img src={store?.imageUrl} alt="storeImage" className="w-full h-64" />
-        <h1 className="text-lg font-semibold tracking-tight">
+        <h1 className="text-lg font-semibold tracking-tight text-nowrap overflow-hidden capitalize">
           {store?.storeName}
-          <span className="text-zinc-500 ml-3 font-normal">
+          <span className="text-zinc-500 ml-3 font-light text-sm">
             ({store?.city})
           </span>
         </h1>

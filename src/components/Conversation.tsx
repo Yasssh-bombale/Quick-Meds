@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import PrescriptionCard from "./PrescriptionCard";
 import { Conversations } from "@/pages/StoreDetailsPage";
+import NotFound from "./NotFound";
 
 type Props = {
   conversations: Conversations[];
@@ -21,19 +22,26 @@ const Conversation = ({ conversations }: Props) => {
   return (
     <div
       ref={containerRef}
-      className="border border-red-400 rounded-md max-h-96 flex flex-col  p-2 overflow-y-auto scrollbar-thin  scrollbar-track-transparent scrollbar-thumb-purple-500 mb-2"
+      className="border border-red-400 rounded-md h-96 flex flex-col  p-2 overflow-y-auto scrollbar-thin  scrollbar-track-transparent scrollbar-thumb-purple-500 mb-2"
     >
       {/* prescription image */}
 
       <div className="flex flex-col gap-y-2  border border-green-400 h-fit">
         {/* one */}
-        {conversations?.length !== 0 &&
+        {conversations?.length === 0 ? (
+          <NotFound
+            className="border border-blue-500"
+            height="h-fit"
+            message="Connect directly with store owners by"
+          />
+        ) : (
           conversations?.map((conversation) => (
             <PrescriptionCard
               key={conversation._id}
               conversation={conversation}
             />
-          ))}
+          ))
+        )}
       </div>
     </div>
   );
