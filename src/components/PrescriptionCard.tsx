@@ -3,13 +3,19 @@ import { Button } from "./ui/button";
 
 type Props = {
   conversation: Conversations;
+  owner?: boolean;
 };
-const PrescriptionCard = ({ conversation }: Props) => {
+const PrescriptionCard = ({ conversation, owner = false }: Props) => {
+  // className={`flex flex-col gap-y-2  ${
+  //   conversation.role === "owner" ? "items-start" : "items-end"
+  // }  rounded-md border border-red-300`}
   return (
     <div
       className={`flex flex-col gap-y-2  ${
-        conversation.role === "owner" ? "items-start" : "items-end"
-      }  rounded-md border border-red-300`}
+        owner
+          ? `${conversation.role === "owner" ? "items-end" : "items-start"} `
+          : `${conversation.role === "owner" ? "items-start" : "items-end"} `
+      } rounded-md border border-red-300`}
     >
       {conversation.prescriptionImage && (
         <img
@@ -19,10 +25,15 @@ const PrescriptionCard = ({ conversation }: Props) => {
           className="w-40 h-52 md:w-52 md:h-80 object-cover border rounded-md cursor-pointer border-zinc-300"
         />
       )}
+      {/*   className={`bg-zinc-500/10 p-2 w-fit  rounded-lg px-3 ${
+            conversation.role === "owner" ? "self-start" : "self-end"
+          }`} */}
       <div className={`max-w-96 w-full  flex flex-col items-end`}>
         <h2
           className={`bg-zinc-500/10 p-2 w-fit  rounded-lg px-3 ${
-            conversation.role === "owner" ? "self-start" : "self-end"
+            owner
+              ? `${conversation.role === "owner" ? "self-end" : "self-start"}`
+              : `${conversation.role === "owner" ? "self-start" : "self-end"}`
           }`}
         >
           {conversation.message}

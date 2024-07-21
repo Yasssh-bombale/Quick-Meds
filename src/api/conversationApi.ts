@@ -10,7 +10,6 @@ export const useFetchStoreConversations = (
   const fetchStoreConversationsRequest = async (): Promise<Conversations[]> => {
     const params = new URLSearchParams();
     params.set("userId", userId);
-    console.log(clickedUserId);
     if (clickedUserId) {
       params.set("clickedUserId", clickedUserId);
     }

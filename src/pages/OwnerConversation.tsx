@@ -22,17 +22,17 @@ const OwnerConversations = () => {
       userProfile: "",
     });
 
-  const { conversations } = useFetchStoreConversations(userId);
+  const { conversations } = useFetchStoreConversations(userId); //left user unique messages;
+
+  // const [conversations, setConversations] = useState<Conversations[] | []>(
+  //   fechedConversations || []
+  // );
 
   if (!conversations || conversations.length === 0) {
     return (
       <NotFound message="It looks like your store does not have any messages yet" />
     );
   }
-
-  // if (clickedUserId) {
-  //   const { conversations } = useFetchStoreConversations(userId, clickedUserId);
-  // }
 
   return (
     <div className="flex mt-[-20px] md:divide-x-2 md:divide-double  divide-purple-600 gap-2 border border-zinc-300 rounded-lg p-2 overflow-hidden">

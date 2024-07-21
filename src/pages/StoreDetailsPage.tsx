@@ -119,7 +119,7 @@ const StoreDetailsPage = () => {
             {store?.storeName} | <span className="text-xl">{store?.city}</span>
           </h1>
           {/* conversaitons  */}
-          <Conversation conversations={conversations} />
+          <Conversation conversations={conversations} height="h-96" />
           {/* input form for prescription */}
           <StoreInputPrescription
             onSave={createMessage}

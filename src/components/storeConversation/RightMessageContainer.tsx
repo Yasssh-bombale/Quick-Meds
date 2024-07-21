@@ -1,13 +1,16 @@
-import { useFetchStoreConversations } from "@/api/conversationApi";
 import NotFound from "../NotFound";
 import { UserNameAndDp_Type } from "@/pages/OwnerConversation";
 import Conversation from "../Conversation";
+import OwnerConvoInput, { ownerPrescriptionFormData } from "./OwnerConvoInput";
+import { useEffect, useState } from "react";
+import { Conversations } from "@/pages/StoreDetailsPage";
 
 type Props = {
   userId: string;
   clickedUserId: string;
   clickedUserNameAndDp: UserNameAndDp_Type;
 };
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const RightMessageContainer = ({
   userId,
@@ -18,10 +21,56 @@ const RightMessageContainer = ({
     return <NotFound message="u not click" height="h-fit" />;
   }
 
-  const { conversations: userAllMessages } = useFetchStoreConversations(
-    userId,
-    clickedUserId
-  );
+  const [uiConversations, setUiConversations] = useState<Conversations[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  // whenever owner clicks any user it will refetch their all messages on the store;
+  useEffect(() => {
+    const fetchStoreConversationsRequest = async () => {
+      try {
+        const params = new URLSearchParams();
+        params.set("userId", userId);
+        if (clickedUserId) {
+          params.set("clickedUserId", clickedUserId);
+        }
+        const res = await fetch(
+          `${API_BASE_URL}/api/conversation/store/get?${params.toString()}`
+        );
+        if (!res.ok) {
+          throw new Error("Could not fetch store conversations");
+        }
+        const data = await res.json();
+        setUiConversations(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchStoreConversationsRequest();
+  }, [clickedUserId]);
+
+  const createOwnerMessage = async (formData: ownerPrescriptionFormData) => {
+    try {
+      const res = await fetch(
+        `${API_BASE_URL}/api/conversation/owner/create?ownerId=${userId}&clickedUserId=${clickedUserId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      if (!res.ok) {
+        throw new Error("Could not create owner message");
+      }
+      const data = await res.json();
+      setUiConversations((prev) => [...prev, data]);
+      setLoading(false);
+    } catch (error) {
+      console.log(`ERROR:WHILE CREATING OWNER MESSAGE,${error}`);
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="flex flex-col w-full">
@@ -39,13 +88,17 @@ const RightMessageContainer = ({
           </h1>
         </div>
         {/* conversaitons  */}
-        <Conversation conversations={userAllMessages!} />
-        {/* input form for prescription */}
-        {/* <StoreInputPrescription
-    onSave={createMessage}
-    isLoading={loading}
-    setLoading={setLoading}
-  /> */}
+        <Conversation
+          owner
+          conversations={uiConversations}
+          height="h-[450px]"
+        />
+        {/* input form for storeOwner */}
+        <OwnerConvoInput
+          onSave={createOwnerMessage}
+          isLoading={loading}
+          setLoading={setLoading}
+        />
       </div>
     </div>
   );

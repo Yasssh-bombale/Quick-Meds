@@ -5,9 +5,11 @@ import NotFound from "./NotFound";
 
 type Props = {
   conversations: Conversations[];
+  height: string;
+  owner?: boolean;
 };
 
-const Conversation = ({ conversations }: Props) => {
+const Conversation = ({ conversations, height, owner = false }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -22,7 +24,7 @@ const Conversation = ({ conversations }: Props) => {
   return (
     <div
       ref={containerRef}
-      className="border border-red-400 rounded-md h-96 flex flex-col  p-2 overflow-y-auto scrollbar-thin  scrollbar-track-transparent scrollbar-thumb-purple-500 mb-2"
+      className={`border border-red-400 rounded-md ${height} flex flex-col  p-2 overflow-y-auto scrollbar-thin  scrollbar-track-transparent scrollbar-thumb-purple-500 mb-2`}
     >
       {/* prescription image */}
 
@@ -37,6 +39,7 @@ const Conversation = ({ conversations }: Props) => {
         ) : (
           conversations?.map((conversation) => (
             <PrescriptionCard
+              owner={owner}
               key={conversation._id}
               conversation={conversation}
             />

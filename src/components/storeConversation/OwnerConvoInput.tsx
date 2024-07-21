@@ -1,11 +1,17 @@
-import { Camera } from "lucide-react";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
+import { Camera, SendHorizontal } from "lucide-react";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
 import { useRef } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "../ui/form";
 import {
   getDownloadURL,
   getStorage,
@@ -13,55 +19,54 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "@/firebase";
-import LoadingButton from "./LoadingButton";
+import LoadingButton from "../LoadingButton";
 
 const formSchema = z.object({
-  imageFile: z.instanceof(File).optional(),
+  imageFile: z.instanceof(File, { message: "image is required" }),
   prescriptionImage: z.string().optional(),
   prescription: z
     .string({
       required_error: "Prescription is required",
     })
     .min(1, { message: "Prescription is required" }),
+  amount: z
+    .string({ required_error: "Amount is required" })
+    .min(2, { message: "Minimum 2 digits required" }),
 });
 
-export type prescriptionFormData = z.infer<typeof formSchema>;
+export type ownerPrescriptionFormData = z.infer<typeof formSchema>;
 
 type Props = {
-  onSave: (formData: prescriptionFormData) => void;
-  isLoading?: boolean;
+  onSave: (formData: ownerPrescriptionFormData) => void;
+  isLoading: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const StoreInputPrescription = ({ onSave, isLoading, setLoading }: Props) => {
-  const form = useForm<prescriptionFormData>({
+const OwnerConvoInput = ({ onSave, isLoading, setLoading }: Props) => {
+  const form = useForm<ownerPrescriptionFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       prescription: "",
+      amount: "",
     },
   });
   // const [formData, setFormData] = useState<prescriptionData>();
   const filePickerRef = useRef<HTMLInputElement | null>(null);
   let imageUrl = "";
 
-  const onSubmit = async (formDataJson: prescriptionFormData) => {
+  const onSubmit = async (formDataJson: ownerPrescriptionFormData) => {
     setLoading(true);
     const formData = new FormData();
     // note: image url is not exist on the submited values called it formDataJson we need to append our key value pairs using formData() ;
-    console.log("formDataJson in submit fun", formDataJson);
 
     if (formDataJson.imageFile) {
       uploadImage(formDataJson, formData);
-      form.reset(); //reseting input values to be "";
-    } else {
-      // TODO:
-      onSave(formDataJson);
       form.reset(); //reseting input values to be "";
     }
   };
 
   const uploadImage = async (
-    formDataJson: prescriptionFormData,
+    formDataJson: ownerPrescriptionFormData,
     formData: FormData
   ) => {
     const storage = getStorage(app);
@@ -93,7 +98,7 @@ const StoreInputPrescription = ({ onSave, isLoading, setLoading }: Props) => {
   };
 
   return (
-    <div className="border rounded-lg p-2 flex items-center gap-x-2 mb-2">
+    <div className="border rounded-lg p-2 flex items-center gap-x-2  h-fit mb-2">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -136,29 +141,54 @@ const StoreInputPrescription = ({ onSave, isLoading, setLoading }: Props) => {
             name="prescription"
             control={form.control}
             render={({ field }) => (
-              <FormItem className="flex-1">
+              <FormItem className=" rounded-md  flex-1 border">
                 <FormControl>
                   <Input
                     type="text"
                     {...field}
-                    placeholder="What's your prescription?? for today ??"
-                    className="border-none focus-visible:ring-0 focus-visible:ring-transparent outline-none"
+                    placeholder="Example:Ctrizine for cold,human actrapid soluble insuline injection 40 ml"
+                    className="border-none focus-visible:ring-1 focus-visible:ring-violet-600 outline-none"
                   />
                 </FormControl>
-                <FormMessage className="ml-4" />
+                <FormMessage className="" />
+              </FormItem>
+            )}
+          />
+          <FormField
+            name="amount"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem className="border rounded-md relative">
+                <FormControl>
+                  <Input
+                    type="number"
+                    min={0}
+                    {...field}
+                    placeholder="10₹"
+                    className="border-none focus-visible:ring-1 focus-visible:ring-violet-600 outline-none w-32"
+                  />
+                </FormControl>
+                <FormMessage className="ml-4  absolute -left-2  w-48 line-clamp-1" />
               </FormItem>
             )}
           />
 
           {isLoading ? (
-            <LoadingButton widthFull />
+            <LoadingButton
+              className={"bg-violet-600 hover:bg-violet-600 cursor-not-allowed"}
+            />
           ) : (
             <Button
               disabled={isLoading}
               type="submit"
-              className={`w-full px-4 mt-2`}
+              className={`px-4 flex items-center bg-violet-600 hover:bg-violet-600 hover:opacity-85`}
             >
-              Send prescription
+              Create Order{" "}
+              <SendHorizontal
+                className="ml-2 mt-1"
+                size={20}
+                strokeWidth={1.5}
+              />
             </Button>
           )}
         </form>
@@ -167,4 +197,4 @@ const StoreInputPrescription = ({ onSave, isLoading, setLoading }: Props) => {
   );
 };
 
-export default StoreInputPrescription;
+export default OwnerConvoInput;
