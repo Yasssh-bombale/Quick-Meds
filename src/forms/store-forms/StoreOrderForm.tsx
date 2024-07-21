@@ -1,8 +1,7 @@
 import { useGetStoreDetails } from "@/api/store-apis";
 import { useParams } from "react-router-dom";
 import StoreInfo from "./StoreInfo";
-import StoreInputPrescription from "@/components/StoreInputPrescription";
-import { useCreateOrder, useGetMyOrdersForStore } from "@/api/order-apis";
+import { useGetMyOrdersForStore } from "@/api/order-apis";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import { RootState } from "@/store/store";
 import { setOrders } from "@/feature/slices/order.slice";
@@ -20,7 +19,6 @@ const StoreOrderForm = () => {
 
   // -----------------------
   const { store } = useGetStoreDetails(storeId);
-  const { createOrder, isLoading } = useCreateOrder(storeId, userId);
   const { orders } = useGetMyOrdersForStore(userId, storeId);
   const dispatch = useAppDispatch();
   dispatch(setOrders(orders!));
@@ -30,8 +28,6 @@ const StoreOrderForm = () => {
       {/* upper part image,name, city,address */}
       {/* order prescription in the storeInfo component */}
       <StoreInfo store={store!} />
-
-      <StoreInputPrescription onSave={createOrder} isLoading={isLoading} />
     </div>
   );
 };

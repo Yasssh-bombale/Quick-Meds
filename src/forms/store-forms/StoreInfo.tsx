@@ -7,7 +7,6 @@ import {
 } from "@/components/ui/tooltip";
 import { Store } from "@/types";
 import { BriefcaseMedical } from "lucide-react";
-import OrderPrescription from "@/components/Conversation";
 
 type Props = {
   store: Store;
@@ -55,9 +54,6 @@ const StoreInfo = ({ store }: Props) => {
       </div>
 
       <Separator className="my-4" />
-
-      {/* orders prescription of user */}
-      <OrderPrescription />
     </>
   );
 };
