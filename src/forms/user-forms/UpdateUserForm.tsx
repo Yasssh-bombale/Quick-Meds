@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { UpdatedUser } from "@/types";
 import { useEffect } from "react";
+import LoadingButton from "@/components/LoadingButton";
 
 const formSchema = z.object({
   address: z.string({
@@ -39,12 +40,29 @@ export type updateUserFormData = z.infer<typeof formSchema>;
 type Props = {
   onSave: (formData: updateUserFormData) => void;
   updatedUser: UpdatedUser;
+  backButton?: boolean;
+  className?: string;
+  isLoading: boolean;
 };
 
-const UpdateUserForm = ({ onSave, updatedUser }: Props) => {
+const UpdateUserForm = ({
+  onSave,
+  updatedUser,
+  backButton = false,
+  isLoading,
+  className,
+}: Props) => {
   const form = useForm<updateUserFormData>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      city: updatedUser.city || "",
+      address: updatedUser.address || "",
+      state: updatedUser.state || "",
+      mobileNumber: updatedUser.mobileNumber || "",
+    },
   });
+
+  // const [isNextClick, setIsNextClick] = useState<boolean>(false);
 
   useEffect(() => {
     if (!updatedUser) {
@@ -54,52 +72,69 @@ const UpdateUserForm = ({ onSave, updatedUser }: Props) => {
     form.reset(updatedUser);
   }, [form, updatedUser]);
 
-  // const onSubmit = async (formDataJson: updateUserFormData) => {};
-
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSave)}
-        className="space-y-3 p-10 bg-gray-50 rounded-lg"
+        className={`space-y-3 p-10 bg-gray-50 rounded-lg ${className}`}
       >
-        <BackButton backTo="/" />
-        <div className="flex flex-col  md:flex md:flex-row md:items-center  md:gap-x-4">
+        {backButton && <BackButton backTo="/" />}
+        <div className="flex flex-col  md:gap-x-4 ">
           {/* city */}
           <FormField
-            name="city"
-            control={form.control}
-            render={({ field }) => (
+            name="email"
+            render={() => (
               <FormItem className="flex-1">
-                <FormLabel className="text-sm font-medium">City</FormLabel>
+                <FormLabel className="text-sm font-medium">Email</FormLabel>
                 <FormControl>
                   <Input
+                    disabled
                     className="outline-none focus-visible:ring-1 focus-visible:ring-[#9E3FFD]"
                     placeholder="Chh.SambhajiNagar"
-                    {...field}
+                    defaultValue={updatedUser.email}
                   />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          {/* state */}
-          <FormField
-            name="state"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem className="flex-1">
-                <FormLabel className="text-sm font-medium">State</FormLabel>
-                <FormControl>
-                  <Input
-                    className="outline-none focus-visible:ring-1 focus-visible:ring-[#9E3FFD]"
-                    placeholder="Maharashtra"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="w-full flex gap-2">
+            <FormField
+              name="city"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem className="flex-1">
+                  <FormLabel className="text-sm font-medium">City</FormLabel>
+                  <FormControl>
+                    <Input
+                      className="outline-none focus-visible:ring-1 focus-visible:ring-[#9E3FFD]"
+                      placeholder="Chh.SambhajiNagar"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            {/* state */}
+            <FormField
+              name="state"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem className="flex-1">
+                  <FormLabel className="text-sm font-medium">State</FormLabel>
+                  <FormControl>
+                    <Input
+                      className="outline-none focus-visible:ring-1 focus-visible:ring-[#9E3FFD]"
+                      placeholder="Maharashtra"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
         </div>
         <div className="flex flex-col  md:flex md:flex-row md:items-center md:gap-x-4">
           {/* check */}
@@ -146,17 +181,20 @@ const UpdateUserForm = ({ onSave, updatedUser }: Props) => {
             )}
           />
         </div>
-        {/* submit button */}
-        {/* {loading ? (
-          <LoadingButton widthFull />
+
+        {isLoading ? (
+          <LoadingButton
+            widthFull
+            className="bg-purple-600 hover:bg-purple-600"
+          />
         ) : (
-          <Button disabled={loading} type="submit" className="w-full">
+          <Button
+            type="submit"
+            className="w-full bg-purple-600 hover:bg-purple-600"
+          >
             Submit
           </Button>
-        )} */}
-        <Button type="submit" className="w-full">
-          Submit
-        </Button>
+        )}
       </form>
     </Form>
   );

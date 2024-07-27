@@ -9,6 +9,7 @@ import { useAppSelector } from "@/hooks";
 import { RootState } from "@/store/store";
 import { Phone } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 import { Navigate, useParams } from "react-router-dom";
 
 export type Conversations = {
@@ -22,6 +23,8 @@ export type Conversations = {
   message: string;
   prescriptionImage?: string;
   amount: string;
+  isOrdered: boolean;
+  paymentMode: "online" | "cash";
   createdAt: string;
   updatedAt: string;
 };
@@ -38,10 +41,9 @@ const StoreDetailsPage = () => {
   const { store } = useGetStoreDetails(storeId); //for showing storeDetails;
   //for creating messages;
   const { _id: userId } = user;
-  const [conversations, setConversations] = useState<Conversations[]>([]); //storing messages for updating ui frequently for better user experience;
+  const [conversations, setConversations] = useState<Conversations[]>([]);
   //create conversation;
   const [loading, setLoading] = useState<boolean>(false);
-
   // fetched conversation from backend;
   useEffect(() => {
     const fetchConversationReq = async () => {
@@ -87,6 +89,8 @@ const StoreDetailsPage = () => {
       setLoading(false);
     }
   };
+
+  const {} = useQuery("fetchConversations");
 
   return (
     <div className="flex mt-[-20px] md:divide-x-2 md:divide-double  divide-purple-600 gap-2 border border-zinc-300 rounded-lg p-2 overflow-hidden">

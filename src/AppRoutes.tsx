@@ -15,6 +15,7 @@ import ManageStorePage from "./pages/ManageStorePage";
 import OrdersPage from "./pages/OrdersPage";
 import ManageStoreRoute from "./components/ManageStoreRoute";
 import OwnerConversations from "./pages/OwnerConversation";
+import CheckoutPage from "./pages/CheckoutPage";
 
 const AppRoutes = () => {
   return (
@@ -73,6 +74,14 @@ const AppRoutes = () => {
                 <CreateStorePage />
               </FormPagesLayout>
             }
+          />
+        </Route>
+
+        {/* checkout page */}
+        <Route element={<ProtectedRoute />}>
+          <Route
+            path="/checkout/:storeId/:conversationId"
+            element={<CheckoutPage />}
           />
         </Route>
         {/* conversation route */}
