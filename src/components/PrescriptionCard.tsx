@@ -18,10 +18,12 @@ import animationData from "@/data/cart_confirmed.json";
 import Lottie from "react-lottie";
 import truckAnimationData from "@/data/truck_order.json";
 import checkSuccess from "@/data/checkanimation.json";
+
 type Props = {
   conversation: Conversations;
   owner?: boolean;
 };
+
 const PrescriptionCard = ({ conversation, owner = false }: Props) => {
   const { _id: userId } = useAppSelector(
     (state: RootState) => state.userState.user

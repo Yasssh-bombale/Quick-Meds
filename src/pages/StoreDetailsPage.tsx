@@ -4,12 +4,13 @@ import Conversation from "@/components/Conversation";
 import StoreInputPrescription, {
   prescriptionFormData,
 } from "@/components/StoreInputPrescription";
+import { useAppContext } from "@/context/Conversation.context";
 // import StoreOrderForm from "@/forms/store-forms/StoreOrderForm";
 import { useAppSelector } from "@/hooks";
 import { RootState } from "@/store/store";
 import { Phone } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useQuery } from "react-query";
+import { useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Navigate, useParams } from "react-router-dom";
 
 export type Conversations = {
@@ -41,57 +42,76 @@ const StoreDetailsPage = () => {
   const { store } = useGetStoreDetails(storeId); //for showing storeDetails;
   //for creating messages;
   const { _id: userId } = user;
-  const [conversations, setConversations] = useState<Conversations[]>([]);
+  // const [conversations, setConversations] = useState<Conversations[]>([]);
   //create conversation;
   const [loading, setLoading] = useState<boolean>(false);
   // fetched conversation from backend;
-  useEffect(() => {
-    const fetchConversationReq = async () => {
-      try {
-        const params = new URLSearchParams();
-        params.set("userId", userId);
-        params.set("storeId", storeId);
-        const response = await fetch(
-          `${API_BASE_URL}/api/conversation/get?${params.toString()}`
-        );
-        if (response.ok) {
-          const data = await response.json();
-          setConversations(data);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchConversationReq();
-  }, []);
+  // useEffect(() => {
+  //   const fetchConversationReq = async () => {
+  //     try {
+  //       const params = new URLSearchParams();
+  //       params.set("userId", userId);
+  //       params.set("storeId", storeId);
+  //       const response = await fetch(
+  //         `${API_BASE_URL}/api/conversation/get?${params.toString()}`
+  //       );
+  //       if (response.ok) {
+  //         const data = await response.json();
+  //         setConversations(data);
+  //       }
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   fetchConversationReq();
+  // }, []);
+  const { conversations, setConversations } = useAppContext();
 
-  const createMessage = async (formData: prescriptionFormData) => {
-    try {
-      setLoading(true);
-      const res = await fetch(
-        `${API_BASE_URL}/api/conversation/create?userId=${userId}&storeId=${storeId}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+  const fetchConversationReq = async () => {
+    const params = new URLSearchParams();
+    params.set("userId", userId);
+    params.set("storeId", storeId);
+    const response = await fetch(
+      `${API_BASE_URL}/api/conversation/get?${params.toString()}`
+    );
 
-      const data = await res.json();
-      if (res.ok) {
-        setConversations((prev) => [...prev, data]);
-        setLoading(false);
-      }
-    } catch (error) {
-      console.log(`ERROR:WHILE CREATING MESSAGES:${error}`);
-      setLoading(false);
+    if (!response.ok) {
+      throw new Error("Could not fetch conversations");
     }
+    const data = await response.json();
+    setConversations(data);
+    return data;
   };
 
-  const {} = useQuery("fetchConversations");
+  const createMessage = async (formData: prescriptionFormData) => {
+    setLoading(true);
+    const res = await fetch(
+      `${API_BASE_URL}/api/conversation/create?userId=${userId}&storeId=${storeId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      }
+    );
 
+    if (!res.ok) {
+      throw new Error("Could not create message");
+    }
+    setLoading(false);
+    const data = await res.json();
+    setConversations((prev) => [...prev, data]);
+    return data;
+  };
+
+  const {} = useQuery("fetchConversations", fetchConversationReq);
+  const queryClient = useQueryClient();
+  const { mutateAsync: sendMessage } = useMutation(createMessage, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["fetchConversations"]);
+    },
+  });
   return (
     <div className="flex mt-[-20px] md:divide-x-2 md:divide-double  divide-purple-600 gap-2 border border-zinc-300 rounded-lg p-2 overflow-hidden">
       {/* <StoreOrderForm /> */}
@@ -126,7 +146,7 @@ const StoreDetailsPage = () => {
           <Conversation conversations={conversations} height="h-96" />
           {/* input form for prescription */}
           <StoreInputPrescription
-            onSave={createMessage}
+            onSave={sendMessage}
             isLoading={loading}
             setLoading={setLoading}
           />

@@ -9,16 +9,20 @@ type Props = {
   owner?: boolean;
 };
 
-const Conversation = ({ conversations, height, owner = false }: Props) => {
+const Conversation = ({ conversations = [], height, owner = false }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
-
+  // const previousConversationsLengthRef = useRef(conversations.length);
   useEffect(() => {
+    // const previousConversationsLength = previousConversationsLengthRef.current;
+
     if (containerRef.current) {
       containerRef.current.scrollTo({
         top: containerRef.current.scrollHeight,
         behavior: "smooth",
       });
     }
+
+    // previousConversationsLengthRef.current = conversations.length;
   }, [conversations]);
 
   return (
@@ -37,10 +41,10 @@ const Conversation = ({ conversations, height, owner = false }: Props) => {
             message="Connect directly with store owners by"
           />
         ) : (
-          conversations?.map((conversation) => (
+          conversations?.map((conversation, index) => (
             <PrescriptionCard
               owner={owner}
-              key={conversation._id}
+              key={index}
               conversation={conversation}
             />
           ))

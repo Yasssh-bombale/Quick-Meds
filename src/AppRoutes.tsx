@@ -16,121 +16,124 @@ import OrdersPage from "./pages/OrdersPage";
 import ManageStoreRoute from "./components/ManageStoreRoute";
 import OwnerConversations from "./pages/OwnerConversation";
 import CheckoutPage from "./pages/CheckoutPage";
+import { AppProvider } from "./context/Conversation.context";
 
 const AppRoutes = () => {
   return (
-    <Router>
-      <Toaster visibleToasts={1} position="top-center" richColors />
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <Layout>
-              <HomePage />
-            </Layout>
-          }
-        />
-
-        {/* AuthRoutes */}
-        <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/signin" element={<SignInPage />} />
-
-        {/* Dynamic routes */}
-        <Route
-          path="/medicalstores/:id"
-          element={
-            <Layout>
-              <StoreDetailsPage />
-            </Layout>
-          }
-        />
-
-        {/* NavBar links page routes */}
-        <Route
-          path="/medicalstores"
-          element={
-            <Layout noPading>
-              <MedicalStorePage />
-            </Layout>
-          }
-        />
-        <Route
-          path="/services"
-          element={
-            <Layout>
-              <ServicesPage />
-            </Layout>
-          }
-        />
-
-        {/* Protected Routes */}
-
-        <Route element={<ProtectedRoute />}>
-          {/* create-store page */}
+    <AppProvider>
+      <Router>
+        <Toaster visibleToasts={1} position="top-center" richColors />
+        <Routes>
           <Route
-            path="/create-store"
-            element={
-              <FormPagesLayout heading="Create store">
-                <CreateStorePage />
-              </FormPagesLayout>
-            }
-          />
-        </Route>
-
-        {/* checkout page */}
-        <Route element={<ProtectedRoute />}>
-          <Route
-            path="/checkout/:storeId/:conversationId"
-            element={<CheckoutPage />}
-          />
-        </Route>
-        {/* conversation route */}
-        <Route element={<ProtectedRoute />}>
-          <Route
-            path="/conversations"
+            path="/"
             element={
               <Layout>
-                <OwnerConversations />
+                <HomePage />
               </Layout>
             }
           />
-        </Route>
 
-        <Route element={<ProtectedRoute />}>
-          {/* ManageStorePage */}
-          {/* <Route path="/manage-store" element={<ManageStorePage />} /> */}
+          {/* AuthRoutes */}
+          <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/signin" element={<SignInPage />} />
 
-          {/* testing */}
-          <Route element={<ManageStoreRoute />}>
-            <Route path="/manage-store" element={<ManageStorePage />} />
+          {/* Dynamic routes */}
+          <Route
+            path="/medicalstores/:id"
+            element={
+              <Layout>
+                <StoreDetailsPage />
+              </Layout>
+            }
+          />
+
+          {/* NavBar links page routes */}
+          <Route
+            path="/medicalstores"
+            element={
+              <Layout noPading>
+                <MedicalStorePage />
+              </Layout>
+            }
+          />
+          <Route
+            path="/services"
+            element={
+              <Layout>
+                <ServicesPage />
+              </Layout>
+            }
+          />
+
+          {/* Protected Routes */}
+
+          <Route element={<ProtectedRoute />}>
+            {/* create-store page */}
+            <Route
+              path="/create-store"
+              element={
+                <FormPagesLayout heading="Create store">
+                  <CreateStorePage />
+                </FormPagesLayout>
+              }
+            />
           </Route>
-          {/* testing^^ */}
-        </Route>
-        <Route element={<ProtectedRoute />}>
-          {/* orders page */}
-          <Route
-            path="/orders"
-            element={
-              <Layout>
-                <OrdersPage />
-              </Layout>
-            }
-          />
-        </Route>
 
-        <Route element={<ProtectedRoute />}>
-          {/* userProfile page */}
-          <Route
-            path="/user-profile"
-            element={
-              <FormPagesLayout heading="Update user">
-                <UserProfilePage />
-              </FormPagesLayout>
-            }
-          />
-        </Route>
-      </Routes>
-    </Router>
+          {/* checkout page */}
+          <Route element={<ProtectedRoute />}>
+            <Route
+              path="/checkout/:storeId/:conversationId"
+              element={<CheckoutPage />}
+            />
+          </Route>
+          {/* conversation route */}
+          <Route element={<ProtectedRoute />}>
+            <Route
+              path="/conversations"
+              element={
+                <Layout>
+                  <OwnerConversations />
+                </Layout>
+              }
+            />
+          </Route>
+
+          <Route element={<ProtectedRoute />}>
+            {/* ManageStorePage */}
+            {/* <Route path="/manage-store" element={<ManageStorePage />} /> */}
+
+            {/* testing */}
+            <Route element={<ManageStoreRoute />}>
+              <Route path="/manage-store" element={<ManageStorePage />} />
+            </Route>
+            {/* testing^^ */}
+          </Route>
+          <Route element={<ProtectedRoute />}>
+            {/* orders page */}
+            <Route
+              path="/orders"
+              element={
+                <Layout>
+                  <OrdersPage />
+                </Layout>
+              }
+            />
+          </Route>
+
+          <Route element={<ProtectedRoute />}>
+            {/* userProfile page */}
+            <Route
+              path="/user-profile"
+              element={
+                <FormPagesLayout heading="Update user">
+                  <UserProfilePage />
+                </FormPagesLayout>
+              }
+            />
+          </Route>
+        </Routes>
+      </Router>
+    </AppProvider>
   );
 };
 

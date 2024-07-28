@@ -1,5 +1,7 @@
+import { useAppContext } from "@/context/Conversation.context";
 import { updateUserFormData } from "@/forms/user-forms/UpdateUserForm";
 import { UpdatedUser } from "@/types";
+import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -15,6 +17,8 @@ export const useUpdateMyUser = (
 ) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const { setConversations } = useAppContext();
+  const [isOrderCreated, setIsOrderCreated] = useState(false);
   const updateMyUserRequest = async (formData: updateUserFormData) => {
     const response = await fetch(
       `${API_BASE_URL}/api/user/my/update/${userId}`,
@@ -45,20 +49,44 @@ export const useUpdateMyUser = (
       queryClient.invalidateQueries(["getMyUpdatedUser"]);
     },
   });
-
+  const createCashOrder = async () => {
+    const params = new URLSearchParams();
+    params.set("conversationId", conversationId);
+    params.set("paymentMode", paymentMode);
+    const res = await fetch(
+      `${API_BASE_URL}/api/order/create?${params.toString()}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (!res.ok) {
+      throw new Error("Could not create order");
+    }
+    const data = await res.json();
+    setConversations((prev) => {
+      return prev.map((conversation) =>
+        conversation._id === conversationId ? data : conversation
+      );
+    });
+    setCashSuccess(true);
+  };
+  const { mutateAsync: cashOrder } = useMutation(createCashOrder);
   if (error) {
     toast.error("Could not update user,try again later");
   }
-  if (isSuccess) {
+  if (isSuccess && !isOrderCreated) {
     if (paymentMode === "online") {
       navigate(`/checkout/${storeId}/${conversationId}`); //convoId and storeId;
-    } else {
-      //create order as cash on delivery;
-      createCashOrder(conversationId, paymentMode, setCashSuccess);
+    } else if (paymentMode === "cash") {
+      setIsOrderCreated(true);
+      cashOrder();
     }
   }
 
-  return { updateUser, isLoading, updatedUserDetails };
+  return { updateUser, isLoading, updatedUserDetails, isSuccess };
 };
 
 export const useGetMyUpdatedUser = (userId: string) => {
@@ -78,35 +106,4 @@ export const useGetMyUpdatedUser = (userId: string) => {
   );
 
   return { user, isLoading };
-};
-
-//cash on deliveryOrder;
-const createCashOrder = async (
-  conversationId: string,
-  paymentMode: string,
-  setCashSuccess: React.Dispatch<React.SetStateAction<boolean>>
-) => {
-  try {
-    const params = new URLSearchParams();
-    params.set("conversationId", conversationId);
-    params.set("paymentMode", paymentMode);
-    const res = await fetch(
-      `${API_BASE_URL}/api/order/create?${params.toString()}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    if (!res.ok) {
-      throw new Error("Could not create order");
-    }
-    const data = await res.json();
-    setCashSuccess(true);
-    return data; //data is updated convo setted as isOrdered true;
-  } catch (error) {
-    console.log(`ERROR:COULD NOT CREATE ORDER,${error}`);
-    setCashSuccess(false);
-  }
 };
