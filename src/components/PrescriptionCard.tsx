@@ -12,12 +12,13 @@ import UpdateUserForm from "@/forms/user-forms/UpdateUserForm";
 import { useGetMyUpdatedUser, useUpdateMyUser } from "@/api/user-apis";
 import { useAppSelector } from "@/hooks";
 import { RootState } from "@/store/store";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import animationData from "@/data/cart_confirmed.json";
 import Lottie from "react-lottie";
 import truckAnimationData from "@/data/truck_order.json";
 import checkSuccess from "@/data/checkanimation.json";
+import confettiAnimationData from "@/data/confetti.json";
 
 type Props = {
   conversation: Conversations;
@@ -38,7 +39,16 @@ const PrescriptionCard = ({ conversation, owner = false }: Props) => {
     conversation._id,
     storeId!,
     setCashSuccess
+    // setIsCashClicked
   );
+
+  useEffect(() => {
+    if (cashSuccess) {
+      setTimeout(() => {
+        setCashSuccess(false);
+      }, 20000); //12 seconds
+    }
+  }, [cashSuccess]);
 
   return (
     <div
@@ -70,9 +80,83 @@ const PrescriptionCard = ({ conversation, owner = false }: Props) => {
 
         {/* if conversation is ordered */}
         {conversation.isOrdered ? (
-          <div className="border w-full p-1">
+          <div className="w-full p-1">
             {/* background */}
-            <div className="w-full bg-gradient-to-r from-[#A5E3C4] to-[#5FEE83] rounded-sm p-1">
+            {cashSuccess ? (
+              <div className="w-[500px]  flex flex-col items-center relative border p-2 rounded-md overflow-hidden mb-5">
+                <div>
+                  <Lottie
+                    isClickToPauseDisabled
+                    style={{
+                      // border: "1px solid black",
+                      position: "absolute",
+                      left: "0",
+                    }}
+                    options={{
+                      loop: false,
+                      autoplay: true,
+                      animationData: confettiAnimationData,
+                      rendererSettings: {
+                        preserveAspectRatio: "xMidYMid slice",
+                      },
+                    }}
+                  />
+                </div>
+                <div className="-ml-10">
+                  <Lottie
+                    isClickToPauseDisabled
+                    height={120}
+                    width={200}
+                    // style={{ border: "1px solid black" }}
+                    options={{
+                      loop: true,
+                      autoplay: true,
+                      animationData: checkSuccess,
+                      rendererSettings: {
+                        preserveAspectRatio: "xMidYMid slice",
+                      },
+                    }}
+                  />
+                </div>
+                <div className="-ml-10">
+                  <Lottie
+                    isClickToPauseDisabled
+                    height={100}
+                    width={400}
+                    // style={{ border: "1px solid black" }}
+                    options={{
+                      loop: true,
+                      autoplay: true,
+                      animationData: truckAnimationData,
+                      rendererSettings: {
+                        preserveAspectRatio: "xMidYMid slice",
+                      },
+                    }}
+                  />
+                </div>
+              </div>
+            ) : (
+              <div className="w-full bg-gradient-to-r from-[#A5E3C4] to-[#5FEE83] rounded-sm p-1 mb-5">
+                <Lottie
+                  options={{
+                    loop: true,
+                    autoplay: true,
+                    animationData: animationData,
+                    rendererSettings: {
+                      preserveAspectRatio: "xMidYMid slice",
+                    },
+                  }}
+                />
+                <h1 className="text-xl text-center font-semibold">
+                  {owner ? "Order confirmed" : "Your order is on the way!"}
+                </h1>
+                <p className="text-center text-sm hover:underline cursor-pointer mb-3">
+                  check order
+                </p>
+              </div>
+            )}
+
+            {/* <div className="w-full bg-gradient-to-r from-[#A5E3C4] to-[#5FEE83] rounded-sm p-1">
               <Lottie
                 options={{
                   loop: true,
@@ -89,7 +173,7 @@ const PrescriptionCard = ({ conversation, owner = false }: Props) => {
               <p className="text-center text-sm hover:underline cursor-pointer">
                 check order
               </p>
-            </div>
+            </div> */}
           </div>
         ) : (
           <>
@@ -117,6 +201,7 @@ const PrescriptionCard = ({ conversation, owner = false }: Props) => {
 
                 {!owner && (
                   <>
+                    {/* test dialogue */}
                     <Dialog>
                       <div className="border w-full flex gap-2 items-center">
                         <DialogTrigger className="flex-1">
@@ -188,6 +273,15 @@ const PrescriptionCard = ({ conversation, owner = false }: Props) => {
                         )}
                       </DialogContent>
                     </Dialog>
+                    {/* custom dialogue */}
+                    {/* <PrescriptionDialogue
+                      cashSuccess={cashSuccess}
+                      setPaymentMode={setPaymentMode}
+                      conversation={conversation}
+                      updateUser={updateUser}
+                      isUpdateLoading={updateLoading}
+                      updatedUser={user!}
+                    /> */}
 
                     <p className="font-extralight text-center w-full border mt-1">
                       order will be deliver within 24 hours{" "}

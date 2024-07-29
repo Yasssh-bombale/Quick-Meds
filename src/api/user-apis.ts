@@ -14,6 +14,7 @@ export const useUpdateMyUser = (
   conversationId: string,
   storeId: string,
   setCashSuccess: React.Dispatch<React.SetStateAction<boolean>>
+  // setIsCashClicked:React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -71,9 +72,10 @@ export const useUpdateMyUser = (
         conversation._id === conversationId ? data : conversation
       );
     });
+
     setCashSuccess(true);
   };
-  const { mutateAsync: cashOrder } = useMutation(createCashOrder);
+  // const { mutateAsync: cashOrder } = useMutation(createCashOrder);
   if (error) {
     toast.error("Could not update user,try again later");
   }
@@ -82,7 +84,8 @@ export const useUpdateMyUser = (
       navigate(`/checkout/${storeId}/${conversationId}`); //convoId and storeId;
     } else if (paymentMode === "cash") {
       setIsOrderCreated(true);
-      cashOrder();
+      // cashOrder();
+      createCashOrder();
     }
   }
 

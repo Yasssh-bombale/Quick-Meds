@@ -11,18 +11,19 @@ type Props = {
 
 const Conversation = ({ conversations = [], height, owner = false }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  // const previousConversationsLengthRef = useRef(conversations.length);
+  const previousConversationsLengthRef = useRef(conversations.length);
   useEffect(() => {
-    // const previousConversationsLength = previousConversationsLengthRef.current;
-
-    if (containerRef.current) {
-      containerRef.current.scrollTo({
-        top: containerRef.current.scrollHeight,
-        behavior: "smooth",
-      });
+    const previousConversationsLength = previousConversationsLengthRef.current;
+    if (conversations.length > previousConversationsLength) {
+      if (containerRef.current) {
+        containerRef.current.scrollTo({
+          top: containerRef.current.scrollHeight,
+          behavior: "smooth",
+        });
+      }
     }
 
-    // previousConversationsLengthRef.current = conversations.length;
+    previousConversationsLengthRef.current = conversations.length;
   }, [conversations]);
 
   return (
