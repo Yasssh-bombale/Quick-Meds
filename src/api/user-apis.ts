@@ -18,7 +18,7 @@ export const useUpdateMyUser = (
 ) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const { setConversations } = useAppContext();
+  const { setConversations, setIsDialogueOpen } = useAppContext();
   const [isOrderCreated, setIsOrderCreated] = useState(false);
   const updateMyUserRequest = async (formData: updateUserFormData) => {
     const response = await fetch(
@@ -72,10 +72,10 @@ export const useUpdateMyUser = (
         conversation._id === conversationId ? data : conversation
       );
     });
-
+    setIsDialogueOpen(false);
     setCashSuccess(true);
   };
-  // const { mutateAsync: cashOrder } = useMutation(createCashOrder);
+  const { mutateAsync: cashOrder } = useMutation(createCashOrder);
   if (error) {
     toast.error("Could not update user,try again later");
   }
@@ -84,8 +84,8 @@ export const useUpdateMyUser = (
       navigate(`/checkout/${storeId}/${conversationId}`); //convoId and storeId;
     } else if (paymentMode === "cash") {
       setIsOrderCreated(true);
-      // cashOrder();
-      createCashOrder();
+      cashOrder();
+      // createCashOrder();
     }
   }
 

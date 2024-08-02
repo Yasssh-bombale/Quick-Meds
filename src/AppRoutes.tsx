@@ -17,11 +17,14 @@ import ManageStoreRoute from "./components/ManageStoreRoute";
 import OwnerConversations from "./pages/OwnerConversation";
 import CheckoutPage from "./pages/CheckoutPage";
 import { AppProvider } from "./context/Conversation.context";
+import PaymentTest from "./pages/PaymentTest";
+import ScrollToTop from "./components/ScrollToTop";
 
 const AppRoutes = () => {
   return (
     <AppProvider>
       <Router>
+        <ScrollToTop />
         <Toaster visibleToasts={1} position="top-center" richColors />
         <Routes>
           <Route
@@ -32,6 +35,7 @@ const AppRoutes = () => {
               </Layout>
             }
           />
+          <Route path="/test" element={<PaymentTest />} />
 
           {/* AuthRoutes */}
           <Route path="/signup" element={<SignUpPage />} />

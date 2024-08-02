@@ -19,6 +19,7 @@ import Lottie from "react-lottie";
 import truckAnimationData from "@/data/truck_order.json";
 import checkSuccess from "@/data/checkanimation.json";
 import confettiAnimationData from "@/data/confetti.json";
+import { useAppContext } from "@/context/Conversation.context";
 
 type Props = {
   conversation: Conversations;
@@ -32,7 +33,8 @@ const PrescriptionCard = ({ conversation, owner = false }: Props) => {
   const { id: storeId } = useParams();
   const [paymentMode, setPaymentMode] = useState<string>("");
   const { user } = useGetMyUpdatedUser(userId); //getting currentUser information;
-  const [cashSuccess, setCashSuccess] = useState<boolean>(false);
+  const { cashSuccess, setCashSuccess, isDialogueOpen, setIsDialogueOpen } =
+    useAppContext();
   const { updateUser, isLoading: updateLoading } = useUpdateMyUser(
     userId,
     paymentMode,
@@ -202,7 +204,10 @@ const PrescriptionCard = ({ conversation, owner = false }: Props) => {
                 {!owner && (
                   <>
                     {/* test dialogue */}
-                    <Dialog>
+                    <Dialog
+                      open={isDialogueOpen}
+                      onOpenChange={() => setIsDialogueOpen((prev) => !prev)}
+                    >
                       <div className="border w-full flex gap-2 items-center">
                         <DialogTrigger className="flex-1">
                           <Button

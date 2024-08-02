@@ -6,12 +6,15 @@ interface AppState {
   setConversations: React.Dispatch<React.SetStateAction<Conversations[]>>;
   isDialogueOpen: boolean;
   setIsDialogueOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  cashSuccess: boolean;
+  setCashSuccess: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const AppContext = createContext<AppState | undefined>(undefined);
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [conversations, setConversations] = useState<Conversations[]>([]);
   const [isDialogueOpen, setIsDialogueOpen] = useState<boolean>(false);
+  const [cashSuccess, setCashSuccess] = useState<boolean>(false);
   return (
     <AppContext.Provider
       value={{
@@ -19,6 +22,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setConversations,
         isDialogueOpen,
         setIsDialogueOpen,
+        cashSuccess,
+        setCashSuccess,
       }}
     >
       {children}

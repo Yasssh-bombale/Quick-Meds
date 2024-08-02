@@ -2,6 +2,8 @@ import { useEffect, useRef } from "react";
 import PrescriptionCard from "./PrescriptionCard";
 import { Conversations } from "@/pages/StoreDetailsPage";
 import NotFound from "./NotFound";
+import { useLocation } from "react-router-dom";
+import { useAppContext } from "@/context/Conversation.context";
 
 type Props = {
   conversations: Conversations[];
@@ -12,6 +14,13 @@ type Props = {
 const Conversation = ({ conversations = [], height, owner = false }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const previousConversationsLengthRef = useRef(conversations.length);
+
+  const { setCashSuccess } = useAppContext();
+
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const conversationId = params.get("c");
+
   useEffect(() => {
     const previousConversationsLength = previousConversationsLengthRef.current;
     if (conversations.length > previousConversationsLength) {
@@ -26,6 +35,30 @@ const Conversation = ({ conversations = [], height, owner = false }: Props) => {
     previousConversationsLengthRef.current = conversations.length;
   }, [conversations]);
 
+  useEffect(() => {
+    const container = containerRef.current;
+    if (conversationId && container) {
+      const element = document.getElementById(conversationId);
+      if (element) {
+        setCashSuccess(true);
+        element.scrollIntoView({ behavior: "instant" });
+        window.scrollTo(0, 0);
+        const offset = 260; // Adjust this value to scroll more below the element
+        container.scrollTop += offset;
+      }
+    }
+  }, [conversationId, conversations]);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (container) {
+      // Scroll to the bottom on initial mount
+      container.scrollTo({
+        top: container.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  }, []); // Empty dependency array ensures this effect runs only once on mount
   return (
     <div
       ref={containerRef}
@@ -43,11 +76,9 @@ const Conversation = ({ conversations = [], height, owner = false }: Props) => {
           />
         ) : (
           conversations?.map((conversation, index) => (
-            <PrescriptionCard
-              owner={owner}
-              key={index}
-              conversation={conversation}
-            />
+            <div id={conversation._id} key={index}>
+              <PrescriptionCard owner={owner} conversation={conversation} />
+            </div>
           ))
         )}
       </div>
