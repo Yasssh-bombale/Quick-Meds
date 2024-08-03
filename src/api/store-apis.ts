@@ -8,40 +8,23 @@ import { toast } from "sonner";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const useCreateStore = (userId: string) => {
-  const [loading, setLoading] = useState(false);
   const createStoreRequest = async (formData: storeFormData) => {
-    try {
-      setLoading(true);
-      const response = await fetch(
-        `${API_BASE_URL}/api/store/create/${userId}`,
-        {
-          method: "POST",
-          headers: { "Content-type": "application/json" },
-          body: JSON.stringify(formData),
-        }
-      );
+    const response = await fetch(`${API_BASE_URL}/api/store/create/${userId}`, {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify(formData),
+    });
 
-      const data = await response.json();
-
-      console.log(data);
-
-      if (!response.ok) {
-        if (response.status === 401) {
-          return toast.error(data?.message);
-        }
-
-        return;
-      }
-
-      toast.success(data?.message);
-    } catch (error) {
-      console.log("ERROR_IN_CREATE-STORE-REQUEST", error);
-    } finally {
-      setLoading(false);
+    if (!response.ok) {
+      throw new Error("Could not make request to create store");
     }
+    return response.json();
   };
 
-  return { createStoreRequest, loading };
+  const { mutateAsync: createStore, isLoading } =
+    useMutation(createStoreRequest);
+
+  return { createStore, isLoading };
 };
 export const useUpdateStore = (userId: string) => {
   const queryClient = useQueryClient();
@@ -108,9 +91,9 @@ export const useGetAllStores = (page: number) => {
     const resposne = await fetch(
       `${API_BASE_URL}/api/store/all?${params.toString()}`
     );
-    if (!resposne.ok) {
-      throw new Error("ERROR:While fetching all stores");
-    }
+    // if (!resposne.ok) {
+    //   throw new Error("ERROR:While fetching all stores");
+    // }
     return resposne.json();
   };
 

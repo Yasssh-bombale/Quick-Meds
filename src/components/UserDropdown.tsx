@@ -39,14 +39,21 @@ const UserDropdown = ({ user }: Props) => {
           <DropdownMenuItem className="font-semibold tracking-tight text-sm cursor-pointer p-2">
             <Link to={"/user-profile"}>Profile</Link>
           </DropdownMenuItem>
-          {check?.userHasStore && (
+          {check?.userHasStore ? (
+            <>
+              <DropdownMenuItem className="font-semibold tracking-tight text-sm cursor-pointer p-2">
+                <Link to={"/manage-store"}>Manage Store</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="font-semibold tracking-tight text-sm cursor-pointer p-2">
+                <Link to={"/conversations"}>Conversations</Link>
+              </DropdownMenuItem>
+            </>
+          ) : (
             <DropdownMenuItem className="font-semibold tracking-tight text-sm cursor-pointer p-2">
-              <Link to={"/manage-store"}>Manage Store</Link>
+              <Link to={"/create-store"}>Create Store</Link>
             </DropdownMenuItem>
           )}
-          <DropdownMenuItem className="font-semibold tracking-tight text-sm cursor-pointer p-2">
-            <Link to={"/conversations"}>Conversations</Link>
-          </DropdownMenuItem>
+
           {/* <DropdownMenuItem className="font-semibold tracking-tight text-sm cursor-pointer p-2">
             <Link to={"/manage-store"}>Manage store</Link>
           </DropdownMenuItem> */}
