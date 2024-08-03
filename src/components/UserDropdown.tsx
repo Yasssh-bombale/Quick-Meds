@@ -10,12 +10,15 @@ import {
 import { userObject } from "@/feature/slices/user.slice";
 import { Link } from "react-router-dom";
 import SignOut from "./SignOut";
+import { useCheckUserHasStore } from "@/api/store-apis";
 
 type Props = {
   user: userObject;
 };
 
 const UserDropdown = ({ user }: Props) => {
+  const { check } = useCheckUserHasStore(user._id);
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="hidden md:block" asChild>
@@ -36,15 +39,17 @@ const UserDropdown = ({ user }: Props) => {
           <DropdownMenuItem className="font-semibold tracking-tight text-sm cursor-pointer p-2">
             <Link to={"/user-profile"}>Profile</Link>
           </DropdownMenuItem>
-          <DropdownMenuItem className="font-semibold tracking-tight text-sm cursor-pointer p-2">
-            <Link to={"/create-store"}>Create store</Link>
-          </DropdownMenuItem>
+          {check?.userHasStore && (
+            <DropdownMenuItem className="font-semibold tracking-tight text-sm cursor-pointer p-2">
+              <Link to={"/manage-store"}>Manage Store</Link>
+            </DropdownMenuItem>
+          )}
           <DropdownMenuItem className="font-semibold tracking-tight text-sm cursor-pointer p-2">
             <Link to={"/conversations"}>Conversations</Link>
           </DropdownMenuItem>
-          <DropdownMenuItem className="font-semibold tracking-tight text-sm cursor-pointer p-2">
+          {/* <DropdownMenuItem className="font-semibold tracking-tight text-sm cursor-pointer p-2">
             <Link to={"/manage-store"}>Manage store</Link>
-          </DropdownMenuItem>
+          </DropdownMenuItem> */}
           <DropdownMenuItem className="font-semibold tracking-tight text-sm cursor-pointer p-2">
             <Link to={"/orders"}>Your orders</Link>
           </DropdownMenuItem>

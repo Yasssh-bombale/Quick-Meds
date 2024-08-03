@@ -18,6 +18,7 @@ import OwnerConversations from "./pages/OwnerConversation";
 import CheckoutPage from "./pages/CheckoutPage";
 import { AppProvider } from "./context/Conversation.context";
 import ScrollToTop from "./components/ScrollToTop";
+import UpdateStorePage from "./pages/UpdateStorePage";
 
 const AppRoutes = () => {
   return (
@@ -76,6 +77,17 @@ const AppRoutes = () => {
               element={
                 <FormPagesLayout heading="Create store">
                   <CreateStorePage />
+                </FormPagesLayout>
+              }
+            />
+          </Route>
+          <Route element={<ProtectedRoute />}>
+            {/* create-store page */}
+            <Route
+              path="/manage-store"
+              element={
+                <FormPagesLayout heading="Manage store">
+                  <UpdateStorePage />
                 </FormPagesLayout>
               }
             />

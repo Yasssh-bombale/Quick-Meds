@@ -2,7 +2,7 @@ import { storeFormData } from "@/forms/store-forms/CreateStoreForm";
 import { HasStoreType } from "@/pages/ManageStorePage";
 import { MedicalStores, Store } from "@/types";
 import { useState } from "react";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { toast } from "sonner";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -44,6 +44,7 @@ export const useCreateStore = (userId: string) => {
   return { createStoreRequest, loading };
 };
 export const useUpdateStore = (userId: string) => {
+  const queryClient = useQueryClient();
   const updateStoreRequest = async (formData: storeFormData) => {
     const response = await fetch(
       `${API_BASE_URL}/api/store/update?userId=${userId}`,
@@ -64,7 +65,11 @@ export const useUpdateStore = (userId: string) => {
     isLoading,
     isError,
     isSuccess,
-  } = useMutation(updateStoreRequest);
+  } = useMutation(updateStoreRequest, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["fetchMyStore"]);
+    },
+  });
   if (isSuccess) {
     toast.success("Store updated successfully");
   }
@@ -143,9 +148,9 @@ export const useCheckUserHasStore = (userId: string) => {
       `${API_BASE_URL}/api/store/has-store/${userId}`
     );
 
-    if (!response.ok) {
-      throw new Error("Could not check is user has store or not");
-    }
+    // if (!response.ok) {
+    //   throw new Error("Store not found");
+    // }
     return response.json();
   };
 
