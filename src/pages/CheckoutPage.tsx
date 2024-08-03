@@ -1,11 +1,9 @@
-import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import creditCard from "@/data/credit-cardAnimation.json";
 import Lottie from "react-lottie";
 import { useGetCheckoutDetails } from "@/api/checkout.apis";
 import { useAppSelector } from "@/hooks";
 import { RootState } from "@/store/store";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
@@ -22,8 +20,6 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const RAZORPAY_API_ID = import.meta.env.VITE_RAZORPAY_API_ID;
 
 const CheckoutPage = () => {
-  const [paymentId, setPaymentId] = useState("");
-  const [responseState, setResponseState] = useState("");
   const { storeId, conversationId } = useParams();
   const { _id: userId } = useAppSelector(
     (state: RootState) => state.userState.user

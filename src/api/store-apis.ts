@@ -2,7 +2,7 @@ import { storeFormData } from "@/forms/store-forms/CreateStoreForm";
 import { HasStoreType } from "@/pages/ManageStorePage";
 import { MedicalStores, Store } from "@/types";
 import { useState } from "react";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { toast } from "sonner";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -42,6 +42,36 @@ export const useCreateStore = (userId: string) => {
   };
 
   return { createStoreRequest, loading };
+};
+export const useUpdateStore = (userId: string) => {
+  const updateStoreRequest = async (formData: storeFormData) => {
+    const response = await fetch(
+      `${API_BASE_URL}/api/store/update?userId=${userId}`,
+      {
+        method: "POST",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify(formData),
+      }
+    );
+    if (!response.ok) {
+      throw new Error("Could not update store");
+    }
+  };
+
+  const {
+    mutateAsync: updateStore,
+    data: updatedStoreData,
+    isLoading,
+    isError,
+    isSuccess,
+  } = useMutation(updateStoreRequest);
+  if (isSuccess) {
+    toast.success("Store updated successfully");
+  }
+  if (isError) {
+    toast.error("Could update store,try again latter");
+  }
+  return { updateStore, updatedStoreData, isLoading };
 };
 
 export const useGetMyStore = (userId: string) => {

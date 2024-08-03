@@ -17,7 +17,6 @@ import ManageStoreRoute from "./components/ManageStoreRoute";
 import OwnerConversations from "./pages/OwnerConversation";
 import CheckoutPage from "./pages/CheckoutPage";
 import { AppProvider } from "./context/Conversation.context";
-import PaymentTest from "./pages/PaymentTest";
 import ScrollToTop from "./components/ScrollToTop";
 
 const AppRoutes = () => {
@@ -35,7 +34,6 @@ const AppRoutes = () => {
               </Layout>
             }
           />
-          <Route path="/test" element={<PaymentTest />} />
 
           {/* AuthRoutes */}
           <Route path="/signup" element={<SignUpPage />} />
