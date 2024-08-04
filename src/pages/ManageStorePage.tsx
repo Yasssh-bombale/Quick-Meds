@@ -5,9 +5,11 @@ import NoOrders from "@/components/NoOrders";
 import Orders from "@/components/Orders";
 import { useAppSelector } from "@/hooks";
 import { RootState } from "@/store/store";
+import { Store } from "@/types";
 
 export type HasStoreType = {
   userHasStore: boolean;
+  store: Store;
 };
 
 const ManageStorePage = () => {

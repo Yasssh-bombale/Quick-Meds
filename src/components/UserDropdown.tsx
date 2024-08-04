@@ -39,7 +39,7 @@ const UserDropdown = ({ user }: Props) => {
           <DropdownMenuItem className="font-semibold tracking-tight text-sm cursor-pointer p-2">
             <Link to={"/user-profile"}>Profile</Link>
           </DropdownMenuItem>
-          {check?.userHasStore ? (
+          {check?.userHasStore && check.store.status === "approved" && (
             <>
               <DropdownMenuItem className="font-semibold tracking-tight text-sm cursor-pointer p-2">
                 <Link to={"/manage-store"}>Manage Store</Link>
@@ -48,18 +48,18 @@ const UserDropdown = ({ user }: Props) => {
                 <Link to={"/conversations"}>Conversations</Link>
               </DropdownMenuItem>
             </>
-          ) : (
-            <DropdownMenuItem className="font-semibold tracking-tight text-sm cursor-pointer p-2">
-              <Link to={"/create-store"}>Create Store</Link>
-            </DropdownMenuItem>
           )}
-
+          <DropdownMenuItem className="font-semibold tracking-tight text-sm cursor-pointer p-2">
+            <Link to={"/create-store"}>
+              {check?.store ? "Check store approval status" : "Create store"}
+            </Link>
+          </DropdownMenuItem>
           {/* <DropdownMenuItem className="font-semibold tracking-tight text-sm cursor-pointer p-2">
             <Link to={"/manage-store"}>Manage store</Link>
           </DropdownMenuItem> */}
-          <DropdownMenuItem className="font-semibold tracking-tight text-sm cursor-pointer p-2">
+          {/* <DropdownMenuItem className="font-semibold tracking-tight text-sm cursor-pointer p-2">
             <Link to={"/orders"}>Your orders</Link>
-          </DropdownMenuItem>
+          </DropdownMenuItem> */}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         {/* signOut button */}

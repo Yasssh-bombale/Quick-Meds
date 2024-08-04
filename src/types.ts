@@ -19,6 +19,10 @@ export type UpdatedUser = {
 
 export type Store = {
   _id: string;
+  isApproved: boolean;
+  status: "pending" | "approved" | "rejected";
+  license?: string;
+  ownerLivePicture?: string;
   ownerId: string;
   ownerName: string;
   storeName: string;

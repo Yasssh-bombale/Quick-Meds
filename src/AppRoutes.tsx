@@ -75,7 +75,7 @@ const AppRoutes = () => {
             <Route
               path="/create-store"
               element={
-                <FormPagesLayout heading="Create store">
+                <FormPagesLayout>
                   <CreateStorePage />
                 </FormPagesLayout>
               }

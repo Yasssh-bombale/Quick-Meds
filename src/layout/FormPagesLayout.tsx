@@ -1,6 +1,6 @@
 export type formLayoutTypes = {
   children: React.ReactNode;
-  heading: string;
+  heading?: string;
 };
 
 const FormPagesLayout = ({ children, heading }: formLayoutTypes) => {
