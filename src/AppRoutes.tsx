@@ -21,6 +21,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import UpdateStorePage from "./pages/UpdateStorePage";
 import AdminRoute from "./pages/AdminRoute";
 import ApplicationsPage from "./pages/ApplicationsPage";
+import ApplicationDetailsPage from "./pages/ApplicationDetailsPage";
 
 const AppRoutes = () => {
   return (
@@ -76,6 +77,16 @@ const AppRoutes = () => {
               element={
                 <Layout>
                   <ApplicationsPage />
+                </Layout>
+              }
+            />
+          </Route>
+          <Route element={<AdminRoute />}>
+            <Route
+              path="/applications/:storeId"
+              element={
+                <Layout>
+                  <ApplicationDetailsPage />
                 </Layout>
               }
             />
