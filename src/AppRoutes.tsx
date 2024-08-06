@@ -19,6 +19,8 @@ import CheckoutPage from "./pages/CheckoutPage";
 import { AppProvider } from "./context/Conversation.context";
 import ScrollToTop from "./components/ScrollToTop";
 import UpdateStorePage from "./pages/UpdateStorePage";
+import AdminRoute from "./pages/AdminRoute";
+import ApplicationsPage from "./pages/ApplicationsPage";
 
 const AppRoutes = () => {
   return (
@@ -67,6 +69,17 @@ const AppRoutes = () => {
               </Layout>
             }
           />
+          {/* admin routes */}
+          <Route element={<AdminRoute />}>
+            <Route
+              path="/applications"
+              element={
+                <Layout>
+                  <ApplicationsPage />
+                </Layout>
+              }
+            />
+          </Route>
 
           {/* Protected Routes */}
 
@@ -81,6 +94,7 @@ const AppRoutes = () => {
               }
             />
           </Route>
+
           <Route element={<ProtectedRoute />}>
             {/* create-store page */}
             <Route

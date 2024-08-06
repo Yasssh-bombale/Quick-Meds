@@ -12,7 +12,7 @@ const CreateStorePage = () => {
     (state: RootState) => state.userState.user
   );
 
-  const { createStore, isLoading } = useCreateStore(userId);
+  const { createStore, loading, setLoading } = useCreateStore(userId);
   const { store, isLoading: getLoading } = useGetMyStore(userId);
 
   if (getLoading) {
@@ -25,7 +25,7 @@ const CreateStorePage = () => {
         {store ? "Application status" : "Create store"}
       </h1>
       {store ? (
-        <div>
+        <div className="flex justify-center gap-2">
           <BackButton backTo="/" />
           <StoreCard store={store} />
         </div>
@@ -37,7 +37,11 @@ const CreateStorePage = () => {
             className="h-96 w-96 object-cover hidden md:block"
           />
           <div className="p-2  w-full ">
-            <CreateStoreForm onSave={createStore} loading={isLoading} />
+            <CreateStoreForm
+              onSave={createStore}
+              loading={loading}
+              setLoading={setLoading}
+            />
           </div>
         </>
       )}

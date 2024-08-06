@@ -1,12 +1,20 @@
 import { storeFormData } from "@/forms/store-forms/CreateStoreForm";
+import { storeFormData as updateStoreFormData } from "@/forms/store-forms/UpdateStoreForm";
 import { HasStoreType } from "@/pages/ManageStorePage";
 import { MedicalStores, Store } from "@/types";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useState } from "react";
+import {
+  QueryClient,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "react-query";
 import { toast } from "sonner";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const useCreateStore = (userId: string) => {
+  const [loading, setLoading] = useState(false);
   const createStoreRequest = async (formData: storeFormData) => {
     const response = await fetch(`${API_BASE_URL}/api/store/create/${userId}`, {
       method: "POST",
@@ -15,19 +23,27 @@ export const useCreateStore = (userId: string) => {
     });
 
     if (!response.ok) {
+      setLoading(false);
       throw new Error("Could not make request to create store");
     }
     return response.json();
   };
+  const queryClient = new QueryClient();
+  const { mutateAsync: createStore, isLoading } = useMutation(
+    createStoreRequest,
+    {
+      onSuccess: () => {
+        setLoading(false);
+        queryClient.invalidateQueries(["fetchMyStore"]);
+      },
+    }
+  );
 
-  const { mutateAsync: createStore, isLoading } =
-    useMutation(createStoreRequest);
-
-  return { createStore, isLoading };
+  return { createStore, loading, setLoading };
 };
 export const useUpdateStore = (userId: string) => {
   const queryClient = useQueryClient();
-  const updateStoreRequest = async (formData: storeFormData) => {
+  const updateStoreRequest = async (formData: updateStoreFormData) => {
     const response = await fetch(
       `${API_BASE_URL}/api/store/update?userId=${userId}`,
       {

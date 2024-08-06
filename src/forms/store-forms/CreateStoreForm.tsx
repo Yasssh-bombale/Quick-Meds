@@ -26,7 +26,7 @@ import { useState } from "react";
 // import ImageField from "@/components/ImageField";
 import WebCamCapture from "@/components/WebCamCapture";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { RocketIcon, TriangleAlert } from "lucide-react";
+import { TriangleAlert } from "lucide-react";
 
 const formSchema = z.object({
   storeName: z.string({
@@ -61,9 +61,10 @@ export type storeFormData = z.infer<typeof formSchema>;
 type Props = {
   onSave: (formData: storeFormData) => void;
   loading: boolean;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const CreateStoreForm = ({ onSave, loading }: Props) => {
+const CreateStoreForm = ({ onSave, loading, setLoading }: Props) => {
   const [liveUserPicture, setLiveUserPicture] = useState<string | null>("");
   const form = useForm<storeFormData>({
     resolver: zodResolver(formSchema),
@@ -72,6 +73,7 @@ const CreateStoreForm = ({ onSave, loading }: Props) => {
   //   setLiveUserPicture(imageSrc);
   // };
   const onSubmit = (formDataJson: storeFormData) => {
+    setLoading(true);
     const formData = new FormData();
     // note: image url is not exist on the submited values called it formDataJson we need to append our key value pairs using formData() ;
     console.log("submit");

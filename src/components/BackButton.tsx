@@ -13,7 +13,7 @@ const BackButton = ({ backTo, className }: Props) => {
   return (
     <Button
       variant={"outline"}
-      className={`${className} border border-[#9E3FFD]`}
+      className={`${className} border border-[#9E3FFD] mt-2`}
       type="button"
       onClick={() => navigate(backTo)}
     >

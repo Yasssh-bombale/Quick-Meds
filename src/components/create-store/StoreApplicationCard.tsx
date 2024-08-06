@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const StoreCard = ({ store }: { store: Store }) => {
   return (
-    <div className="bg-white rounded-lg shadow-md w-full flex border mt-2 overflow-hidden">
+    <div className="bg-white rounded-lg shadow-md w-full flex border mt-2 overflow-hidden  p-3 mx-auto">
       <img
         src={store.imageUrl}
         alt="Store"
