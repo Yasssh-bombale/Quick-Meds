@@ -29,15 +29,12 @@ export const useCreateStore = (userId: string) => {
     return response.json();
   };
   const queryClient = new QueryClient();
-  const { mutateAsync: createStore, isLoading } = useMutation(
-    createStoreRequest,
-    {
-      onSuccess: () => {
-        setLoading(false);
-        queryClient.invalidateQueries(["fetchMyStore"]);
-      },
-    }
-  );
+  const { mutateAsync: createStore } = useMutation(createStoreRequest, {
+    onSuccess: () => {
+      setLoading(false);
+      queryClient.invalidateQueries(["fetchMyStore"]);
+    },
+  });
 
   return { createStore, loading, setLoading };
 };
