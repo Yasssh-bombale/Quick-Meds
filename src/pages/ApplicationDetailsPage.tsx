@@ -4,15 +4,46 @@ import { rejectReasons } from "@/constants";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { IoMdCheckmark } from "react-icons/io";
+import { useApproveApplication, useRejectApplications } from "@/api/admin.apis";
+import { useAppSelector } from "@/hooks";
+import { RootState } from "@/store/store";
+import LoadingButton from "@/components/LoadingButton";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { AlertTriangle } from "lucide-react";
+
 const ApplicationDetailsPage = () => {
   const { storeId } = useParams();
   const [rejectClick, setRejectClick] = useState<boolean>(false);
   const [selectedReason, setSelectedReason] = useState<string[]>([]);
+  const { _id: userId } = useAppSelector(
+    (state: RootState) => state.userState.user
+  );
+
   if (!storeId) {
     return;
   }
 
   const { store } = useGetStoreDetails(storeId);
+  const { rejectApplication, isLoading: rejectLoading } = useRejectApplications(
+    selectedReason,
+    userId,
+    storeId
+  );
+
+  const { approveApplication, isLoading: approveLoading } =
+    useApproveApplication(userId, storeId);
+
   if (!store) {
     return <span>loading</span>;
   }
@@ -34,6 +65,7 @@ const ApplicationDetailsPage = () => {
     const url = URL.createObjectURL(blob);
     window.open(url, "_blank");
   };
+
   return (
     <div className="border overflow-hidden">
       <img
@@ -133,16 +165,76 @@ const ApplicationDetailsPage = () => {
       )}
 
       <div className="flex justify-center gap-2 mt-4">
-        <Button
-          onClick={() => setRejectClick(true)}
-          className="bg-red-500 hover:bg-red-500 hover:opacity-85"
-        >
-          Reject
-        </Button>
         {!rejectClick && (
-          <Button className="bg-green-600 hover:bg-green-600 hover:opacity-85">
-            Approve
-          </Button>
+          <>
+            <Button
+              onClick={() => setRejectClick(true)}
+              className="bg-red-500 hover:bg-red-500 hover:opacity-85"
+            >
+              Reject
+            </Button>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button className="bg-green-600 hover:bg-green-600 hover:opacity-85">
+                  Approve
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogDescription className="">
+                    {/* alert  */}
+                    <Alert className="border border-red-500">
+                      <AlertTriangle className="h-6 w-6 mt-2" color="red" />
+
+                      <AlertDescription className="ml-2">
+                        Are you sure you want to approve this store application?
+                        Please confirm that you have verified the{" "}
+                        <span className="font-semibold">validity</span> of this
+                        store. After approval, this store will be listed on the{" "}
+                        <span className="font-semibold">explore page</span> and
+                        will become fully functional !
+                      </AlertDescription>
+                    </Alert>
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  {approveLoading ? (
+                    <LoadingButton />
+                  ) : (
+                    <AlertDialogAction onClick={() => approveApplication()}>
+                      Continue
+                    </AlertDialogAction>
+                  )}
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </>
+        )}
+        {rejectClick && (
+          <div>
+            <h1>Are you sure you want to reject this store?</h1>
+            <div className="flex gap-2 mt-2">
+              <Button
+                onClick={() => setRejectClick(false)}
+                variant={"outline"}
+                className="w-full"
+              >
+                Cancel
+              </Button>
+              {rejectLoading ? (
+                <LoadingButton widthFull />
+              ) : (
+                <Button
+                  onClick={() => rejectApplication()}
+                  className="bg-red-500 hover:bg-red-500 hover:opacity-85 w-full"
+                >
+                  Yes,Reject
+                </Button>
+              )}
+            </div>
+          </div>
         )}
       </div>
     </div>

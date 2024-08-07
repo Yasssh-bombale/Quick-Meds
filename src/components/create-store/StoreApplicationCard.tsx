@@ -1,9 +1,30 @@
 import { Store } from "@/types";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
-import { ClockIcon, RocketIcon } from "lucide-react";
+import { AlertTriangle, ClockIcon, RocketIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const StoreCard = ({ store }: { store: Store }) => {
+  let rejectionMessage;
+  if (store.status === "rejected") {
+    if (store.rejectionReasons) {
+      rejectionMessage = store.rejectionReasons.map((reason) => {
+        if (reason === "Owners photo is blur") {
+          return "owner's identity could not be verified. Please ensure you provide a clear live picture of the store owner and resubmit your application.";
+        } else if (reason === "License is blur") {
+          return "the submitted license image is blurry and unreadable. For verification purposes, please ensure that the license image is clear and legible. Any further submissions with unclear documentation may result in a permanent ban from our platform. Please resubmit your application with a clear license image";
+        } else if (reason === "Fake license") {
+          return "Your application has been rejected due to the submission of a fake or invalid license. This is a serious violation of our policies. Any further attempts to submit fraudulent information will result in a permanent ban from our platform. Please ensure that all future submissions are accurate and truthful.";
+        } else if (reason === "Expired license") {
+          return "invalid or expired license. Please provide a valid license";
+        } else if ((reason = "Owners photo not matches with license holder")) {
+          return "the provided owner's photo does not match the license holder's photo. As per legal requirements, only the license holder can operate the medical store. Please ensure that the person creating the store is the same as the license holder and resubmit your application. Failure to comply with this requirement may result in further action, including a permanent ban from our platform.";
+        } else if (reason === "Invalid data") {
+          return "inaccurate information. Please review your application details and correct any errors before resubmitting.";
+        }
+      });
+    }
+  }
+
   return (
     <div className="bg-white rounded-lg shadow-md w-full flex border mt-2 overflow-hidden  p-3 mx-auto">
       <img
@@ -65,6 +86,26 @@ const StoreCard = ({ store }: { store: Store }) => {
             </Alert>
           )}
           {/* rejection message */}
+          {store.status === "rejected" && (
+            <Alert className="border border-red-500 mt-2">
+              <AlertTriangle className="h-6 w-6" color="red" />
+              <div className="ml-1">
+                <AlertTitle className="">Application Rejected</AlertTitle>
+                <AlertDescription>
+                  <h1 className="font-semibold mt-2">
+                    Your store application has been rejected because
+                  </h1>
+                  <ul className="list-decimal mt-2">
+                    {rejectionMessage?.map((message) => (
+                      <li className="text-base font-light leading-normal">
+                        {message}
+                      </li>
+                    ))}
+                  </ul>
+                </AlertDescription>
+              </div>
+            </Alert>
+          )}
         </p>
         <div className="flex flex-col md:flex-row">
           <div className="w-full md:w-1/2 mb-4 md:mb-0 md:mr-4">

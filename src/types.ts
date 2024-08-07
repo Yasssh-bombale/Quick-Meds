@@ -31,6 +31,7 @@ export type Store = {
   city: string;
   imageUrl: string;
   mobileNumber: string;
+  rejectionReasons?: string[];
 };
 
 export type MedicalStores = {
