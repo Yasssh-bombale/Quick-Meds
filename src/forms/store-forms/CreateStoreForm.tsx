@@ -194,7 +194,7 @@ const CreateStoreForm = ({ onSave, loading, setLoading }: Props) => {
                 Add an image that will displayed on your store listing
               </FormDescription>
 
-              <div className="flex flex-col space-y-4 border-2">
+              <div className="flex flex-col space-y-4 ">
                 {/* {store?.imageUrl && <ImageField imageUrl={store?.imageUrl} />} */}
 
                 <FormControl className="cursor-pointer">
@@ -239,7 +239,7 @@ const CreateStoreForm = ({ onSave, loading, setLoading }: Props) => {
                 </div>
               </Alert>
 
-              <div className="flex flex-col space-y-4 border-2">
+              <div className="flex flex-col space-y-4 ">
                 {/* {store?.imageUrl && <ImageField imageUrl={store?.imageUrl} />} */}
 
                 <FormControl className="cursor-pointer">

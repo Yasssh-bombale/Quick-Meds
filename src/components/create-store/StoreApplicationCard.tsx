@@ -26,11 +26,11 @@ const StoreCard = ({ store }: { store: Store }) => {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-md w-full flex border mt-2 overflow-hidden  p-3 mx-auto">
+    <div className="bg-white rounded-lg shadow-md w-full flex flex-col lg:flex-row border mt-2 overflow-hidden  p-3 mx-auto">
       <img
         src={store.imageUrl}
         alt="Store"
-        className="w-96 bg-gray-200 rounded-md h-auto object-cover object-center"
+        className={`h-52 xl:w-96 bg-gray-200 rounded-md xl:h-auto object-cover object-center`}
       />
       <div className="p-4 flex-1 flex flex-col">
         <h2 className="text-lg font-semibold mb-2 capitalize">

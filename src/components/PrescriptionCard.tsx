@@ -58,7 +58,7 @@ const PrescriptionCard = ({ conversation, owner = false }: Props) => {
         owner
           ? `${conversation.role === "owner" ? "items-end" : "items-start"} `
           : `${conversation.role === "owner" ? "items-start" : "items-end"} `
-      } rounded-md border border-red-300`}
+      } rounded-md`}
     >
       {conversation.prescriptionImage && (
         <img

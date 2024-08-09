@@ -20,12 +20,13 @@ const CreateStorePage = () => {
   }
 
   return (
-    <div className="flex flex-row border-2 items-center border-[#9E3FFD] rounded-md mt-10 p-2 relative">
-      <h1 className="text-center text-4xl tracking-tight font-bold absolute -top-12 left-[500px]">
-        {store ? "Application status" : "Create store"}
-      </h1>
+    <div
+      className={`flex flex-row border-2 items-center border-[#9E3FFD] rounded-md mt-10 p-2 relative ${
+        store && "-mt-0"
+      }`}
+    >
       {store ? (
-        <div className="flex justify-center gap-2">
+        <div className="flex-col flex lg:flex-row justify-center gap-2">
           <BackButton backTo="/" />
           <StoreCard store={store} />
         </div>
@@ -34,7 +35,7 @@ const CreateStorePage = () => {
           <img
             src={img1}
             alt="error"
-            className="h-96 w-96 object-cover hidden md:block"
+            className="h-96 w-96 object-cover hidden lg:block"
           />
           <div className="p-2  w-full ">
             <CreateStoreForm

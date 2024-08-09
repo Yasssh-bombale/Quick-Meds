@@ -28,7 +28,7 @@ const LeftUsers = ({
   return (
     <li
       onClick={clickHandler}
-      className="border flex items-center gap-3 p-1 rounded-md cursor-pointer"
+      className="border flex items-center gap-3 p-1 rounded-md cursor-pointer overflow-hidden"
     >
       <img
         src={profile}

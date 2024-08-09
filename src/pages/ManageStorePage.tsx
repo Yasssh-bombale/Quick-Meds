@@ -17,25 +17,6 @@ const ManageStorePage = () => {
     (state: RootState) => state.userState.user
   ); //getting current userId for getting his store details;
 
-  // const { check, isLoading: checkLoading } = useCheckUserHasStore(userId);
-
-  // if (checkLoading) {
-  //   return (
-  //     <div className="text-center text-3xl text-purple-500 h-screen flex items-center justify-center">
-  //       Loading...! plz wait
-  //     </div>
-  //   );
-  // }
-
-  // if (!check?.userHasStore) {
-  //   return (
-  //     <NotFound
-  //       message="It looks like you have not created any store yet ! lets get started
-  //   with"
-  //     />
-  //   );
-  // }
-
   const { data } = useGetOrdersForOwners(userId); //pass here isOrderPlaced boolean;
 
   // useEffect(() => {

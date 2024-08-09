@@ -62,15 +62,15 @@ const Conversation = ({ conversations = [], height, owner = false }: Props) => {
   return (
     <div
       ref={containerRef}
-      className={`border border-red-400 rounded-md ${height} flex flex-col  p-2 overflow-y-auto scrollbar-thin  scrollbar-track-transparent scrollbar-thumb-purple-500 mb-2`}
+      className={`border border-zinc-300 rounded-md ${height} flex flex-col  p-2 overflow-y-auto scrollbar-thin  scrollbar-track-transparent scrollbar-thumb-purple-500 mb-2`}
     >
       {/* prescription image */}
 
-      <div className="flex flex-col gap-y-2  border border-green-400 h-fit">
+      <div className="flex flex-col gap-y-2 h-fit">
         {/* one */}
         {conversations?.length === 0 ? (
           <NotFound
-            className="border border-blue-500"
+            className="overflow-hidden px-4 flex -mt-0"
             height="h-fit"
             message="Connect directly with store owners by"
           />

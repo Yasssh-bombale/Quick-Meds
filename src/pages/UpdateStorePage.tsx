@@ -17,7 +17,7 @@ const UpdateStorePage = () => {
       <img
         src={img1}
         alt="error"
-        className="h-96 w-96 object-cover hidden md:block"
+        className="h-96 w-96 object-cover hidden lg:block"
       />
       <div className="p-2  w-full ">
         <UpdateStoreForm

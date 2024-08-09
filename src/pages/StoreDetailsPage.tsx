@@ -113,11 +113,11 @@ const StoreDetailsPage = () => {
     },
   });
   return (
-    <div className="flex mt-[-20px] md:divide-x-2 md:divide-double  divide-purple-600 gap-2 border border-zinc-300 rounded-lg p-2 overflow-hidden">
+    <div className="flex mt-[-20px] md:divide-x-2 md:divide-double  divide-purple-600 gap-2 p-2 -ml-7 sm:ml-0 overflow-hidden border border-zinc-300 rounded-md">
       {/* <StoreOrderForm /> */}
       {/* leftSection */}
 
-      <div className="max-w-96 w-full h-fit flex  flex-col border border-zinc-300 p-2 rounded-md">
+      <div className="max-w-96 w-full h-fit hidden md:flex flex-col border border-zinc-300 p-2 rounded-md">
         <img src={store?.imageUrl} alt="storeImage" className="w-full h-64" />
         <h1 className="text-lg font-semibold tracking-tight text-nowrap overflow-hidden capitalize">
           {store?.storeName}
@@ -137,7 +137,7 @@ const StoreDetailsPage = () => {
       {/* rightSection */}
       <div className="flex flex-col w-full">
         {/* main border zinc */}
-        <div className="w-full border border-zinc-300 ml-1  rounded-md flex flex-col flex-1 px-3">
+        <div className="w-full  ml-1  rounded-md flex flex-col flex-1 px-3">
           {/* storeName */}
           <h1 className="text-3xl capitalize border-b p-1 border-zinc-300 mb-2">
             {store?.storeName} | <span className="text-xl">{store?.city}</span>

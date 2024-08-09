@@ -18,7 +18,7 @@ const RightMessageContainer = ({
   clickedUserNameAndDp,
 }: Props) => {
   if (!clickedUserId) {
-    return <NotFound message="u not click" height="h-fit" />;
+    return <NotFound message="Select message to start" height="h-fit" />;
   }
 
   const [uiConversations, setUiConversations] = useState<Conversations[]>([]);
@@ -75,9 +75,9 @@ const RightMessageContainer = ({
   return (
     <div className="flex flex-col w-full">
       {/* main border zinc */}
-      <div className="w-full border border-zinc-300 ml-1  rounded-md flex flex-col flex-1 px-3">
+      <div className="w-full  ml-1  rounded-md flex flex-col flex-1 px-3">
         {/* storeName */}
-        <div className="flex items-center gap-2 border-b border-zinc-300 px-2">
+        <div className="flex items-center gap-2 border-b border-zinc-300 px-2 mb-3">
           <img
             src={clickedUserNameAndDp.userProfile}
             alt="dp"

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import look from "../img/Look.jpg";
 import { Button } from "./ui/button";
-import ufo from "../../public/not_found_ufo.svg";
+import ufo from "/not_found_ufo.svg";
 import Logo from "./Logo";
 
 type Props = {
@@ -23,14 +23,14 @@ const NotFound = ({
 }: Props) => {
   return (
     <div className={`${height} mt-80 md:mt-0 ${className}`}>
-      <div className="flex items-center gap-x-3 mt-20 justify-center">
+      <div className="flex flex-col md:flex-row items-center gap-x-3 mt-20 justify-center">
         <img
           src={notFound ? ufo : look}
           alt="look"
           className="w-32 h-32 md:w-56 md:h-56 object-cover"
         />
         <div className="flex items-center justify-center flex-col gap-y-2">
-          <h1 className="text-sm md:text-xl flex  flex-row items-center gap-x-3 ">
+          <h1 className="text-sm md:text-xl flex  flex-row items-center gap-x-3 text-nowrap">
             {message} <Logo />
           </h1>
           {linkTo && (

@@ -22,6 +22,7 @@ import UpdateStorePage from "./pages/UpdateStorePage";
 import AdminRoute from "./pages/AdminRoute";
 import ApplicationsPage from "./pages/ApplicationsPage";
 import ApplicationDetailsPage from "./pages/ApplicationDetailsPage";
+import Test from "./pages/Test";
 
 const AppRoutes = () => {
   return (
@@ -52,6 +53,8 @@ const AppRoutes = () => {
               </Layout>
             }
           />
+
+          <Route path="/test" element={<Test />} />
 
           {/* NavBar links page routes */}
           <Route
@@ -99,7 +102,7 @@ const AppRoutes = () => {
             <Route
               path="/create-store"
               element={
-                <FormPagesLayout>
+                <FormPagesLayout heading="Create store">
                   <CreateStorePage />
                 </FormPagesLayout>
               }

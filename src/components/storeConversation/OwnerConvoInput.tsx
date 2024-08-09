@@ -141,7 +141,7 @@ const OwnerConvoInput = ({ onSave, isLoading, setLoading }: Props) => {
             name="prescription"
             control={form.control}
             render={({ field }) => (
-              <FormItem className=" rounded-md  flex-1 border">
+              <FormItem className=" rounded-md  flex-1 border min-w-52">
                 <FormControl>
                   <Input
                     type="text"
@@ -158,7 +158,7 @@ const OwnerConvoInput = ({ onSave, isLoading, setLoading }: Props) => {
             name="amount"
             control={form.control}
             render={({ field }) => (
-              <FormItem className="border rounded-md relative">
+              <FormItem className="border rounded-md relative ">
                 <FormControl>
                   <Input
                     type="number"
@@ -181,7 +181,7 @@ const OwnerConvoInput = ({ onSave, isLoading, setLoading }: Props) => {
             <Button
               disabled={isLoading}
               type="submit"
-              className={`px-4 flex items-center bg-violet-600 hover:bg-violet-600 hover:opacity-85`}
+              className={`px-4 flex flex-1 lg:flex-grow-0 mt-4 lg:mt-0  items-center bg-violet-600 hover:bg-violet-600 hover:opacity-85`}
             >
               Create Order{" "}
               <SendHorizontal
