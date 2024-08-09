@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import look from "../img/Look.jpg";
 import { Button } from "./ui/button";
+import ufo from "../../public/not_found_ufo.svg";
 import Logo from "./Logo";
 
 type Props = {
@@ -9,6 +10,7 @@ type Props = {
   linkTo?: string;
   className?: string;
   height?: string;
+  notFound?: boolean;
 };
 
 const NotFound = ({
@@ -17,12 +19,13 @@ const NotFound = ({
   linkTo,
   className,
   height = "h-screen",
+  notFound,
 }: Props) => {
   return (
     <div className={`${height} mt-80 md:mt-0 ${className}`}>
       <div className="flex items-center gap-x-3 mt-20 justify-center">
         <img
-          src={look}
+          src={notFound ? ufo : look}
           alt="look"
           className="w-32 h-32 md:w-56 md:h-56 object-cover"
         />

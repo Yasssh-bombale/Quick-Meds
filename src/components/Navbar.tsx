@@ -17,12 +17,12 @@ const Navbar = () => {
           Home
         </Button>
       </Link>
-      <Link to={"/medicalstores"} className="cursor-pointer">
+      <Link to={"/explore"} className="cursor-pointer">
         <Button
           variant={"ghost"}
           className="scroll-m-20 text-lg md:text-lg font-semibold tracking-tight"
         >
-          Medical store
+          Explore stores
         </Button>
       </Link>
       <Link to={"/orders"} className="cursor-pointer">

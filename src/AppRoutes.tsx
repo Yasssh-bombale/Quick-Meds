@@ -55,7 +55,7 @@ const AppRoutes = () => {
 
           {/* NavBar links page routes */}
           <Route
-            path="/medicalstores"
+            path="/explore"
             element={
               <Layout noPading>
                 <MedicalStorePage />
