@@ -16,6 +16,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import Logo from "@/components/Logo";
+import { useAppContext } from "@/context/Conversation.context";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const RAZORPAY_API_ID = import.meta.env.VITE_RAZORPAY_API_ID;
 
@@ -92,7 +93,7 @@ const CheckoutPage = () => {
       console.log(`ERROR:IN RAZORPAY_SCREEN:${error}`);
     }
   };
-
+  const { setLatestOrderId } = useAppContext();
   //after payment handler;
   const createOrderInServer = async (response: any) => {
     const params = new URLSearchParams();
@@ -110,7 +111,10 @@ const CheckoutPage = () => {
       if (!res.ok) {
         throw new Error("Could not create order in server");
       }
-
+      const data = await res.json();
+      if (data) {
+        setLatestOrderId(data._id);
+      }
       navigate(`/medicalstores/${storeId}?c=${conversationId}`);
     } catch (error) {
       console.log(`ERROR:WHILE CREATING ORDER IN SERVER,${error}`);
@@ -120,16 +124,10 @@ const CheckoutPage = () => {
   const { checkOutDetails } = useGetCheckoutDetails(conversationId!, userId);
 
   return (
-    <div className="relative flex flex-col items-center">
-      <img
-        src="/circle.svg"
-        alt="svg background"
-        className="h-screen w-full absolute -z-10"
-        draggable="false"
-      />
-      <Logo className="absolute left-2/4 top-6" />
-      <div className="border border-zinc-300 rounded-md mt-20 flex max-w-4xl w-full p-1">
-        <div className="border border-black">
+    <div className="flex flex-col items-center">
+      <Logo className="absolute left-32 lg:left-2/4 top-6" />
+      <div className="border border-zinc-300 rounded-md shadow-lg mt-20 flex max-w-4xl w-full p-1">
+        <div className="hidden lg:block">
           <Lottie
             isClickToPauseDisabled
             height={400}
@@ -154,7 +152,7 @@ const CheckoutPage = () => {
                 Make order from {checkOutDetails?.store.storeName}
               </h1>
 
-              <div className="flex flex-col border p-1 mt-5">
+              <div className="flex flex-col  p-1 mt-5">
                 <img
                   src={checkOutDetails?.conversation.prescriptionImage}
                   alt="prescription"

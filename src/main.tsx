@@ -6,7 +6,9 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { Provider } from "react-redux";
 import { persistStor, store } from "./store/store";
 import { PersistGate } from "redux-persist/integration/react";
-
+import { io } from "socket.io-client";
+import { BACKEND_URL } from "./constants";
+import { AppProvider } from "./context/Conversation.context";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -15,12 +17,16 @@ const queryClient = new QueryClient({
   },
 });
 
+export const socket = io(BACKEND_URL);
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate persistor={persistStor}>
         <QueryClientProvider client={queryClient}>
-          <AppRoutes />
+          <AppProvider>
+            <AppRoutes />
+          </AppProvider>
         </QueryClientProvider>
       </PersistGate>
     </Provider>

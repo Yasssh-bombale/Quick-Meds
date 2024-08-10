@@ -7,9 +7,10 @@ import StoreInputPrescription, {
 import { useAppContext } from "@/context/Conversation.context";
 // import StoreOrderForm from "@/forms/store-forms/StoreOrderForm";
 import { useAppSelector } from "@/hooks";
+import { socket } from "@/main";
 import { RootState } from "@/store/store";
 import { Phone } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Navigate, useParams } from "react-router-dom";
 
@@ -34,7 +35,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const StoreDetailsPage = () => {
   const { user } = useAppSelector((state: RootState) => state.userState);
-  // const { id } = useParams();
+
   const { id: storeId } = useParams(); //getting id of store as storeId;
   if (!user || !storeId) {
     return <Navigate to={"/signin"} />;
@@ -42,30 +43,12 @@ const StoreDetailsPage = () => {
   const { store } = useGetStoreDetails(storeId); //for showing storeDetails;
   //for creating messages;
   const { _id: userId } = user;
-  // const [conversations, setConversations] = useState<Conversations[]>([]);
   //create conversation;
   const [loading, setLoading] = useState<boolean>(false);
-  // fetched conversation from backend;
-  // useEffect(() => {
-  //   const fetchConversationReq = async () => {
-  //     try {
-  //       const params = new URLSearchParams();
-  //       params.set("userId", userId);
-  //       params.set("storeId", storeId);
-  //       const response = await fetch(
-  //         `${API_BASE_URL}/api/conversation/get?${params.toString()}`
-  //       );
-  //       if (response.ok) {
-  //         const data = await response.json();
-  //         setConversations(data);
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   fetchConversationReq();
-  // }, []);
+  const [isOwnerOnline, setOwnerOnline] = useState<boolean>(false);
   const { conversations, setConversations } = useAppContext();
+
+  console.log(isOwnerOnline);
 
   const fetchConversationReq = async () => {
     const params = new URLSearchParams();
@@ -112,6 +95,19 @@ const StoreDetailsPage = () => {
       queryClient.invalidateQueries(["fetchConversations"]);
     },
   });
+
+  useEffect(() => {
+    socket.on("ownerStatus", ({ storeId: incommingStoreId, isOnline }) => {
+      if (incommingStoreId === storeId) {
+        setOwnerOnline(isOnline);
+      }
+    });
+    // Cleanup on component unmount
+    return () => {
+      socket.off("ownerStatus");
+    };
+  }, []);
+
   return (
     <div className="flex mt-[-20px] md:divide-x-2 md:divide-double  divide-purple-600 gap-2 p-2 -ml-7 sm:ml-0 overflow-hidden border border-zinc-300 rounded-md">
       {/* <StoreOrderForm /> */}

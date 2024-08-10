@@ -159,3 +159,5 @@ export const useCheckUserHasStore = (userId: string) => {
   );
   return { check, isLoading };
 };
+
+// check store owner is online or not;

@@ -33,8 +33,7 @@ const PrescriptionCard = ({ conversation, owner = false }: Props) => {
   const { id: storeId } = useParams();
   const [paymentMode, setPaymentMode] = useState<string>("");
   const { user } = useGetMyUpdatedUser(userId); //getting currentUser information;
-  const { cashSuccess, setCashSuccess, isDialogueOpen, setIsDialogueOpen } =
-    useAppContext();
+  const { cashSuccess, setCashSuccess, latestOrderId } = useAppContext();
   const { updateUser, isLoading: updateLoading } = useUpdateMyUser(
     userId,
     paymentMode,
@@ -84,7 +83,7 @@ const PrescriptionCard = ({ conversation, owner = false }: Props) => {
         {conversation.isOrdered ? (
           <div className="w-full p-1">
             {/* background */}
-            {cashSuccess ? (
+            {cashSuccess && latestOrderId === conversation._id ? (
               <div className="w-[500px]  flex flex-col items-center relative border p-2 rounded-md overflow-hidden mb-5">
                 <div>
                   <Lottie
@@ -157,30 +156,11 @@ const PrescriptionCard = ({ conversation, owner = false }: Props) => {
                 </p>
               </div>
             )}
-
-            {/* <div className="w-full bg-gradient-to-r from-[#A5E3C4] to-[#5FEE83] rounded-sm p-1">
-              <Lottie
-                options={{
-                  loop: true,
-                  autoplay: true,
-                  animationData: animationData,
-                  rendererSettings: {
-                    preserveAspectRatio: "xMidYMid slice",
-                  },
-                }}
-              />
-              <h1 className="text-xl text-center font-semibold">
-                {owner ? "Order confirmed" : "Your order is on the way!"}
-              </h1>
-              <p className="text-center text-sm hover:underline cursor-pointer">
-                check order
-              </p>
-            </div> */}
           </div>
         ) : (
           <>
             {conversation.type === "order" && (
-              <div className="border w-full flex-col mt-2">
+              <div className="w-full flex-col mt-2">
                 {owner &&
                   (conversation.isOrdered ? (
                     <Button className="w-full cursor-text bg-gradient-to-r from-green-500 to-black-500">
@@ -205,10 +185,10 @@ const PrescriptionCard = ({ conversation, owner = false }: Props) => {
                   <>
                     {/* test dialogue */}
                     <Dialog
-                      open={isDialogueOpen}
-                      onOpenChange={() => setIsDialogueOpen((prev) => !prev)}
+                    // open={isDialogueOpen}
+                    // onOpenChange={() => setIsDialogueOpen((prev) => !prev)}
                     >
-                      <div className="border w-full flex gap-2 items-center">
+                      <div className="w-full flex gap-2 items-center">
                         <DialogTrigger className="flex-1">
                           <Button
                             onClick={() => setPaymentMode("online")}
@@ -229,53 +209,22 @@ const PrescriptionCard = ({ conversation, owner = false }: Props) => {
                       </div>
                       {/* user Profile dialog content */}
                       <DialogContent>
-                        {cashSuccess ? (
-                          <>
-                            <Lottie
-                              height={120}
-                              width={200}
-                              // style={{ border: "1px solid black" }}
-                              options={{
-                                loop: false,
-                                autoplay: true,
-                                animationData: checkSuccess,
-                                rendererSettings: {
-                                  preserveAspectRatio: "xMidYMid slice",
-                                },
-                              }}
-                            />
-                            <Lottie
-                              height={100}
-                              width={400}
-                              // style={{ border: "1px solid black" }}
-                              options={{
-                                loop: false,
-                                autoplay: true,
-                                animationData: truckAnimationData,
-                                rendererSettings: {
-                                  preserveAspectRatio: "xMidYMid slice",
-                                },
-                              }}
-                            />
-                          </>
-                        ) : (
-                          <>
-                            <DialogHeader className="items-center text-2xl font-semibold capitalize">
-                              Check delivery details
-                            </DialogHeader>
-                            <DialogDescription className="text-center">
-                              Order will be deliver based on details ,fill it
-                              carefully
-                            </DialogDescription>
+                        <>
+                          <DialogHeader className="items-center text-2xl font-semibold capitalize">
+                            Check delivery details
+                          </DialogHeader>
+                          <DialogDescription className="text-center">
+                            Order will be deliver based on details ,fill it
+                            carefully
+                          </DialogDescription>
 
-                            <UpdateUserForm
-                              className="p-2"
-                              updatedUser={user!}
-                              onSave={updateUser}
-                              isLoading={updateLoading}
-                            />
-                          </>
-                        )}
+                          <UpdateUserForm
+                            className="p-2"
+                            updatedUser={user!}
+                            onSave={updateUser}
+                            isLoading={updateLoading}
+                          />
+                        </>
                       </DialogContent>
                     </Dialog>
                     {/* custom dialogue */}
@@ -288,12 +237,12 @@ const PrescriptionCard = ({ conversation, owner = false }: Props) => {
                       updatedUser={user!}
                     /> */}
 
-                    <p className="font-extralight text-center w-full border mt-1">
+                    <p className="font-extralight text-center w-full  mt-1">
                       order will be deliver within 24 hours{" "}
                       <img
                         src="/truck.svg"
                         alt="truck"
-                        className="ml-1 border w-6 h-6 inline -mt-1"
+                        className="ml-1  w-6 h-6 inline -mt-1"
                       />
                     </p>
                   </>

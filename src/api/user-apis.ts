@@ -18,7 +18,8 @@ export const useUpdateMyUser = (
 ) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const { setConversations, setIsDialogueOpen } = useAppContext();
+  const { setConversations, setIsDialogueOpen, setLatestOrderId } =
+    useAppContext();
   const [isOrderCreated, setIsOrderCreated] = useState(false);
   const updateMyUserRequest = async (formData: updateUserFormData) => {
     const response = await fetch(
@@ -67,6 +68,7 @@ export const useUpdateMyUser = (
       throw new Error("Could not create order");
     }
     const data = await res.json();
+    setLatestOrderId(data._id);
     setConversations((prev) => {
       return prev.map((conversation) =>
         conversation._id === conversationId ? data : conversation
