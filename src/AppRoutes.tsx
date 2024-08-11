@@ -16,7 +16,6 @@ import OrdersPage from "./pages/OrdersPage";
 import ManageStoreRoute from "./components/ManageStoreRoute";
 import OwnerConversations from "./pages/OwnerConversation";
 import CheckoutPage from "./pages/CheckoutPage";
-import { AppProvider, useAppContext } from "./context/Conversation.context";
 import ScrollToTop from "./components/ScrollToTop";
 import UpdateStorePage from "./pages/UpdateStorePage";
 import AdminRoute from "./pages/AdminRoute";
