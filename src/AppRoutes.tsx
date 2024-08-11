@@ -23,6 +23,7 @@ import AdminRoute from "./pages/AdminRoute";
 import ApplicationsPage from "./pages/ApplicationsPage";
 import ApplicationDetailsPage from "./pages/ApplicationDetailsPage";
 import Test from "./pages/Test";
+import LandingPage from "./pages/LandingPage";
 
 const AppRoutes = () => {
   // const { setSocketId } = useAppContext();
@@ -38,16 +39,16 @@ const AppRoutes = () => {
       <ScrollToTop />
       <Toaster visibleToasts={1} position="top-center" richColors />
       <Routes>
-        <Route element={<ProtectedRoute />}>
-          <Route
-            path="/"
-            element={
-              <Layout>
-                <HomePage />
-              </Layout>
-            }
-          />
-        </Route>
+        <Route path="/" element={<LandingPage />} />
+
+        <Route
+          path="/home"
+          element={
+            <Layout>
+              <HomePage />
+            </Layout>
+          }
+        />
 
         {/* AuthRoutes */}
         <Route path="/signup" element={<SignUpPage />} />

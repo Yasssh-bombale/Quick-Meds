@@ -18,15 +18,21 @@ import { useEffect } from "react";
 import LoadingButton from "@/components/LoadingButton";
 
 const formSchema = z.object({
-  address: z.string({
-    required_error: "Address is required",
-  }),
-  state: z.string({
-    required_error: "State is required",
-  }),
-  city: z.string({
-    required_error: "City is required",
-  }),
+  address: z
+    .string({
+      required_error: "Address is required",
+    })
+    .min(20, { message: "address must be more than 20 characters" }),
+  state: z
+    .string({
+      required_error: "State is required",
+    })
+    .min(1, "state is required"),
+  city: z
+    .string({
+      required_error: "City is required",
+    })
+    .min(1, "city is required"),
   mobileNumber: z
     .string({
       required_error: "mobile number is required",

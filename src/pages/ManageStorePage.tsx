@@ -26,7 +26,7 @@ const ManageStorePage = () => {
   return (
     <div className="flex flex-col items-center gap-y-2 md:gap-y-4 overflow-hidden  p-2 min-h-screen">
       <div className="flex items-center gap-x-1 md:gap-x-9 overflow-hidden">
-        <BackButton backTo="/" className="md:mt-[-100px] " />
+        <BackButton className="md:mt-[-100px] " />
         <img
           src={data?.storeDetails.storeImage}
           alt="https://ideogram.ai/api/images/direct/0lLf097zQPWvmMa5YyHkSg.png"

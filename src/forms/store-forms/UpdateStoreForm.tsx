@@ -124,7 +124,7 @@ const UpdateStoreForm = ({ onSave, loading, store }: Props) => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-3 p-10 bg-gray-50 rounded-lg"
       >
-        <BackButton backTo="/" />
+        <BackButton backTo="/home" />
         <div className="flex gap-x-4">
           <FormField
             name="storeName"

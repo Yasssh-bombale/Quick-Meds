@@ -53,7 +53,7 @@ const MedicalStorePage = () => {
       <Stores stores={allStores?.data!} />
       {/* pagination selector */}
       {storeCount === 0 && <NotFound message="No store found" notFound />}
-      {storeCount && storeCount > 10 && (
+      {storeCount && storeCount > 1 && (
         <PaginationSelector
           page={allStores?.pagination.page!}
           pages={allStores?.pagination.pages!}

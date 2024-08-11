@@ -68,14 +68,14 @@ const StoreCard = ({ store }: { store: Store }) => {
                 <AlertDescription>
                   Your store is live on the{" "}
                   <Link
-                    to={"/medicalstores"}
+                    to={"/explore"}
                     className="font-semibold hover:underline"
                   >
                     explore page
                   </Link>
                   . Head to the{" "}
                   <Link
-                    to={"/conversation"}
+                    to={"/conversations"}
                     className="font-semibold hover:underline"
                   >
                     conversation page

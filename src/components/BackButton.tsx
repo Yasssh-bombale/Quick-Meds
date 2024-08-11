@@ -3,11 +3,11 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeftToLine } from "lucide-react";
 
 type Props = {
-  backTo: string;
+  backTo?: string;
   className?: string;
 };
 
-const BackButton = ({ backTo, className }: Props) => {
+const BackButton = ({ backTo = "/home", className }: Props) => {
   const navigate = useNavigate();
 
   return (

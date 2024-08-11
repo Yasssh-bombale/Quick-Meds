@@ -7,10 +7,9 @@ import StoreInputPrescription, {
 import { useAppContext } from "@/context/Conversation.context";
 // import StoreOrderForm from "@/forms/store-forms/StoreOrderForm";
 import { useAppSelector } from "@/hooks";
-import { socket } from "@/main";
 import { RootState } from "@/store/store";
 import { Phone } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Navigate, useParams } from "react-router-dom";
 
@@ -45,10 +44,8 @@ const StoreDetailsPage = () => {
   const { _id: userId } = user;
   //create conversation;
   const [loading, setLoading] = useState<boolean>(false);
-  const [isOwnerOnline, setOwnerOnline] = useState<boolean>(false);
+  // const [isOwnerOnline, setOwnerOnline] = useState<boolean>(false);
   const { conversations, setConversations } = useAppContext();
-
-  console.log(isOwnerOnline);
 
   const fetchConversationReq = async () => {
     const params = new URLSearchParams();
@@ -95,18 +92,6 @@ const StoreDetailsPage = () => {
       queryClient.invalidateQueries(["fetchConversations"]);
     },
   });
-
-  useEffect(() => {
-    socket.on("ownerStatus", ({ storeId: incommingStoreId, isOnline }) => {
-      if (incommingStoreId === storeId) {
-        setOwnerOnline(isOnline);
-      }
-    });
-    // Cleanup on component unmount
-    return () => {
-      socket.off("ownerStatus");
-    };
-  }, []);
 
   return (
     <div className="flex mt-[-20px] md:divide-x-2 md:divide-double  divide-purple-600 gap-2 p-2 -ml-7 sm:ml-0 overflow-hidden border border-zinc-300 rounded-md">

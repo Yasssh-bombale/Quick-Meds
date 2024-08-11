@@ -9,7 +9,7 @@ const Navbar = () => {
 
   return (
     <>
-      <Link to={"/"} className="cursor-pointer">
+      <Link to={"/home"} className="cursor-pointer">
         <Button
           variant={"ghost"}
           className="scroll-m-20 text-lg md:text-lg font-semibold tracking-tight"
@@ -25,14 +25,14 @@ const Navbar = () => {
           Explore stores
         </Button>
       </Link>
-      <Link to={"/orders"} className="cursor-pointer">
+      {/* <Link to={"/orders"} className="cursor-pointer">
         <Button
           variant={"ghost"}
           className="scroll-m-20 text-lg md:text-lg font-semibold tracking-tight"
         >
           Order status
         </Button>
-      </Link>
+      </Link> */}
 
       {user ? (
         <UserDropdown user={user} />
