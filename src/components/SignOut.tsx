@@ -22,7 +22,7 @@ const SignOut = () => {
         return toast.error("Something went wrong!");
       }
       dispatch(signOutStart());
-      navigate("/");
+      navigate("/home");
       toast.success("Signout successfully");
     } catch (error) {
       console.log("ERROR_IN_SIGNOUT_CLIENT", error);

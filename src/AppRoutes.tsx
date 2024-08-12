@@ -170,18 +170,6 @@ const AppRoutes = () => {
             }
           />
         </Route>
-
-        <Route element={<ProtectedRoute />}>
-          {/* userProfile page */}
-          <Route
-            path="/user-profile"
-            element={
-              <FormPagesLayout heading="Update user">
-                <UserProfilePage />
-              </FormPagesLayout>
-            }
-          />
-        </Route>
       </Routes>
     </Router>
   );

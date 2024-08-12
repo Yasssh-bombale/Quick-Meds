@@ -65,7 +65,7 @@ export const useSignIn = () => {
       }
       setIsLoading(false);
       dispatch(signInSuccess(data?.user));
-      navigate("/");
+      navigate("/home");
       toast.success(data?.message || "User signIn successfully");
     } catch (error) {
       console.log(`ERROR:While signInRequest ${error}`);

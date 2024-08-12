@@ -45,7 +45,7 @@ const OAuth = ({ text }: Props) => {
       if (res.ok) {
         dispatch(signInSuccess(data?.user));
         toast.success(data?.message);
-        navigate("/");
+        navigate("/home");
       }
     } catch (error) {
       dispatch(signInFailure());

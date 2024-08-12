@@ -42,9 +42,9 @@ const UserDropdown = ({ user }: Props) => {
             </DropdownMenuItem>
           ) : (
             <>
-              <DropdownMenuItem className="font-semibold tracking-tight text-sm cursor-pointer p-2">
+              {/* <DropdownMenuItem className="font-semibold tracking-tight text-sm cursor-pointer p-2">
                 <Link to={"/user-profile"}>Profile</Link>
-              </DropdownMenuItem>
+              </DropdownMenuItem> */}
               {check?.userHasStore && check.store.status === "approved" && (
                 <>
                   <DropdownMenuItem className="font-semibold tracking-tight text-sm cursor-pointer p-2">

@@ -27,7 +27,7 @@ const CreateStorePage = () => {
     >
       {store ? (
         <div className="flex-col flex lg:flex-row justify-center gap-2">
-          <BackButton backTo="/" />
+          <BackButton backTo="/home" />
           <StoreCard store={store} />
         </div>
       ) : (

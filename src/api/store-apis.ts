@@ -32,6 +32,7 @@ export const useCreateStore = (userId: string) => {
   const { mutateAsync: createStore } = useMutation(createStoreRequest, {
     onSuccess: () => {
       setLoading(false);
+      toast.success("Store request sent");
       queryClient.invalidateQueries(["fetchMyStore"]);
     },
   });
