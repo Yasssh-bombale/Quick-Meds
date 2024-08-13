@@ -10,7 +10,6 @@ import ProtectedRoute from "./pages/ProtectedRoute";
 import CreateStorePage from "./pages/CreateStorePage";
 import FormPagesLayout from "./layout/FormPagesLayout";
 import StoreDetailsPage from "./pages/StoreDetailsPage";
-import UserProfilePage from "./pages/UserProfilePage";
 import ManageStorePage from "./pages/ManageStorePage";
 import OrdersPage from "./pages/OrdersPage";
 import ManageStoreRoute from "./components/ManageStoreRoute";

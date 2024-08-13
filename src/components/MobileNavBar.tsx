@@ -8,8 +8,11 @@ import {
   SheetTrigger,
 } from "./ui/sheet";
 import { Menu } from "lucide-react";
+import { useAppSelector } from "@/hooks";
+import { RootState } from "@/store/store";
 
 const MobileNavBar = () => {
+  const { user } = useAppSelector((state: RootState) => state.userState);
   return (
     <Sheet>
       <SheetTrigger>
@@ -29,7 +32,7 @@ const MobileNavBar = () => {
             </div>
           </SheetTitle>
           <div className="flex flex-col items-center">
-            <Navbar />
+            <Navbar user={user} />
           </div>
         </SheetHeader>
       </SheetContent>
